@@ -11,8 +11,7 @@
           <div class="col-md-8 -text-right">
             <?php if ($total) : ?>
                <a href="<?php echo $this_url; ?>/export?sort=<?php echo $sort; ?>&dir=<?php echo $dir; ?><?php echo $filter; ?>" class="btn btn-success btn-sm"><i class="icon-cloud-download icons"></i> <?php echo lang('admins button csv_export'); ?></a> 
-                        <a href="<?php echo base_url();?>admin/users/add" class="btn btn-success btn-sm"><i class="icon-plus icons"></i> <?php echo lang('admin button users_add'); ?></a>
-            <a data-toggle="collapse" href="#search" role="button" aria-expanded="false" aria-controls="search" class="btn btn-warning btn-sm"><i class="icon-magnifier icons"></i> <?php echo lang('admins log search'); ?></a>
+               <a data-toggle="collapse" href="#search" role="button" aria-expanded="false" aria-controls="search" class="btn btn-warning btn-sm"><i class="icon-magnifier icons"></i> <?php echo lang('admins log search'); ?></a>
             <?php endif; ?>
           </div>
         </div>
