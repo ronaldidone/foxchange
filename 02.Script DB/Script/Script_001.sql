@@ -1,0 +1,1 @@
+alter table users add column status_ATM int default(0)

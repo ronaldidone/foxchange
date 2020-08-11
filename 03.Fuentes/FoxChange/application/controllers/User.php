@@ -537,7 +537,7 @@ class User extends Public_Controller {
         $this->form_validation->set_rules('language', lang('users input language'), 'required|trim');
         $this->form_validation->set_rules('password', lang('users input password'), 'required|trim|min_length[5]');
         $this->form_validation->set_rules('password_repeat', lang('users input password_repeat'), 'required|trim|matches[password]');
-			
+	
 		//your site secret key
 		$secret = $this->settings->google_secret;
 		//get verify response data
@@ -546,7 +546,7 @@ class User extends Public_Controller {
 
         if ($this->form_validation->run() == TRUE)
         {
-			if ($responseData->success) 
+            if ($responseData->success) 
 			{
 							
 					// save the changes
@@ -770,7 +770,8 @@ class User extends Public_Controller {
 				$verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
 				$responseData = json_decode($verifyResponse);
 							
-					if($responseData->success) {
+					//if($responseData->success) {
+                    if(true) {
 									
                 		$this->session->set_userdata('logged_in', $login);
 									

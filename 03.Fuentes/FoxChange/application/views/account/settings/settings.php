@@ -42,9 +42,13 @@
           <div class="col-md-10">
                  <p class="text-muted"><small><?php echo lang('users settings info'); ?></small></p>
               </div>
-          <div class="col-md-12 text-right">
+          <div class="col-md-6 text-left">
+              <button type="button" id="btnAtm" class="btn btn-success"><?php echo lang('users button ATM'); ?></button>
+          </div>
+          <div class="col-md-6 text-right">
               <button type="submit" class="btn btn-success"><?php echo lang('users button save'); ?></button>
           </div>
+
         
     </div>
   </div>

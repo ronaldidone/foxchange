@@ -123,6 +123,7 @@ $lang ['users button send'] = "Enviar";
 $lang ['users button back'] = "Atrás";
 $lang ['users button update'] = "Actualizado";
 $lang ['users button get_now'] = "Obtener ahora";
+$lang ['users button ATM']   = "Quiero ser cajero";//OT-10082020
 
 
 // Información sobre herramientas

@@ -224,6 +224,7 @@ $lang['admins title template']             = "Messages templates";
 $lang['admins title request']              = "Request payment";
 $lang['admins title fee']                  = "Manager fees of withdrawal";
 $lang['admins title fee_dep']              = "Manager fees of deposit";
+$lang['admins title cashiers']             = "Cashiers";
 
 // Buttons
 $lang['admins button csv_export']          = "CSV Export";
@@ -707,3 +708,18 @@ $lang['admin dashboard last_transaction']     = "Last transactions";
 $lang['admin dashboard last_all']             = "All transactions";
 $lang['admin dashboard requires']             = "Requires your action";
 $lang['admin dashboard method']               = "Method";
+
+
+
+// Cashiers //10082020
+$lang['admins button cash']                    = "Cashiers";
+$lang['admins button cash pending']            = "Pending";
+$lang['admins button cash success']            = "Accepted";
+$lang['admins button cash rejected']             = "Rejected";
+
+$lang['admins button cash_pending']             = "Users pending cashiers request";
+$lang['admins button cash_accepted']             = "Users accepted cashiers";
+$lang['admins button cash_rejected']             = "Users rejected cashiers";
+
+
+
