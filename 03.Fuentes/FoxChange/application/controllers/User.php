@@ -537,7 +537,7 @@ class User extends Public_Controller {
         $this->form_validation->set_rules('language', lang('users input language'), 'required|trim');
         $this->form_validation->set_rules('password', lang('users input password'), 'required|trim|min_length[5]');
         $this->form_validation->set_rules('password_repeat', lang('users input password_repeat'), 'required|trim|matches[password]');
-			
+	
 		//your site secret key
 		$secret = $this->settings->google_secret;
 		//get verify response data

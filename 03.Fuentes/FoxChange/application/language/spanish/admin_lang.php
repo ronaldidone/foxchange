@@ -722,3 +722,15 @@ $lang['admin dashboard last_transaction']     = "Last transactions";
 $lang['admin dashboard last_all']             = "All transactions";
 $lang['admin dashboard requires']             = "Requires your action";
 $lang['admin dashboard method']               = "Method";
+
+
+// Cashiers //10082020
+$lang['admins button cash']                    = "Cajeros";
+$lang['admins button cash pending']            = "Solicitudes";
+$lang['admins button cash success']            = "Aceptados";
+$lang['admins button cash rejected']             = "Rechazados";
+
+
+$lang['admins button cash_pending']             = "Solicitudes de cajero pendientes";
+$lang['admins button cash_accepted']             = "Cajeros activos";
+$lang['admins button cash_rejected']             = "Solicitudes de cajero rechazadas";

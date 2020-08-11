@@ -179,6 +179,30 @@
 									<a href="<?php echo base_url('/admin/disputes/satisfied_disputes'); ?>" class="NavLink "> <?php echo lang('admins button satisfied_disputes'); ?></a>
                 </nav>
               </div>
+              <div class="NavGroup ">
+                <a href="" class="NavLink <?php echo (strstr(uri_string(), 'admin/cashiers')) ? '-active' : ''; ?>">
+									<!-- <?if($sample_disputes == TRUE){?>
+									<p class="badge badge-danger"> -->
+                    <!-- <?php echo $this->notice->sum_admin_disputes(); ?> -->
+                  <!-- </p>
+									<?}else{?>
+									<?}?> -->
+                  <i class="icon-directions NavIcon"></i>
+									
+                  <span> <?php echo lang('admins button cash'); ?> </span>
+                </a>
+                <nav class="Nav">
+                  <div class="CompactNavGroupHeader">
+                    <h4 class="NavTitle"> <?php echo lang('admins button cash'); ?> </h4>
+                    <a href="" class="Button -dismiss DismissBtn">
+                      <i class="icon-close Icon"></i>
+                    </a>
+                  </div>
+                  <a href="<?php echo base_url('/admin/cashiers'); ?>" class="NavLink "> <?php echo lang('admins button cash pending'); ?> </a>
+                  <a href="<?php echo base_url('/admin/cashiers/accepted'); ?>" class="NavLink "> <?php echo lang('admins button cash success'); ?></a>
+									<a href="<?php echo base_url('/admin/cashiers/rejected'); ?>" class="NavLink "> <?php echo lang('admins button cash rejected'); ?></a>
+                </nav>
+              </div>
 							<div class="NavGroup ">
                 <a href="" class="NavLink <?php echo (strstr(uri_string(), 'admin/verification')) ? '-active' : ''; ?>">
 									<?if($sample_verify == TRUE){?>

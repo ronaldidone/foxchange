@@ -111,6 +111,7 @@ $lang['users button save']                    = "Save";
 $lang['users button back']                    = "Back";
 $lang['users button update']                  = "Update";
 $lang['users button get_now']                 = "Get Now";
+$lang ['users button ATM']                    = "I want to be ATM";//OT-10082020
 
 
 
