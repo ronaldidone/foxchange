@@ -180,8 +180,7 @@ class Cashiers extends Admin_Controller {
 		 // load views
 		 $data['content'] = $this->load->view('admin/cashiers/requests', $content_data, TRUE);
 		 $this->load->view($this->template, $data);
-
-		echo("pelucje2");
+		
 	}
 
 

@@ -546,7 +546,8 @@ class User extends Public_Controller {
 
         if ($this->form_validation->run() == TRUE)
         {
-            if ($responseData->success) 
+            //if ($responseData->success) 
+            if (true)
 			{
 							
 					// save the changes
