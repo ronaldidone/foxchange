@@ -143,8 +143,8 @@
                         <td class="-text-center">
                                
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                              <a href="<?php echo $this_url; ?>/to accept/<?php echo $user['id']; ?>" class="btn btn-success"><i class="icon-check icons"></i></a>
-                              <a href="<?php echo $this_url; ?>/to refuse/<?php echo $user['id']; ?>" class="btn btn-danger"><i class="icon-close icons"></i></a>                              
+                              <a href="<?php echo $this_url; ?>/btnAccept/<?php echo $user['id']; ?>" class="btn btn-success"><i class="icon-check icons"></i></a>
+                              <a href="<?php echo $this_url; ?>/btnRefuse/<?php echo $user['id']; ?>" class="btn btn-danger"><i class="icon-close icons"></i></a>                              
                             </div>
                                
                         </td>

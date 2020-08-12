@@ -78,29 +78,23 @@ class Cashiers_model extends CI_Model {
     /**
      * User edits status ATM
      *
-     * @param  array $data
+     * @param  int $status_Atm
      * @param  int $user_id
      * @return boolean
      */
-    function edit_user_statusAtm($data = array(), $user_id = NULL)
+    function edit_user_statusAtm($status_id, $user_id )
     {
-        if ($data && $user_id)
-        {
-            $sql = "
+        //exit();
+        if ($status_id && $user_id)
+        { 
+                $sql .= "
                 UPDATE {$this->_db}
                 SET
-            ";
-
-            if ($data['status_atm'] != '')
-            {
-                $sql .= "
-                    status_ATM = " . $this->db->escape($data['status_atm']) . ",
+                    status_ATM = " . $this->db->escape($status_id) . ",
                     updated = '" . date('Y-m-d H:i:s') . "'
                 WHERE id = " . $this->db->escape($user_id) . "
                     AND deleted = '0'
                 ";
-            }
-
             $this->db->query($sql);
 
             if ($this->db->affected_rows())
@@ -111,7 +105,9 @@ class Cashiers_model extends CI_Model {
 
         return FALSE;
     }
-	
+
+
+   
 
 
 }

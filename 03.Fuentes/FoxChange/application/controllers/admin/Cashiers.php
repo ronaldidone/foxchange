@@ -96,8 +96,9 @@ class Cashiers extends Admin_Controller {
 						$last_name_xss = $this->security->xss_clean($this->input->get('last_name'));
 						$last_name_replace = htmlentities($last_name_xss, ENT_QUOTES, "UTF-8");
             $filters['last_name'] = $last_name_replace;
-		}
-		
+        }
+        $filters['status_ATM'] =1;
+  
 		 // build filter string
 		 $filter = "";
 		 foreach ($filters as $key => $value)
@@ -139,7 +140,7 @@ class Cashiers extends Admin_Controller {
 				 {
 					 $filter .= "&last_name=" . $this->input->post('last_name', TRUE);
 				 }
- 
+                 $filter .= "&status_ATM = 1";
 				 // redirect using new filter(s)
 				 redirect(THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}&offset={$offset}{$filter}");
 			 }
@@ -225,7 +226,7 @@ class Cashiers extends Admin_Controller {
 						$last_name_replace = htmlentities($last_name_xss, ENT_QUOTES, "UTF-8");
             $filters['last_name'] = $last_name_replace;
         }
-
+        $filters['status_ATM'] =2;
         // build filter string
         $filter = "";
         foreach ($filters as $key => $value)
@@ -267,7 +268,7 @@ class Cashiers extends Admin_Controller {
                 {
                     $filter .= "&last_name=" . $this->input->post('last_name', TRUE);
                 }
-
+                $filter .= "&status_ATM = 2";
                 // redirect using new filter(s)
                 redirect(THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}&offset={$offset}{$filter}");
             }
@@ -349,7 +350,7 @@ class Cashiers extends Admin_Controller {
 						$last_name_replace = htmlentities($last_name_xss, ENT_QUOTES, "UTF-8");
             $filters['last_name'] = $last_name_replace;
         }
-
+        $filters['status_ATM'] =3;
         // build filter string
         $filter = "";
         foreach ($filters as $key => $value)
@@ -391,7 +392,7 @@ class Cashiers extends Admin_Controller {
                 {
                     $filter .= "&last_name=" . $this->input->post('last_name', TRUE);
                 }
-
+                $filter .= "&status_ATM = 3";
                 // redirect using new filter(s)
                 redirect(THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}&offset={$offset}{$filter}");
             }
@@ -431,6 +432,73 @@ class Cashiers extends Admin_Controller {
         // load views
         $data['content'] = $this->load->view('admin/cashiers/rejected', $content_data, TRUE);
         $this->load->view($this->template, $data);
+    }
+
+    function btnAccept($id=NULL){
+        if ( ! is_null($id) OR ! is_numeric($id))
+         {
+             $user = $this->users_model->get_user($id);
+             
+             if ($user)
+             {
+                 //2-->Aceptado
+                 $status_id=2;
+                 $update = $this->cashiers_model->edit_user_statusAtm($status_id,$id);
+                 if ($update)
+                 {
+                     $this->session->set_flashdata('message', sprintf(lang('users msg delete_user'), $user['first_name'] . " " . $user['last_name']));
+                 }
+                 else
+                 {
+                     $this->session->set_flashdata('error', sprintf(lang('users error delete_user'), $user['first_name'] . " " . $user['last_name']));
+                 }
+             }
+             else
+             {
+                 $this->session->set_flashdata('error', lang('users error user_not_exist'));
+             }
+         }
+         else
+         {
+             $this->session->set_flashdata('error', lang('users error user_id_required'));
+         }
+       
+         // return to list and display message
+         redirect($this->_redirect_url);
+    }
+
+    function btnRefuse($id=NULL){
+        if ( ! is_null($id) OR ! is_numeric($id))
+         {
+             $user = $this->users_model->get_user($id);
+             
+             if ($user)
+             {
+                 //3-->Rechazado
+                 $status_id=3;
+                 $update = $this->cashiers_model->edit_user_statusAtm($status_id,$id);
+                 if ($update)
+                 {
+                     $this->session->set_flashdata('message', sprintf(lang('users msg delete_user'), $user['first_name'] . " " . $user['last_name']));
+                 }
+                 else
+                 {
+                     $this->session->set_flashdata('error', sprintf(lang('users error delete_user'), $user['first_name'] . " " . $user['last_name']));
+                 }
+             }
+             else
+             {
+                 $this->session->set_flashdata('error', lang('users error user_not_exist'));
+             }
+         }
+         else
+         {
+             $this->session->set_flashdata('error', lang('users error user_id_required'));
+         }
+ 
+         // return to list and display message
+       
+          redirect($this->_redirect_url);
     }
 
 

@@ -17,7 +17,6 @@ class Admin_Controller extends MY_Controller {
         $this->load->model('support_model');
         $this->load->model('verification_model');
         $this->load->model('disputes_model');
-        $this->load->model('cashiers_model');
         $this->load->library('sms');
         $this->load->library('notice');
 
