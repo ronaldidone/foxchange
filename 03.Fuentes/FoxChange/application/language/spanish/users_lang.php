@@ -283,6 +283,8 @@ $lang['users menu support']                   = "Soporte";
 $lang['users menu settings']                  = "Configuración de cuenta";
 $lang['users menu my_account']                = "Mi cuenta";
 
+$lang['users menu chashier']                  = "Cajero";
+
 // Dashboard
 $lang['users dashboard ballance']             = "Balance Disponible";
 $lang['users dashboard deposit']              = "Depositar";
