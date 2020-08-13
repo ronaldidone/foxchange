@@ -44,7 +44,7 @@
               </div>
           <div class="col-md-6 text-left">
             <?php if($user['verify_status']==2): ?>
-              <button type="button" id="btnAtm" class="btn btn-success"><?php echo lang('users button ATM'); ?></button>
+              <button type="button" id="btnAtm" onclick="location.href='<?php echo $this_url; ?>settings/cashier_billing'" class="btn btn-success"><?php echo lang('users button ATM'); ?></button>
             <?php else: ?>
               &nbsp;
             <?php endif; ?>

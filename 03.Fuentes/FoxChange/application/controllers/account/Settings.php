@@ -103,7 +103,8 @@ class Settings extends Private_Controller {
             redirect('account/settings');
         }
 		
-        // setup page header data
+		// setup page header data		
+		$this->add_js_theme('settings.js', TRUE );		
         $this->set_title(sprintf(lang('users settings title'), $this->settings->site_name));
 		// reload the new user data and store in session
        
@@ -635,6 +636,340 @@ class Settings extends Private_Controller {
 
         // load views
         $data['content'] = $this->load->view('account/settings/billing', $content_data, TRUE);
+		$this->load->view($this->template, $data);
+
+	}
+
+	/**
+	* Billing
+    */
+	function cashier_billing()
+	{
+
+		$user = $this->users_model->get_user($this->user['id']);
+		$paypal = $this->settings_model->get_win_method(1);
+		$credit_card = $this->settings_model->get_win_method(2);
+		$bitcoin = $this->settings_model->get_win_method(3);
+		$skrill = $this->settings_model->get_win_method(5);
+		$payza = $this->settings_model->get_win_method(6);
+		$advcash = $this->settings_model->get_win_method(7);
+		$perfect_m = $this->settings_model->get_win_method(8);
+		$swift = $this->settings_model->get_win_method(4);
+		$neteller = $this->settings_model->get_win_method(9);
+		$uphold = $this->settings_model->get_win_method(10);
+		$payeer = $this->settings_model->get_win_method(11);
+		$airtm = $this->settings_model->get_win_method(12);
+		$payoneer = $this->settings_model->get_win_method(13);
+		$webmoney = $this->settings_model->get_win_method(14);
+
+		
+		// Check enabled method PayPal
+		if ($paypal['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_paypal = TRUE;
+
+		} elseif ($paypal['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_paypal = TRUE;
+
+		} elseif ($paypal['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_paypal = TRUE;
+
+		} else {
+
+			$enabled_paypal = FALSE;
+
+		}
+		
+		// Check enabled method Credit card
+		if ($credit_card['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_credit_card = TRUE;
+
+		} elseif ($credit_card['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_credit_card = TRUE;
+
+		} elseif ($credit_card['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_credit_card = TRUE;
+
+		} else {
+
+			$enabled_credit_card = FALSE;
+
+		}
+		
+		// Check enabled method bitcoin
+		if ($bitcoin['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_bitcoin = TRUE;
+
+		} elseif ($bitcoin['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_bitcoin = TRUE;
+
+		} elseif ($bitcoin['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_bitcoin = TRUE;
+
+		} else {
+
+			$enabled_bitcoin = FALSE;
+
+		}
+		
+		// Check enabled method Skrill
+		if ($skrill['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_skrill = TRUE;
+
+		} elseif ($skrill['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_skrill = TRUE;
+
+		} elseif ($skrill['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_skrill = TRUE;
+
+		} else {
+
+			$enabled_skrill = FALSE;
+
+		}
+		
+		// Check enabled method Payza
+		if ($payza['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_payza = TRUE;
+
+		} elseif ($payza['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_payza = TRUE;
+
+		} elseif ($payza['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_payza = TRUE;
+
+		} else {
+
+			$enabled_payza = FALSE;
+
+		}
+		
+		// Check enabled method Advcash
+		if ($advcash['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_advcash = TRUE;
+
+		} elseif ($advcash['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_advcash = TRUE;
+
+		} elseif ($advcash['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_advcash = TRUE;
+
+		} else {
+
+			$enabled_advcash = FALSE;
+
+		}
+		
+		// Check enabled method Perfect Money
+		if ($perfect_m['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_perfect_m = TRUE;
+
+		} elseif ($perfect_m['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_perfect_m = TRUE;
+
+		} elseif ($perfect_m['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_perfect_m = TRUE;
+
+		} else {
+
+			$enabled_perfect_m = FALSE;
+
+		}
+		
+		// Check enabled method SWIFT
+		if ($swift['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_swift = TRUE;
+
+		} elseif ($swift['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_swift = TRUE;
+
+		} elseif ($swift['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_swift = TRUE;
+
+		} else {
+
+			$enabled_swift = FALSE;
+
+		}
+		
+		// Check enabled method Neteller
+		if ($neteller['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_neteller = TRUE;
+
+		} elseif ($neteller['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_neteller = TRUE;
+
+		} elseif ($neteller['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_neteller = TRUE;
+
+		} else {
+
+			$enabled_neteller = FALSE;
+
+		}
+		
+		// Check enabled method Uphold
+		if ($uphold['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_uphold = TRUE;
+
+		} elseif ($uphold['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_uphold = TRUE;
+
+		} elseif ($uphold['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_uphold = TRUE;
+
+		} else {
+
+			$enabled_uphold = FALSE;
+
+		}
+		
+		// Check enabled method Payeer
+		if ($payeer['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_payeer = TRUE;
+
+		} elseif ($payeer['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_payeer = TRUE;
+
+		} elseif ($payeer['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_payeer = TRUE;
+
+		} else {
+
+			$enabled_payeer = FALSE;
+
+		}
+		
+		// Check enabled method airtm
+		if ($airtm['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_airtm = TRUE;
+
+		} elseif ($airtm['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_airtm = TRUE;
+
+		} elseif ($airtm['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_airtm = TRUE;
+
+		} else {
+
+			$enabled_airtm = FALSE;
+
+		}
+		
+		// Check enabled method payoneer
+		if ($payoneer['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_payoneer = TRUE;
+
+		} elseif ($payoneer['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_payoneer = TRUE;
+
+		} elseif ($payoneer['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_payoneer = TRUE;
+
+		} else {
+
+			$enabled_payoneer = FALSE;
+
+		}
+		
+		// Check enabled method webmoney
+		if ($webmoney['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_webmoney = TRUE;
+
+		} elseif ($webmoney['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_webmoney = TRUE;
+
+		} elseif ($webmoney['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_webmoney = TRUE;
+
+		} else {
+
+			$enabled_webmoney = FALSE;
+
+		}
+        
+        // setup page header data
+        $this->set_title(sprintf(lang('users settings billing'), $this->settings->site_name));
+
+        $data = $this->includes;
+		
+        // set content data
+        $content_data = array(
+			'user'              	=> $user,
+			
+			'paypal'            	=> $paypal,
+			'enabled_paypal'    	=> $enabled_paypal,
+			'credit_card'       	=> $credit_card,
+			'enabled_credit_card'   => $enabled_credit_card,
+			'bitcoin'           	=> $bitcoin,
+			'enabled_bitcoin'   	=> $enabled_bitcoin,
+			'skrill'            	=> $skrill,
+			'enabled_skrill'    	=> $enabled_skrill,
+			'payza'             	=> $payza,
+			'enabled_payza'     	=> $enabled_payza,
+			'advcash'           	=> $advcash,
+			'enabled_advcash'   	=> $enabled_advcash,
+			'perfect_m'         	=> $perfect_m,
+			'enabled_perfect_m' 	=> $enabled_perfect_m,
+			'swift'             	=> $swift,
+			'enabled_swift'     	=> $enabled_swift,
+			'neteller'             	=> $neteller,
+			'enabled_neteller'     	=> $enabled_neteller,
+			'uphold'             	=> $uphold,
+			'enabled_uphold'     	=> $enabled_uphold,
+			'payeer'             	=> $payeer,
+			'enabled_payeer'     	=> $enabled_payeer,
+			'airtm'             	=> $airtm,
+			'enabled_airtm'     	=> $enabled_airtm,
+			'payoneer'             	=> $payoneer,
+			'enabled_payoneer'     	=> $enabled_payoneer,
+			'webmoney'             	=> $webmoney,
+			'enabled_webmoney'     	=> $enabled_webmoney
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/settings/cashier_billing', $content_data, TRUE);
 		$this->load->view($this->template, $data);
 
 	}
@@ -1678,7 +2013,7 @@ class Settings extends Private_Controller {
 		} else {
 			
 			$this->session->set_flashdata('error', lang('users settings verify_fail'));
-			edirect(site_url("account/settings/verification"));
+			redirect(site_url("account/settings/verification"));
 			
 		}
 

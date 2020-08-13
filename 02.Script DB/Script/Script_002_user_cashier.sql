@@ -1,0 +1,18 @@
+CREATE TABLE `primpijt_primevideo`.`user_cashier` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `paypal` INT NULL DEFAULT 0,
+  `card` INT NULL DEFAULT 0,
+  `bitcoin` INT NULL DEFAULT 0,
+  `skrill` INT NULL DEFAULT 0,
+  `payza` INT NULL DEFAULT 0,
+  `adv_cash` INT NULL DEFAULT 0,
+  `perfect_m` INT NULL DEFAULT 0,
+  `swift` INT NULL DEFAULT 0,
+  `neteller` INT NULL DEFAULT 0,
+  `uphold` INT NULL DEFAULT 0,
+  `payeer` INT NULL DEFAULT 0,
+  `airtm` INT NULL DEFAULT 0,
+  `payonner` INT NULL DEFAULT 0,
+  `webmoney` INT NULL DEFAULT 0,
+  `activo` INT NULL DEFAULT 1,
+  PRIMARY KEY (`id`));

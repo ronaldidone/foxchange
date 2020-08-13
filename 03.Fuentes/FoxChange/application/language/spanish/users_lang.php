@@ -81,6 +81,8 @@ $lang['users settings id_card_fail'] = "No se pudo cargar la tarjeta de identifi
 $lang['users settings id_address_fail'] = "No se pudo cargar el documento de dirección. Vuelva a intentarlo o verifique el archivo";
 $lang['users settings id_doc_success'] = "¡Su solicitud de verificación extendida ha sido recibida con éxito! Revisaremos sus documentos dentro de 1-2 días hábiles. Recibirá una notificación por correo electrónico de los resultados de la verificación.";
 
+$lang['users settings cashier billing_req']   = "Solicitud de Cajero - Metodos de pago";
+
 // Estado de eventos
 $lang ['users events_status 1'] = "Iniciar sesión";
 $lang ['users events_status 2'] = "Actualizar cuenta";

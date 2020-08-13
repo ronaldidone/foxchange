@@ -70,6 +70,8 @@ $lang['users settings id_card_fail']          = "ID card could not be loaded. Pl
 $lang['users settings id_address_fail']       = "Address document could not be loaded. Please try again or check the file.";
 $lang['users settings id_doc_success']        = "Your request for extended verification has been successfully received! We will check your documents within 2-3 business days. You will receive email notification of the results of the audit.";
 
+$lang['users settings cashier billing_req']   = "Cashier Request - Billing settings ";
+
 // Events status
 $lang['users events_status 1']                = "Login";
 $lang['users events_status 2']                = "Update account";
