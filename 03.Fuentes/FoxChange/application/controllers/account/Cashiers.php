@@ -42,7 +42,7 @@ class Cashiers extends Private_Controller {
      */
 
 	function index()
-	{ echo("holas");
+	{ 
 		$user = $this->users_model->get_user($this->user['id']);
 		
 		// get parameters
@@ -184,7 +184,7 @@ class Cashiers extends Private_Controller {
 
         // load views
         $data['content'] = $this->load->view('account/cashiers/index', $content_data, TRUE);
-		$this->load->view($this->template, $data);echo("jujui");
+		$this->load->view($this->template, $data);
 	}
 
 	
