@@ -280,6 +280,7 @@ $lang['users menu acceptance']                = "Acceptance payments";
 $lang['users menu support']                   = "Support";
 $lang['users menu settings']                  = "Account settings";
 $lang['users menu my_account']                = "My account";
+$lang['users menu chashier']                  = "Cashier";
 
 // Dashboard
 $lang['users dashboard ballance']             = "Available ballance";

@@ -175,10 +175,15 @@
 						<a href="<?php echo base_url('account/transactions'); ?>" class="list-group-item  d-flex justify-content-between align-items-center list-group-item-action <?php echo (uri_string() == 'account/transactions') ? 'active' : ''; ?>">
 							<?php echo lang('users title history'); ?><span class="text-right"><i class="icon-hourglass icons"></i>
 						</a>
+
+						<a href="<?php echo base_url('account/cashiers'); ?>" class="list-group-item  d-flex justify-content-between align-items-center list-group-item-action <?php echo (uri_string() == 'account/cashiers') ? 'active' : ''; ?>">
+							<?php echo lang('users menu chashier'); ?><span class="text-right"><i class="icon-paper-plane icons"></i>
+						</a>
+
 						<a href="<?php echo base_url('account/money_transfer'); ?>" class="list-group-item  d-flex justify-content-between align-items-center list-group-item-action <?php echo (uri_string() == 'account/money_transfer') ? 'active' : ''; ?>">
 							<?php echo lang('users menu transfer'); ?><span class="text-right"><i class="icon-paper-plane icons"></i>
 						</a>
-							<a href="<?php echo base_url('account/shops'); ?>" class="list-group-item  d-flex justify-content-between align-items-center list-group-item-action <?php echo (uri_string() == 'account/shops') ? 'active' : ''; ?>">
+						<a href="<?php echo base_url('account/shops'); ?>" class="list-group-item  d-flex justify-content-between align-items-center list-group-item-action <?php echo (uri_string() == 'account/shops') ? 'active' : ''; ?>">
 							<?php echo lang('users shops title'); ?><span class="text-right"><i class="icon-handbag icons"></i>
 						  </a>
 							<a href="<?php echo base_url('account/exchange'); ?>" class="list-group-item  d-flex justify-content-between align-items-center list-group-item-action <?php echo (uri_string() == 'account/exchange') ? 'active' : ''; ?>">
