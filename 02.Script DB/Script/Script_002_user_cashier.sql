@@ -1,5 +1,7 @@
+DROP table `primpijt_primevideo`.`user_cashier`;
 CREATE TABLE `primpijt_primevideo`.`user_cashier` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `id_user` INT NOT NULL,
   `paypal` INT NULL DEFAULT 0,
   `card` INT NULL DEFAULT 0,
   `bitcoin` INT NULL DEFAULT 0,

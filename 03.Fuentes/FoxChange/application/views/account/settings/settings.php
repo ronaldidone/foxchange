@@ -43,8 +43,10 @@
                  <p class="text-muted"><small><?php echo lang('users settings info'); ?></small></p>
               </div>
           <div class="col-md-6 text-left">
-            <?php if($user['verify_status']==2): ?>
+            <?php if($user['verify_status']==2 and $user["status_ATM"]==0): ?>
               <button type="button" id="btnAtm" onclick="location.href='<?php echo $this_url; ?>settings/cashier_billing'" class="btn btn-success"><?php echo lang('users button ATM'); ?></button>
+            <?php elseif($user['verify_status']==2 and $user["status_ATM"]>0): ?>
+              <button type="button" id="btnAtm" onclick="location.href='<?php echo $this_url; ?>settings/cashier_billing'" class="btn btn-success"><?php echo lang('users cashier button view status'); ?></button>
             <?php else: ?>
               &nbsp;
             <?php endif; ?>

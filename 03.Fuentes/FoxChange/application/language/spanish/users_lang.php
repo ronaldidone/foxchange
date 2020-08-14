@@ -82,6 +82,12 @@ $lang['users settings id_address_fail'] = "No se pudo cargar el documento de dir
 $lang['users settings id_doc_success'] = "¡Su solicitud de verificación extendida ha sido recibida con éxito! Revisaremos sus documentos dentro de 1-2 días hábiles. Recibirá una notificación por correo electrónico de los resultados de la verificación.";
 
 $lang['users settings cashier billing_req']   = "Solicitud de Cajero - Metodos de pago";
+$lang['users cashier button select']   = "Seleccionar";
+$lang['users cashier button selected']   = "Seleccionado";
+$lang['users cashier button send_request'] = "Enviar Solicitud para Cajero";
+$lang['users cashier button select_one_msg'] = "Elija al menos un Método de pago antes de enviar la solicitud";
+$lang['users cashier button back_settings'] = "Volver a configuracion de cuenta";
+$lang['users cashier button view status'] = "Ver status de cajero";
 
 // Estado de eventos
 $lang ['users events_status 1'] = "Iniciar sesión";

@@ -17,6 +17,7 @@ class Users_model extends CI_Model {
 
         // define primary table
         $this->_db = 'users';
+        $this->_db2 = 'user_cashier';
     }
 
 
@@ -88,6 +89,28 @@ class Users_model extends CI_Model {
                 FROM {$this->_db}
                 WHERE id = " . $this->db->escape($id) . "
                     AND deleted = '0'
+            ";
+            
+            $query = $this->db->query($sql);
+
+            if ($query->num_rows())
+            {
+                return $query->row_array();
+            }
+        }
+
+        return FALSE;
+    }
+
+    function get_user_cashier($id=NULL)
+    {
+        if ($id)
+        {
+            $sql = "
+                SELECT *
+                FROM {$this->_db2}
+                WHERE id_user = " . $this->db->escape($id) . "
+                    AND activo = 1
             ";
             
             $query = $this->db->query($sql);
@@ -799,5 +822,55 @@ class Users_model extends CI_Model {
 
     return $result[0]->Users;
   }
+
+  // Methods cashier /////////////////////////////////////////
+  function update_method_cashier($data) {
+    
+
+    $id_user = $this->db->escape($data["id"]);    
+    $methods=array(
+        "paypal", "card","bitcoin","swift", "skrill", "payza", "advcash",
+        "perfect_m", "neteller", "uphold", "payeer", "airtm", "payoneer", "webmoney"
+    );
+
+    $method_cashier =$data["method"];
+
+    $metodo_registrado=( in_array($method_cashier, $methods));
+
+    
+    $sql = "
+        SELECT *
+        FROM {$this->_db2}
+        WHERE id_user = " . $id_user . "
+    ";
+
+    $query = $this->db->query($sql);
+
+    $total=$query->num_rows();
+
+    
+
+    if ($total and $metodo_registrado)
+    {
+
+        $sql = "
+        UPDATE {$this->_db2} SET
+            " . $method_cashier . " =1
+            
+        WHERE id_user = " . $id_user . "
+        ";
+        
+        $this->db->query($sql);
+    }else{
+        $sql = "
+        INSERT INTO {$this->_db2} (id_user, {$method_cashier})
+            VALUES($id_user,1)
+        ";
+        
+        $this->db->query($sql);
+
+    }
+    
+    }
 
 }

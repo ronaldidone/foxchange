@@ -71,6 +71,12 @@ $lang['users settings id_address_fail']       = "Address document could not be l
 $lang['users settings id_doc_success']        = "Your request for extended verification has been successfully received! We will check your documents within 2-3 business days. You will receive email notification of the results of the audit.";
 
 $lang['users settings cashier billing_req']   = "Cashier Request - Billing settings ";
+$lang['users cashier button select']   = "Select";
+$lang['users cashier button selected']   = "Selected";
+$lang['users cashier button send_request'] = "Send Cashier Request";
+$lang['users cashier button select_one_msg'] = "Choose at least one billing option before sending your request";
+$lang['users cashier button back_settings'] = "Back to Settings";
+$lang['users cashier button view status'] = "View Cashier Status";
 
 // Events status
 $lang['users events_status 1']                = "Login";

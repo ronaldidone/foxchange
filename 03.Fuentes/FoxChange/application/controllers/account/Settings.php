@@ -21,7 +21,8 @@ class Settings extends Private_Controller {
         $this->lang->load('users');
 
         // load the users model
-        $this->load->model('users_model');
+		$this->load->model('users_model');
+		$this->load->model('cashiers_model');
 		$this->load->model('events_model');
 		$this->load->model('verification_model');
 		$this->load->model('transactions_model');
@@ -647,6 +648,7 @@ class Settings extends Private_Controller {
 	{
 
 		$user = $this->users_model->get_user($this->user['id']);
+		$user_cashier = $this->users_model->get_user_cashier($this->user['id']);
 		$paypal = $this->settings_model->get_win_method(1);
 		$credit_card = $this->settings_model->get_win_method(2);
 		$bitcoin = $this->settings_model->get_win_method(3);
@@ -932,12 +934,16 @@ class Settings extends Private_Controller {
         // setup page header data
         $this->set_title(sprintf(lang('users settings billing'), $this->settings->site_name));
 
-        $data = $this->includes;
+		$data = $this->includes;
+		
+		//to verify the selecte methods for cashier
+		$total_selected=0;
 		
         // set content data
         $content_data = array(
 			'user'              	=> $user,
-			
+			'user_cashier'			=> $user_cashier,
+			'total_selected'			=> $total_selected,
 			'paypal'            	=> $paypal,
 			'enabled_paypal'    	=> $enabled_paypal,
 			'credit_card'       	=> $credit_card,
@@ -2213,6 +2219,142 @@ class Settings extends Private_Controller {
         {
             return $phone;
         }
-    }
+	}
+	
+	//Update metchos cashier
+	
+	function update_method_cashier()
+	{
+		
+
+		$user = $this->users_model->get_user($this->user['id']);
+		
+		
+		$method_cashier = $this->security->xss_clean($this->input->post("method", TRUE));
+		
+
+		switch ($method_cashier) {
+			case "paypal":
+				$id_method=1;
+				break;
+			case "card":
+				$id_method=2;
+				break;
+			case "bitcoin":
+				$id_method=3;
+				break;
+			case "swift":
+				$id_method=4;
+				break;
+			case "skrill":
+				$id_method=5;
+				break;
+			case "payza":
+				$id_method=6;
+				break;
+			case "advcash":
+				$id_method=7;
+				break;
+			case "perfect_m":
+				$id_method=8;
+				break;
+			case "neteller":
+				$id_method=9;
+				break;
+			case "uphold":
+				$id_method=10;
+				break;
+			case "payeer":
+				$id_method=11;
+				break;
+			case "airtm":
+				$id_method=12;
+				break;
+			case "payoneer":
+				$id_method=13;
+				break;
+			case "webmoney":
+				$id_method=14;
+				break;
+			default:
+				$id_method=0;
+				break;			
+		}
+
+		
+
+		$method = $this->settings_model->get_win_method($id_method);
+		
+		// Check enabled method
+		if ($method['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled = TRUE;
+
+		} elseif ($method['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled = TRUE;
+
+		} elseif ($method['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled = TRUE;
+
+		} else {
+
+			$enabled = FALSE;
+
+		}
+
+		
+				
+		if ($method['status'] == 1)
+    	{
+			if($enabled == TRUE) {
+
+				// update user
+				
+				$this->users_model->update_method_cashier(
+					array(
+						"method"	 => $method_cashier,
+						"id"   		=> $this->user['id']
+					)
+				);
+				
+
+			} else {
+
+				$this->session->set_flashdata('error', lang('users settings no_verify'));
+				redirect(site_url("account/settings/cashier_billing"));
+
+			}
+			
+			$this->session->set_flashdata('message', lang('users settings billing_success'));
+			redirect(site_url("account/settings/cashier_billing"));
+
+		} else {
+
+			$this->session->set_flashdata('error', lang('users settings billing_fale'));
+			redirect(site_url("account/settings/cashier_billing"));
+
+		}
+	}
+
+	//Send Cashier Request
+	function send_cashier_request(){
+		$user = $this->users_model->get_user($this->user['id']);
+
+		$id_statusATM=1; //-->Solicitud Enviada
+		
+		$result=$this->cashiers_model->edit_user_statusAtm( 1,$this->user['id']);
+
+		if($result==TRUE){
+			$this->session->set_flashdata('message', lang('users settings billing_success'));
+			redirect(site_url("account/settings/cashier_billing"));
+
+		}else{
+			$this->session->set_flashdata('error', lang('users settings billing_fale'));
+			redirect(site_url("account/settings/cashier_billing"));
+		}
+
+	}
   
 }

@@ -84,7 +84,7 @@ class Cashiers_model extends CI_Model {
      */
     function edit_user_statusAtm($status_id, $user_id )
     {
-        //exit();
+        
         if ($status_id && $user_id)
         { 
                 $sql .= "
