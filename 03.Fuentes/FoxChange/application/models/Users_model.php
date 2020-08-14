@@ -827,49 +827,49 @@ class Users_model extends CI_Model {
   function update_method_cashier($data) {
     
 
-    $id_user = $this->db->escape($data["id"]);    
-    $methods=array(
-        "paypal", "card","bitcoin","swift", "skrill", "payza", "advcash",
-        "perfect_m", "neteller", "uphold", "payeer", "airtm", "payoneer", "webmoney"
-    );
+        $id_user = $this->db->escape($data["id"]);    
+        $methods=array(
+            "paypal", "card","bitcoin","swift", "skrill", "payza", "advcash",
+            "perfect_m", "neteller", "uphold", "payeer", "airtm", "payoneer", "webmoney"
+        );
 
-    $method_cashier =$data["method"];
+        $method_cashier =$data["method"];
 
-    $metodo_registrado=( in_array($method_cashier, $methods));
+        $metodo_registrado=( in_array($method_cashier, $methods));
 
-    
-    $sql = "
-        SELECT *
-        FROM {$this->_db2}
-        WHERE id_user = " . $id_user . "
-    ";
-
-    $query = $this->db->query($sql);
-
-    $total=$query->num_rows();
-
-    
-
-    if ($total and $metodo_registrado)
-    {
-
+        
         $sql = "
-        UPDATE {$this->_db2} SET
-            " . $method_cashier . " =1
+            SELECT *
+            FROM {$this->_db2}
+            WHERE id_user = " . $id_user . "
+        ";
+
+        $query = $this->db->query($sql);
+
+        $total=$query->num_rows();
+
+        
+
+        if ($total and $metodo_registrado)
+        {
+
+            $sql = "
+            UPDATE {$this->_db2} SET
+                " . $method_cashier . " =1
+                
+            WHERE id_user = " . $id_user . "
+            ";
             
-        WHERE id_user = " . $id_user . "
-        ";
-        
-        $this->db->query($sql);
-    }else{
-        $sql = "
-        INSERT INTO {$this->_db2} (id_user, {$method_cashier})
-            VALUES($id_user,1)
-        ";
-        
-        $this->db->query($sql);
+            $this->db->query($sql);
+        }else{
+            $sql = "
+            INSERT INTO {$this->_db2} (id_user, {$method_cashier})
+                VALUES($id_user,1)
+            ";
+            
+            $this->db->query($sql);
 
-    }
+        }
     
     }
 
