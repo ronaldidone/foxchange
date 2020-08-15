@@ -690,6 +690,27 @@ class Transactions_model extends CI_Model {
         }
 
         return FALSE;
+	}	
+	
+	function get_detail_transactions_cashier($id = NULL)
+    {
+        if ($id)
+        {
+            $sql = "
+                SELECT *
+                FROM {$this->_db}
+								WHERE (id = " . $this->db->escape($id) . " )
+            ";
+
+            $query = $this->db->query($sql);
+
+            if ($query->num_rows())
+            {
+                return $query->row_array();
+            }
+        }
+
+        return FALSE;
     }	
 	
 	function get_detail_btc_order($adress = NULL)

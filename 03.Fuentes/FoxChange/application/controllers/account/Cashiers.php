@@ -16,6 +16,7 @@ class Cashiers extends Private_Controller {
         $this->load->model('users_model');
 				$this->load->model('transactions_model');
 				$this->load->model('disputes_model');
+				$this->load->model('cashiers_model');
 				$this->load->library('fixer');
 			
 				// set constants
@@ -146,7 +147,7 @@ class Cashiers extends Private_Controller {
                 redirect(THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}&offset={$offset}{$filter}");
             }
 					
-			$history = $this->transactions_model->get_user_transactions($limit, $offset, $filters, $sort, $dir, $user['email']);
+			$history = $this->transactions_model->get_all($limit, $offset, $filters, $sort, $dir, $user['email']);
 				
 		}
 		
@@ -156,7 +157,7 @@ class Cashiers extends Private_Controller {
 
     $data = $this->includes;
 					
-		$history = $this->transactions_model->get_user_transactions($limit, $offset, $filters, $sort, $dir, $user['email']);
+		$history = $this->transactions_model->get_all($limit, $offset, $filters, $sort, $dir, $user['email']);
 					
 		// build pagination
 		$this->pagination->initialize(array(
@@ -195,17 +196,24 @@ class Cashiers extends Private_Controller {
 	function detail($id = NULL)
     {
 		$user = $this->users_model->get_user($this->user['id']);
+
+		
 			
         // make sure we have a numeric id
         if (is_null($id) OR ! is_numeric($id))
         {
             redirect($this->_redirect_url);
-        }
+		}		
 
         // get the data
-        $transactions = $this->transactions_model->get_detail_transactions($id, $user['email']);
+		$transactions = $this->transactions_model->get_detail_transactions_cashier($id);
+		
+		
+		// get transaction chat
+		$transaction_chat = $this->cashiers_model->get_chat_transaccion($id);
+		
+	
 
-        // if empty results, return to list
         if ( ! $transactions)
         {
             redirect($this->_redirect_url);
@@ -232,7 +240,8 @@ class Cashiers extends Private_Controller {
 			'dispute_mode'      => $dispute_mode,
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,
-            'transactions_id'   => $id
+			'transactions_id'   => $id,
+			'transaction_chat'	=> $transaction_chat
         );
 
         // load views
@@ -445,6 +454,42 @@ class Cashiers extends Private_Controller {
 			
 		}
 		
+	}
+
+	//-->Get transaction chat messages
+	function get_transaccion_chat($id_transaccion){
+		// get transaction chat
+		$transaction_chat = $this->cashiers_model->get_chat_transaccion($id_transaccion);
+
+		// set content data
+        $content_data = array(
+			'chat_mensajes'   	=> $transaction_chat,
+			'transactions_id'   => $id_transaccion
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/cashiers/chat', $content_data, TRUE);
+        $this->load->view($this->template, $data);
+	}
+
+	//-->Get transaction chat messages
+	function register_chat_message($id_transaccion, $id_user, $msg){
+
+		// register message
+		$register_message = $this->cashiers_model->register_chat_message($id_transaccion, $id_user, $msg);
+
+		// get transaction chat
+		$transaction_chat = $this->cashiers_model->get_chat_transaccion($id_transaccion);
+
+		// set content data
+        $content_data = array(
+			'chat_mensajes'   	=> $transaction_chat,
+			'transactions_id'   => $id_transaccion
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/cashiers/chat', $content_data, TRUE);
+        $this->load->view($this->template, $data);
 	}
   
 }

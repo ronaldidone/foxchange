@@ -6,6 +6,7 @@ class Cashiers_model extends CI_Model {
      * @vars
      */
     private $_db;
+    private $_db2;
 
 
     /**
@@ -17,6 +18,7 @@ class Cashiers_model extends CI_Model {
 
         // define primary table
         $this->_db = 'users';
+        $this->_db2 = 'cashier_chat';
     }
 
 
@@ -104,6 +106,44 @@ class Cashiers_model extends CI_Model {
         }
 
         return FALSE;
+    }
+
+    function get_chat_transaccion($id_transaccion )
+    {
+
+         
+        $sql = "
+            SELECT *
+            FROM {$this->_db2}
+            WHERE id_transaccion=" . $this->db->escape($id_transaccion) . "
+        ";
+
+       
+
+        $sql .= " ORDER BY id desc";
+
+       
+
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows() > 0)
+        {
+            $results['results'] = $query->result_array();
+        }
+        else
+        {
+            $results['results'] = NULL;
+        }
+
+        $sql = "SELECT FOUND_ROWS() AS total";
+        $query = $this->db->query($sql);
+        $results['total'] = $query->row()->total;
+
+        return $results;
+    }
+
+    function register_chat_message($id_transaccion, $id_user, $msg){
+
     }
 
 
