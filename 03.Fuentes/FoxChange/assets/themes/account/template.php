@@ -176,7 +176,7 @@
 							<?php echo lang('users title history'); ?><span class="text-right"><i class="icon-hourglass icons"></i>
 						</a>
 
-						<?php if($user['verify_status']==2 and $user["status_ATM"]==1): ?>
+						<?php if($user['verify_status']==2 and $user["status_ATM"]==2): ?>
 						<a href="<?php echo base_url('account/cashiers'); ?>" class="list-group-item  d-flex justify-content-between align-items-center list-group-item-action <?php echo (uri_string() == 'account/cashiers') ? 'active' : ''; ?>">
 							<?php echo lang('users menu chashier'); ?><span class="text-right"><i class="icon-paper-plane icons"></i>
 						</a>
