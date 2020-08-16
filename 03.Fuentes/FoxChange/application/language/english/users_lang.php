@@ -843,3 +843,6 @@ $lang['users security email_success']         = "Email sent successfully";
 $lang['users security email_fail']            = "We could not send Email message!";
 
 $lang['users ticket reopen_ticket']           = "Open ticket";
+
+$lang['users col actions']                     = "Actions";
+$lang['users verify confirm']                  = "Confirm request";

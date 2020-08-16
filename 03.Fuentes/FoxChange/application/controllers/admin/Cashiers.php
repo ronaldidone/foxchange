@@ -28,8 +28,8 @@ class Cashiers extends Admin_Controller {
     	$this->load->model('cashiers_model');
 		$this->load->model('users_model');
 		$this->load->model('transactions_model');
-		$this->load->model('template_model');
-			
+        $this->load->model('template_model');
+  			
 		// set constants
         define('REFERRER', "referrer");
         define('THIS_URL', base_url('admin/cashiers'));

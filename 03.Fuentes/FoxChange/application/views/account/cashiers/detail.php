@@ -380,7 +380,7 @@
       </div>
       <?php endif; ?>
       
-  <?if($transactions['type']==3){?>
+      <?if($transactions['type']==3){?>
       <?if($transactions['user_comment']!=NULL){?>
       <div class="form-group col-md-4">
          <label for="date"><strong><?php echo lang('users trans comment'); ?></strong></label>
@@ -391,8 +391,25 @@
       <?}else{?>
        <?}?>
     </div>
+    
+<!-- <div class="card-footer-padding" style="align-content:right">  -->
+     <div class="dropdown dropup text-right">
+					<div class="btn-group dropup">
+					<button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<?php echo lang('users col actions'); ?>
+					</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="<?php echo base_url();?>account/cashiers/ok_deposit/<?php echo $transactions['id'] ?>"><?php echo lang('users verify confirm'); ?></a>
+ 				  </div>
+				</div>
+      </div>
   </div>
 </div>
+
+     
+
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="refund" tabindex="-1" role="dialog" aria-labelledby="refund" aria-hidden="true">

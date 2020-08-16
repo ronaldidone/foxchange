@@ -19,6 +19,7 @@ class Cashiers extends Private_Controller {
 				$this->load->model('cashiers_model');
 				$this->load->library('fixer');
 			
+
 				// set constants
         define('REFERRER', "referrer");
         define('THIS_URL', base_url('account/cashiers'));
@@ -44,6 +45,8 @@ class Cashiers extends Private_Controller {
 
 	function index()
 	{ 
+
+
 		$user = $this->users_model->get_user($this->user['id']);
 		
 		// get parameters
@@ -102,7 +105,7 @@ class Cashiers extends Private_Controller {
     {
        $filter .= "&{$key}={$value}";
     }
-			
+		
 		// are filters being submitted?
         if ($this->input->post())
         {
@@ -146,18 +149,18 @@ class Cashiers extends Private_Controller {
                 // redirect using new filter(s)
                 redirect(THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}&offset={$offset}{$filter}");
             }
-					
-			$history = $this->transactions_model->get_all($limit, $offset, $filters, $sort, $dir, $user['email']);
-				
+
+			//$history = $this->transactions_model->get_all($limit, $offset, $filters, $sort, $dir, $user['email']);
+			$history = $this->cashiers_model->get_all_transaction($limit, $offset, $filters, $sort, $dir, $user['id']);			
+
 		}
-		
      // setup page header data
-     $this->set_title(sprintf(lang('users title history'), $this->settings->site_name));
+	 $this->set_title(sprintf(lang('users title history'), $this->settings->site_name));
 		// reload the new user data and store in session
 
     $data = $this->includes;
 					
-		$history = $this->transactions_model->get_all($limit, $offset, $filters, $sort, $dir, $user['email']);
+		$history = $this->cashiers_model->get_all_transaction($limit, $offset, $filters, $sort, $dir, $user['id']);
 					
 		// build pagination
 		$this->pagination->initialize(array(
@@ -490,6 +493,121 @@ class Cashiers extends Private_Controller {
         // load views
         $data['content'] = $this->load->view('account/cashiers/chat', $content_data, TRUE);
         $this->load->view($this->template, $data);
+	}
+
+
+function ok_deposit($id = NULL)
+  {
+
+
+	//echo($user['email']);exit();
+
+		// make sure we have a numeric id
+     if (is_null($id) OR ! is_numeric($id))
+     {
+     	redirect($this->_redirect_url);
+     }
+
+     // get the data
+     $transactions = $this->transactions_model->get_transactions($id);
+       
+     // if empty results, return to list
+     if ( ! $transactions)
+     {
+     	redirect($this->_redirect_url);
+     }
+		
+		if ($transactions['status'] == 1 && ($transactions['type'] == 1 or $transactions['type']) == 2) {
+			
+			$user = $this->users_model->get_email($transactions['receiver']);
+			
+			$wallet = $transactions['currency'];
+			$amount = $transactions['amount'];
+			
+			// Calculation of the amount to be credited to the claimant 
+			$return = $user[$wallet]+$amount;
+		
+			// update claimant wallet
+			$this->users_model->update_user($transactions['receiver'],
+				array(
+					$transactions['currency']  => $return,
+				)
+			);
+			
+			// update transaction history
+			$this->transactions_model->update_btc_transactions($transactions['id'],
+				array(
+					"status"   => "2",
+				)
+			);
+			
+			//change today
+			$user = $this->users_model->get_user($this->user['id']);
+			$debit_base=$user['debit_base'];
+			$temp= $debit_base+$amount*(-1);
+			$this->users_model->update_user($user['email'],
+				array(
+					$transactions['currency']  => $temp,
+				)
+			);
+
+			$email_template = $this->template_model->get_email_template(32);
+				
+			if($email_template['status'] == "1") {
+			    
+			            $currency = $transactions['currency'];
+						
+						// Check currency
+						if ($currency == "debit_base") {
+							$symbol = $this->currencys->display->base_code;
+						} elseif ($currency == "debit_extra1") {
+							$symbol = $this->currencys->display->extra1_code;
+						} elseif ($currency == "debit_extra2") {
+							$symbol = $this->currencys->display->extra2_code;
+						} elseif ($currency == "debit_extra3") {
+							$symbol = $this->currencys->display->extra3_code;
+						} elseif ($currency =="debit_extra4") {
+							$symbol = $this->currencys->display->extra4_code;
+						} elseif ($currency =="debit_extra5") {
+							$symbol = $this->currencys->display->extra5_code;
+						}
+			
+				// variables to replace
+				$site_name = $this->settings->site_name;
+				$link = site_url('account/transactions');
+				$name_user = $user['first_name'] . ' ' . $user['last_name'];
+				$amount = $transactions['amount'];
+				$sender = $transactions['sender'];
+				$rawstring = $email_template['message'];
+
+				// what will we replace
+			     $placeholders = array('[SITE_NAME]', '[SITE_LINK]', '[NAME]', '[AMOUNT]', '[CUR]', '[SENDER]');
+
+				$vals_1 = array($site_name, $link, $name_user, $amount, $symbol, $sender);
+
+				//replace
+				$str_1 = str_replace($placeholders, $vals_1, $rawstring);
+
+				$this -> email -> from($this->settings->site_email, $this->settings->site_name);
+				$this->email->to($user['email']);
+				//$this -> email -> to($user['email']);
+				$this -> email -> subject($email_template['title']);
+
+				$this -> email -> message($str_1);
+
+				$this->email->send();
+			
+			}
+			
+			$this->session->set_flashdata('message', lang('admin profit 17'));
+			redirect($this->_redirect_url);
+			
+		} else {
+			
+			redirect($this->_redirect_url);
+			
+		}
+		
 	}
   
 }

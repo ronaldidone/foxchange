@@ -869,3 +869,7 @@ $lang['users security sms_fail']              = "¡No pudimos enviar un mensaje 
 $lang['users security email_success']         = "Correo electrónico enviado con éxito";
 $lang['users security email_fail']            = "¡No pudimos enviar un mensaje de correo electrónico!";
 $lang['users ticket reopen_ticket']           = "Abrir boleto";
+
+
+$lang['users col actions']                     = "Acciones";
+$lang['users verify confirm']                  = "Confirmar solicitud";
