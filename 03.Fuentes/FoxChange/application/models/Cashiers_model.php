@@ -120,7 +120,7 @@ class Cashiers_model extends CI_Model {
 
        
 
-        $sql .= " ORDER BY id desc";
+        $sql .= " ORDER BY id asc";
 
        
 
@@ -143,6 +143,26 @@ class Cashiers_model extends CI_Model {
     }
 
     function register_chat_message($id_transaccion, $id_user, $msg){
+
+        $id_transaccion = $this->db->escape($id_transaccion);
+        $id_user = $this->db->escape($id_user);
+        $msg = $this->db->escape($msg);
+
+        if ($id_transaccion && $id_user)
+        { 
+                $sql = "
+                INSERT INTO {$this->_db2} (id_transaccion, id_user, message, fecha_hora)
+                VALUES($id_transaccion, $id_user, $msg, '". date('Y-m-d H:i:s') ."' )
+                ";
+            $this->db->query($sql);
+
+            if ($this->db->affected_rows())
+            {
+                return TRUE;
+            }
+        }
+
+        return FALSE;
 
     }
 

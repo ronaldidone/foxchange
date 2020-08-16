@@ -228,7 +228,8 @@ class Cashiers extends Private_Controller {
 				$dispute_mode = "1"; // yes start dispute
 			}
 			
-        // setup page header data
+		// setup page header data
+		$this->add_js_theme('cashiers.js', TRUE );	
         $this->set_title( lang('users title history') );
 
         $data = $this->includes;
@@ -464,7 +465,8 @@ class Cashiers extends Private_Controller {
 		// set content data
         $content_data = array(
 			'chat_mensajes'   	=> $transaction_chat,
-			'transactions_id'   => $id_transaccion
+			'transactions_id'   => $id_transaccion,
+			'user_id'			=> $this->user['id']
         );
 
         // load views
@@ -473,8 +475,12 @@ class Cashiers extends Private_Controller {
 	}
 
 	//-->Get transaction chat messages
-	function register_chat_message($id_transaccion, $id_user, $msg){
+	function register_chat_message(){
+		exit("Ingresa al metodo");
 
+		$id_transaccion = $this->input->post("id_trans", TRUE);
+		$msg			= $this->input->post("msgtrans", TRUE);
+		$id_user=$this->user['id'];
 		// register message
 		$register_message = $this->cashiers_model->register_chat_message($id_transaccion, $id_user, $msg);
 
@@ -484,7 +490,8 @@ class Cashiers extends Private_Controller {
 		// set content data
         $content_data = array(
 			'chat_mensajes'   	=> $transaction_chat,
-			'transactions_id'   => $id_transaccion
+			'transactions_id'   => $id_transaccion,
+			'user_id'			=> $this->user['id']
         );
 
         // load views
