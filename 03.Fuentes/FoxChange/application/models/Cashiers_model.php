@@ -192,12 +192,25 @@ class Cashiers_model extends CI_Model {
                         , B AS(
                                 select * from {$this->_db4} WHERE status = 1 AND deposit_method !='' and type in (1,2)
                         )
+                        , C AS(
+                            select * from {$this->_db} WHERE deleted ='0'
+                        )
                         SELECT SQL_CALC_FOUND_ROWS B.* 
                         FROM 
                             A 
                             INNER JOIN B
                                 ON A.descrip = B.deposit_method
-                        WHERE id_user = '{$user}'         
+                            INNER JOIN C
+                                ON A.id_user = C.id
+                        WHERE A.id_user = '{$user}'  
+                        AND (
+                            ( B.currency ='debit_base' AND B.amount <= C.debit_base) OR
+                            ( B.currency ='debit_extra1' AND B.amount <= C.debit_extra1) OR
+                            ( B.currency ='debit_extra2' AND B.amount <= C.debit_extra2) OR
+                            ( B.currency ='debit_extra3' AND B.amount <= C.debit_extra3) OR
+                            ( B.currency ='debit_extra4' AND B.amount <= C.debit_extra4) OR
+                            ( B.currency ='debit_extra5' AND B.amount <= C.debit_extra5) 
+                        )       
         ";
 
         if ( ! empty($filters))

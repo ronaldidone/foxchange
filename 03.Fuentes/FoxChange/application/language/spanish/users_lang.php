@@ -88,6 +88,7 @@ $lang['users cashier button send_request'] = "Enviar Solicitud para Cajero";
 $lang['users cashier button select_one_msg'] = "Elija al menos un Método de pago antes de enviar la solicitud";
 $lang['users cashier button back_settings'] = "Volver a configuracion de cuenta";
 $lang['users cashier button view status'] = "Ver status de cajero";
+$lang['users cashier button accept trans'] = "Aceptar Transacción";
 
 // Estado de eventos
 $lang ['users events_status 1'] = "Iniciar sesión";

@@ -117,7 +117,7 @@
                       
                     
                   </td>
-                  <td class="text-center"><a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><i class="icon-eye icons"></i></a></td>
+                  <td class="text-center"><a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a></td>
                 </tr>
 
               <?php endforeach; ?>

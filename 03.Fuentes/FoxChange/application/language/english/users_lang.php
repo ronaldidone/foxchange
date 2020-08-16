@@ -77,6 +77,7 @@ $lang['users cashier button send_request'] = "Send Cashier Request";
 $lang['users cashier button select_one_msg'] = "Choose at least one billing option before sending your request";
 $lang['users cashier button back_settings'] = "Back to Settings";
 $lang['users cashier button view status'] = "View Cashier Status";
+$lang['users cashier button accept trans'] = "Aceptar Transacción";
 
 // Events status
 $lang['users events_status 1']                = "Login";
