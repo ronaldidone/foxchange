@@ -89,6 +89,9 @@ $lang['users cashier button select_one_msg'] = "Elija al menos un Método de pag
 $lang['users cashier button back_settings'] = "Volver a configuracion de cuenta";
 $lang['users cashier button view status'] = "Ver status de cajero";
 $lang['users cashier button accept trans'] = "Aceptar Transacción";
+$lang['users cashier details trans'] = "Detalles";
+$lang['users cashier chat trans'] = "Chat";
+$lang['users cashier cancel trans'] = "Cancelar";
 
 // Estado de eventos
 $lang ['users events_status 1'] = "Iniciar sesión";

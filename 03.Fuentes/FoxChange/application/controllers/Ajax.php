@@ -51,7 +51,7 @@ class Ajax extends Public_Controller {
         );
 
         // load views
-        $this->load->view('account/cashiers/chat', $content_data);
+        $this->load->view('account/cashiers/chat_messages', $content_data);
 	}
     
     /*Add messages to chat of cashier*/

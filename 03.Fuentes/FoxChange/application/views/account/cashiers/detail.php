@@ -7,12 +7,19 @@
   }
 ?>
 <div class="row">
-  <div class="col-md-8 mb-2">
+  <div class="col-md-4 mb-2">
     <h5><?php echo lang('users history detail'); ?> <?php echo lang('users trans id'); ?> <?php echo $transactions['id'] ?></h5>
   </div>
   <div class="col-md-4 mb-2 text-right">
-  <a href="#" data-toggle="modal" data-target="#chat" class="btn btn-outline-danger btn-sm">CHAT<?php  //echo lang('users history open_dispute'); ?></a>
-  &nbsp;
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <a href="<?php echo base_url('account/cashiers/detail/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-info icons"></i> <?php echo lang('users cashier details trans'); ?></a>
+      <a href="<?php echo base_url('account/cashiers/chat/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-bubbles icons"></i> <?php echo lang('users cashier chat trans'); ?></a>
+      <a href="<?php echo base_url('account/cashiers/'); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-close icons"></i> <?php echo lang('users cashier cancel trans'); ?></a>      
+    </div>
+  </div>
+  <div class="col-md-4 mb-2 text-right">
+  <!--<a href="#" data-toggle="modal" data-target="#chat" class="btn btn-outline-danger btn-sm">CHAT<?php  //echo lang('users history open_dispute'); ?></a>
+  &nbsp;-->
     <?if($transactions['type'] != 2 & $transactions['type'] != 4){?>
         <?if($user['email'] == $transactions['sender']){?>
           <?if($dispute_mode == 1){?>
@@ -24,6 +31,7 @@
         <?}else{?>
         <?}?>
   </div>
+
 </div>
 
 <?php if ($transactions['protect'] != "none" & $transactions['status'] == 1 & $transactions['receiver'] == $user['email']) : ?>
