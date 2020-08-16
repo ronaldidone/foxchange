@@ -190,7 +190,7 @@ class Cashiers_model extends CI_Model {
                             select id_user, webmoney AS VALUE, 'Webmoney' AS descrip from {$this->_db3} where activo = 1 
                         )
                         , B AS(
-                                select * from {$this->_db4} WHERE status = 1 AND deposit_method !='' and type in (1,2)
+                                select * from {$this->_db4} WHERE status = 1 AND type in (1,2)
                         )
                         , C AS(
                             select * from {$this->_db} WHERE deleted ='0'
@@ -199,10 +199,10 @@ class Cashiers_model extends CI_Model {
                         FROM 
                             A 
                             INNER JOIN B
-                                ON A.descrip = B.deposit_method
+                                ON A.descrip = B.deposit_method OR (A.descrip = B.withdraw_method)
                             INNER JOIN C
                                 ON A.id_user = C.id
-                        WHERE A.id_user = '{$user}'  
+                        WHERE A.id_user = '{$user}'  AND value =1
                         AND (
                             ( B.currency ='debit_base' AND B.amount <= C.debit_base) OR
                             ( B.currency ='debit_extra1' AND B.amount <= C.debit_extra1) OR
