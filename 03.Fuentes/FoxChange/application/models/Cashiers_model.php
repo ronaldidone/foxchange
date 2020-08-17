@@ -212,7 +212,7 @@ class Cashiers_model extends CI_Model {
                             select id_user, uphold AS VALUE, 'Uphold' AS descrip from {$this->_db3} where activo = 1 union all
                             select id_user, payeer AS VALUE, 'Payeer' AS descrip from {$this->_db3} where activo = 1 union all
                             select id_user, airtm AS VALUE, 'Airtm' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, payeer AS VALUE, 'Payoneer' AS descrip from {$this->_db3} where activo = 1 union all
+                            select id_user, payoneer AS VALUE, 'Payoneer' AS descrip from {$this->_db3} where activo = 1 union all
                             select id_user, webmoney AS VALUE, 'Webmoney' AS descrip from {$this->_db3} where activo = 1 
                         )
                         , B AS(

@@ -121,8 +121,9 @@
                     
                   </td>
                   <td class="text-center">
-                 
+                  <?php //echo "m(".$view["amount"].") fondo(".$view["debit_base"].") activo(".$view["value"].") kj(".$view["id_cashier"].")"; ?>
                     <?php if($view["value"] and ($view["amount"]<=$view["debit_base"])): //si el cajero usa el metodo de pago y su fondo es superior al monto de la operacion ?>
+                     
                      <?php if( ($view["id_cashier"]==0 or $view["id_cashier"]==$user["id"])): ?>
                       <a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a>
                       <?php endif; ?>
