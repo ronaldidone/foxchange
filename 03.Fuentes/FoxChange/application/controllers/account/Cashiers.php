@@ -223,6 +223,9 @@ class Cashiers extends Private_Controller {
 		
 		// get transaction chat
 		$transaction_chat = $this->cashiers_model->get_chat_transaccion($id);
+
+		//get details of accounts of user and cashier
+		$account_usr_kshr = $this->transactions_model->get_transaction_account_user_cashier_info($id);
 		
 	
 
@@ -251,6 +254,7 @@ class Cashiers extends Private_Controller {
 			'this_url'   		=> THIS_URL,
 			'user'              => $user,
 			'user_trx'			=> $user_trx,
+			'account_usr_kshr'	=> $account_usr_kshr,
 			'dispute_mode'      => $dispute_mode,
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,
@@ -261,6 +265,26 @@ class Cashiers extends Private_Controller {
         // load views
         $data['content'] = $this->load->view('account/cashiers/detail', $content_data, TRUE);
         $this->load->view($this->template, $data);
+	}
+
+	/**
+	 * Send deposit to cashier
+	 */
+	function confirmdep($idtrans){
+		$iddeposito=$this->input->post("iddep", TRUE);
+
+		$registrar_dep=$this->transactions_model->confirmdep($idtrans,$iddeposito);
+
+		
+
+		if($registrar_dep==TRUE){
+			$this->session->set_flashdata('message', lang('users trans id deposit send'));
+					
+		}else{
+			$this->session->set_flashdata('message', lang('users trans id deposit error'));
+		}
+		redirect(site_url("account/cashiers/detail/".$idtrans));
+
 	}
 	
 	/**

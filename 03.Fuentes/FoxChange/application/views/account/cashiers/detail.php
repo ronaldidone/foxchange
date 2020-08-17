@@ -75,6 +75,95 @@
 </div>
 <?php endif; ?>
 
+<?php if($transactions['type']==1 and $transactions["status"]==7): //para revisar los retiros por cajero?>
+  <?php if($transactions['id_deposit_cashier']!=''): ?>
+    <div class="card">
+      <div class="card-body">
+      <div class="row">
+          <div class="form-group col-md-1">
+            &nbsp;               
+          </div>  
+          <div class="form-group col-md-11">        
+                <label for="date"><strong><?php echo lang('users trans kshr idconfirm depos'); ?> <?php echo $transactions['deposit_method'] ?>:</strong></label>         
+              <input type="text" id="idcdep"  class="form-control" name="iddep" value="<?php echo $transactions['id_deposit_cashier'] ?>" disabled <?php echo ($transactions['id_deposit_cashier']!='')?"disabled":""; ?> />         
+                  
+          </div> 
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
+<?php endif; ?>
+
+<?php if($transactions['type']==2 and $transactions["status"]==7): //para enviar informacion de deposito por cajero ?>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="form-group col-md-12">
+         <label for="date"><strong><?php echo lang('users trans kshr instructions tit'); ?></strong></label>        
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+         <label for="date"><strong>1.</strong> <?php echo lang('users trans kshr instructions go'); ?> <?php echo $transactions['deposit_method'] ?> <?php echo lang('users trans kshr instructions go2'); ?>:</label>               
+      </div>      
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>   
+      <div class="form-group col-md-11">
+         <label for="date"><strong><?php echo lang('users trans cantidad'); ?>:</strong></label>
+         
+           <?php echo $transactions['amount'] ?> 
+           <?php echo ($transactions["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>  
+      <div class="form-group col-md-11">
+         <label for="date"><strong><?php echo lang('users trans kshr name'); ?>:</strong></label>         
+           <?php echo $user_trnx['first_name']." ".$user_trnx["last_name"]; ?>           
+      </div>   
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>  
+      <div class="form-group col-md-11">
+         <label for="date"><strong><?php echo lang('users trans kshr account'); ?>:</strong></label>         
+           <?php echo $account_usr_kshr['user_account']; ?>           
+      </div>   
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+         <label for="date"><strong>2.</strong> <?php echo lang('users trans kshr 2step1'); ?> <?php echo $transactions['deposit_method'] ?> <?php echo lang('users trans kshr 2step2'); ?>:</label>               
+      </div>      
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>  
+      <div class="form-group col-md-11">
+        <?php echo form_open(site_url("account/cashiers/confirmdep/".$transactions["id"]), array("" => "")) ?>
+            <label for="date"><strong><?php echo lang('users trans kshr idconfirm depos'); ?> <?php echo $transactions['deposit_method'] ?>:</strong></label>         
+           <input type="text" id="idcdep"  class="form-control" name="iddep" value="<?php echo $transactions['id_deposit_cashier'] ?>" <?php echo ($transactions['id_deposit_cashier']!='')?"disabled":""; ?> /> 
+           <?php if($transactions['id_deposit_cashier']==''): ?>
+           <button type="submit" class="btn btn-success"><?php echo lang('users transfer protect_confirm'); ?></button>
+           <?php endif; ?>
+        <?php echo form_close(); ?>          
+      </div> 
+    </div>
+  </div>
+</div>
+<?php endif; ?>
+
 
 <div class="card">
   <div class="card-body">

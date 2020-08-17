@@ -75,17 +75,36 @@
 </div>
 <?php endif; ?>
 
-<?php if($transactions['type']==1 and $transactions["status"]=7):?>
+<?php if($transactions['type']==2 and $transactions["status"]==7): //para revisar los retiros por cajero?>
+  <?php if($transactions['id_deposit_cashier']!=''): ?>
+    <div class="card">
+      <div class="card-body">
+      <div class="row">
+          <div class="form-group col-md-1">
+            &nbsp;               
+          </div>  
+          <div class="form-group col-md-11">        
+                <label for="date"><strong><?php echo lang('users trans kshr idconfirm depos'); ?> <?php echo $transactions['deposit_method'] ?>:</strong></label>         
+              <input type="text" id="idcdep"  class="form-control" name="iddep" value="<?php echo $transactions['id_deposit_cashier'] ?>" disabled <?php echo ($transactions['id_deposit_cashier']!='')?"disabled":""; ?> />         
+                  
+          </div> 
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
+<?php endif; ?>
+
+<?php if($transactions['type']==1 and $transactions["status"]==7): //para enviar informacion de deposito por cajero ?>
 <div class="card">
   <div class="card-body">
     <div class="row">
       <div class="form-group col-md-12">
-         <label for="date"><strong>INSTRUCCIONES PARA ENVIAR FONDOS</strong></label>        
+         <label for="date"><strong><?php echo lang('users trans kshr instructions tit'); ?></strong></label>        
       </div>
     </div>
     <div class="row">
       <div class="form-group col-md-12">
-         <label for="date"><strong>1.</strong> Debes ir a <?php echo $transactions['deposit_method'] ?> y realizar la siguiente transferencia:</label>               
+         <label for="date"><strong>1.</strong> <?php echo lang('users trans kshr instructions go'); ?> <?php echo $transactions['deposit_method'] ?> <?php echo lang('users trans kshr instructions go2'); ?>:</label>               
       </div>      
     </div>
     <div class="row">
@@ -95,7 +114,7 @@
       <div class="form-group col-md-11">
          <label for="date"><strong><?php echo lang('users trans cantidad'); ?>:</strong></label>
          
-           <?php echo $transactions['amount'] ?> 
+           <?php echo $transactions['amount_deposit'] ?> 
            <?php echo ($transactions["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
            <?php echo ($transactions["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
            <?php echo ($transactions["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
@@ -109,7 +128,7 @@
          &nbsp;               
       </div>  
       <div class="form-group col-md-11">
-         <label for="date"><strong>Nombre:</strong></label>         
+         <label for="date"><strong><?php echo lang('users trans kshr name'); ?>:</strong></label>         
            <?php echo $user_kshr['first_name']." ".$user_kshr["last_name"]; ?>           
       </div>   
     </div>
@@ -118,13 +137,13 @@
          &nbsp;               
       </div>  
       <div class="form-group col-md-11">
-         <label for="date"><strong>Cuenta:</strong></label>         
+         <label for="date"><strong><?php echo lang('users trans kshr account'); ?>:</strong></label>         
            <?php echo $account_usr_kshr['cashier_account']; ?>           
       </div>   
     </div>
     <div class="row">
       <div class="form-group col-md-12">
-         <label for="date"><strong>2.</strong> Una vez realizado, ingresa el id de referencia de confirmación de <?php echo $transactions['deposit_method'] ?> en el campo de texto y confirma el envío:</label>               
+         <label for="date"><strong>2.</strong> <?php echo lang('users trans kshr 2step1'); ?> <?php echo $transactions['deposit_method'] ?> <?php echo lang('users trans kshr 2step2'); ?>:</label>               
       </div>      
     </div>
     <div class="row">
@@ -133,7 +152,7 @@
       </div>  
       <div class="form-group col-md-11">
         <?php echo form_open(site_url("account/transactions/confirmdep/".$transactions["id"]), array("" => "")) ?>
-            <label for="date"><strong>Id de confirmación <?php echo $transactions['deposit_method'] ?>:</strong></label>         
+            <label for="date"><strong><?php echo lang('users trans kshr idconfirm depos'); ?> <?php echo $transactions['deposit_method'] ?>:</strong></label>         
            <input type="text" id="idcdep"  class="form-control" name="iddep" value="<?php echo $transactions['id_deposit_cashier'] ?>" <?php echo ($transactions['id_deposit_cashier']!='')?"disabled":""; ?> /> 
            <?php if($transactions['id_deposit_cashier']==''): ?>
            <button type="submit" class="btn btn-success"><?php echo lang('users transfer protect_confirm'); ?></button>
@@ -216,30 +235,14 @@
       <?if($transactions['type']==3){?>
       <div class="form-group col-md-4">
          <label for="date"><strong><?php echo lang('users trans cantidad'); ?></strong></label>
-          <p class="form-control-static"><?php echo $transactions['amount'] ?> <?if($transactions['currency']=='debit_base'){?>
-                      <?php echo $this->currencys->display->base_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra1'){?>
-                      <?php echo $this->currencys->display->extra1_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra2'){?>
-                      <?php echo $this->currencys->display->extra2_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra3'){?>
-                      <?php echo $this->currencys->display->extra3_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra4'){?>
-                      <?php echo $this->currencys->display->extra4_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra5'){?>
-                      <?php echo $this->currencys->display->extra5_code ?>
-                  <?}else{?>
-                  <?}?></p></p>
+          <p class="form-control-static"><?php echo $transactions['amount'] ?> 
+          <?php echo ($transactions["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?>      
+        </p></p>
       </div>
       <?}else{?>
        <?}?>
@@ -247,30 +250,15 @@
        <?if($transactions['type']==1){?>
       <div class="form-group col-md-4">
          <label for="date"><strong><?php echo lang('users trans amount_deposit'); ?></strong></label>
-          <p class="form-control-static"><?php echo $transactions['amount_deposit'] ?> <?if($transactions['currency']=='debit_base'){?>
-                      <?php echo $this->currencys->display->base_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra1'){?>
-                      <?php echo $this->currencys->display->extra1_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra2'){?>
-                      <?php echo $this->currencys->display->extra2_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra3'){?>
-                      <?php echo $this->currencys->display->extra3_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra4'){?>
-                      <?php echo $this->currencys->display->extra4_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra5'){?>
-                      <?php echo $this->currencys->display->extra5_code ?>
-                  <?}else{?>
-                  <?}?></p></p>
+          <p class="form-control-static"><?php echo $transactions['amount_deposit'] ?> 
+            <?php echo ($transactions["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?> 
+          
+        </p></p>
       </div>
       <?}else{?>
        <?}?>

@@ -338,6 +338,14 @@ $lang['users trans ip']                       = "IP address";
 $lang['users trans accepted']                 = "Accepted";
 $lang['users trans id deposit send']          = "Deposit ID sent succefull";
 $lang['users trans id deposit error']         = "Error sending Deposit ID try again please";
+$lang['users trans kshr instructions tit']    = "INSTRUCTIONS TO SEND FUNDS";
+$lang['users trans kshr instructions go']     = "Go to ";
+$lang['users trans kshr instructions go2']    = "and make the following transfer";
+$lang['users trans kshr name']                = "Name";
+$lang['users trans kshr account']             = "Account";
+$lang['users trans kshr 2step1']              = "Once done, enter the confirmation ID gotten from ";
+$lang['users trans kshr 2step2']              = "in the following text field and confirm the deposit";
+$lang['users trans kshr idconfirm depos']     = "Deposit ID confirmation ";
 
 
 // History

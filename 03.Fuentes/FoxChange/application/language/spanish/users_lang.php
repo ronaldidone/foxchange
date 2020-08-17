@@ -340,6 +340,14 @@ $lang['users trans cantidad recibida']        = "Monto recibido";
 $lang['users trans accepted']                 = "Aceptado";
 $lang['users trans id deposit send']          = "El ID del depósito se regsitró correctamente";
 $lang['users trans id deposit error']         = "Error al registrar el del depósito intente nuevamente por favor";
+$lang['users trans kshr instructions tit']    = "INSTRUCCIONES PARA ENVIAR FONDOS";
+$lang['users trans kshr instructions go']     = "Debes ir a";
+$lang['users trans kshr instructions go2']    = "y realizar la siguiente transferencia";
+$lang['users trans kshr name']                = "Nombre";
+$lang['users trans kshr account']             = "Cuenta";
+$lang['users trans kshr 2step1']              = "Una vez realizado, ingresa el id de referencia de confirmación de";
+$lang['users trans kshr 2step2']              = "en el campo de texto y confirma el envío";
+$lang['users trans kshr idconfirm depos']     = "ID de confirmación del depósito";
 
 $lang['users enviar a']                       = "Enviar a";
 $lang['users trans status']                   = "Estado";
