@@ -221,7 +221,7 @@ class Cashiers_model extends CI_Model {
                         , C AS(
                             select * from {$this->_db} WHERE deleted ='0'
                         )
-                        SELECT SQL_CALC_FOUND_ROWS A.descrip, A.value, B.* 
+                        SELECT SQL_CALC_FOUND_ROWS A.descrip, A.value, C.debit_base, B.* 
                         FROM 
                             A 
                             INNER JOIN B
@@ -229,14 +229,14 @@ class Cashiers_model extends CI_Model {
                             INNER JOIN C
                                 ON A.id_user = C.id
                         WHERE A.id_user = '{$user}'  /*AND value =1*/
-                        AND (
+                        /* AND (
                             ( B.currency ='debit_base' AND B.amount <= C.debit_base) OR
                             ( B.currency ='debit_extra1' AND B.amount <= C.debit_extra1) OR
                             ( B.currency ='debit_extra2' AND B.amount <= C.debit_extra2) OR
                             ( B.currency ='debit_extra3' AND B.amount <= C.debit_extra3) OR
                             ( B.currency ='debit_extra4' AND B.amount <= C.debit_extra4) OR
                             ( B.currency ='debit_extra5' AND B.amount <= C.debit_extra5) 
-                        )       
+                        )   */    
         ";
 
         if ( ! empty($filters))

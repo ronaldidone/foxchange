@@ -98,19 +98,19 @@
                         <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==2): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans success'); ?> </span>
+                        <span class="badge badge-success"> <?php echo lang('users trans success'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==3): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans refund'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans refund'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==4): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans dispute'); ?> </span>
+                        <span class="badge badge-danger"> <?php echo lang('users trans dispute'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==5): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans blocked'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans blocked'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==6): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans cancelled'); ?> </span>
+                        <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==7 or $view["id_cashier"]!=0): ?>
                         <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
@@ -121,9 +121,9 @@
                     
                   </td>
                   <td class="text-center">
-                   
-                    <?php if($view["value"]): //si el cajero usa el metodo de pago ?>
-                      <?php if( ($view["id_cashier"]==0 or $view["id_cashier"]==$user["id"])): ?>
+                 
+                    <?php if($view["value"] and ($view["amount"]<=$view["debit_base"])): //si el cajero usa el metodo de pago y su fondo es superior al monto de la operacion ?>
+                     <?php if( ($view["id_cashier"]==0 or $view["id_cashier"]==$user["id"])): ?>
                       <a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a>
                       <?php endif; ?>
                     <?php endif; ?>

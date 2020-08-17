@@ -203,7 +203,11 @@ class Transactions extends Private_Controller {
         }
 
         // get the data
-        $transactions = $this->transactions_model->get_detail_transactions($id, $user['email']);
+		$transactions = $this->transactions_model->get_detail_transactions($id, $user['email']);
+		
+		//get details of user cashier
+		
+		$user_kshr = $this->users_model->get_user($transactions['id_cashier']);
 
         // if empty results, return to list
         if ( ! $transactions)
@@ -229,6 +233,7 @@ class Transactions extends Private_Controller {
         $content_data = array(
 			'this_url'   		=> THIS_URL,
 			'user'              => $user,
+			'user_kshr'			=> $user_kshr,
 			'dispute_mode'      => $dispute_mode,
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,
