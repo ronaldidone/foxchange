@@ -7,8 +7,18 @@
   }
 ?>
 <div class="row">
-  <div class="col-md-8 mb-2">
+  <div class="col-md-4 mb-2">
     <h5><?php echo lang('users history detail'); ?> <?php echo lang('users trans id'); ?> <?php echo $transactions['id'] ?></h5>
+  </div>
+  <div class="col-md-4 mb-2 text-right">
+  <?php if($transactions['status'] == 1): ?>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <a href="<?php echo base_url('account/transactions/detail/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-info icons"></i> <?php echo lang('users cashier details trans'); ?></a>
+      <a href="<?php echo base_url('account/transactions/chat/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-bubbles icons"></i> <?php echo lang('users cashier chat trans'); ?></a>
+      <a href="<?php echo base_url('account/transactions/'); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-close icons"></i> <?php echo lang('users cashier cancel trans'); ?></a>      
+    </div>
+  <?php else: ?> &nbsp;
+  <?php endif; ?>
   </div>
   <div class="col-md-4 mb-2 text-right">
     <?if($transactions['type'] != 2 & $transactions['type'] != 4){?>

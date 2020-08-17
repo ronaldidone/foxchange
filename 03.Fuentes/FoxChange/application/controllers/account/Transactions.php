@@ -238,6 +238,58 @@ class Transactions extends Private_Controller {
         // load views
         $data['content'] = $this->load->view('account/transactions/detail', $content_data, TRUE);
         $this->load->view($this->template, $data);
+	}
+	
+	/**
+    * Detail transaction chat
+    */
+	function chat($id = NULL)
+    {
+		$user = $this->users_model->get_user($this->user['id']);
+			
+        // make sure we have a numeric id
+        if (is_null($id) OR ! is_numeric($id))
+        {
+            redirect($this->_redirect_url);
+        }
+
+        // get the data
+        $transactions = $this->transactions_model->get_detail_transactions($id, $user['email']);
+
+        // if empty results, return to list
+        if ( ! $transactions)
+        {
+            redirect($this->_redirect_url);
+        }
+			
+			//Check dispute history
+			$dispute_history = $this->disputes_model->get_history_dispute($id);
+			if ( $dispute_history)
+			{
+				$dispute_mode = "0"; // no start dispute
+			} else {
+				$dispute_mode = "1"; // yes start dispute
+			}
+			
+		// setup page header data
+		$this->add_js_theme('cashiers.js', TRUE );	
+        $this->set_title( lang('users title history') );
+
+        $data = $this->includes;
+
+        // set content data
+        $content_data = array(
+			'this_url'   		=> THIS_URL,
+			'user'              => $user,
+			'dispute_mode'      => $dispute_mode,
+            'cancel_url'        => $this->_redirect_url,
+            'transactions'      => $transactions,
+            'transactions_id'   => $id
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/transactions/chat', $content_data, TRUE);
+        $this->load->view($this->template, $data);
     }
 	
 	/**

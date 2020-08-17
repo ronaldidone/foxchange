@@ -14,7 +14,7 @@
     <div class="btn-group" role="group" aria-label="Basic example">
       <a href="<?php echo base_url('account/cashiers/detail/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-info icons"></i> <?php echo lang('users cashier details trans'); ?></a>
       <a href="<?php echo base_url('account/cashiers/chat/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-bubbles icons"></i> <?php echo lang('users cashier chat trans'); ?></a>
-      <a href="<?php echo base_url('account/cashiers/cancel/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-close icons"></i> <?php echo lang('users cashier cancel trans'); ?></a>      
+      <a href="<?php echo base_url('account/cashiers/'); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-close icons"></i> <?php echo lang('users cashier cancel trans'); ?></a>      
     </div>
   </div>
   <div class="col-md-4 mb-2 text-right">

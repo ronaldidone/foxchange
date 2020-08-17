@@ -45,6 +45,7 @@ $(document).ready(function() {
                 'id_trans'    : $("#transId").val(),
                 'msgtrans'    : $(this).val()
             };
+            $(this).val("");
             
            
             //alert ("trans("+idtrans+") msg("+texto+") "+csrf_name+"("+csrf_hash+")");
@@ -58,7 +59,7 @@ $(document).ready(function() {
                 async    : true,
                 success  : function(results) {
                    $("#messagelist").html(results);
-                   $(this).val("");
+                   
                 },
                 error    : function(error) {
                    // alert("Error " + error.status + ": " + error.statusText);
