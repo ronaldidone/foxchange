@@ -146,6 +146,9 @@
                                   <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
                                 <?}else{?>
                                 <?}?>
+                                <?php if($view["status"]==7 or $view["id_cashier"]!=0): ?>
+                                  <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
+                                <?php endif; ?>
                   </td>
                   <td class="text-center"><a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/transactions/detail/<?php echo $view['id']; ?>"><i class="icon-eye icons"></i></a></td>
                 </tr>
