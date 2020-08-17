@@ -336,6 +336,9 @@ $lang['users trans 10last']                   = "Last 10 operations";
 $lang['users trans all']                      = "All transactions";
 $lang['users trans ip']                       = "IP address";
 $lang['users trans accepted']                 = "Accepted";
+$lang['users trans id deposit send']          = "Deposit ID sent succefull";
+$lang['users trans id deposit error']         = "Error sending Deposit ID try again please";
+
 
 // History
 $lang['users history all']                    = "Account IP history";

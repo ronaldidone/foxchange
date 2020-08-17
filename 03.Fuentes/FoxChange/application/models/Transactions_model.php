@@ -2254,5 +2254,78 @@ class Transactions_model extends CI_Model {
 		return $this->db->where($where)->order_by('id', 'DESC')->limit(20)->get("transactions");
 	}
 
+	//Transaction info for cashiers option
+	function get_transaction_account_user_cashier_info($id){
+		$id_trans = $this->db->escape($id); 
+		if($id){
+				$sql ="
+				SELECT t.status,  k.id as id_cashier, u.id as id_user, 
+				( case 
+					when (t.deposit_method or t.withdraw_method)='Paypal' then k.paypal
+					when (t.deposit_method or t.withdraw_method)='Credit card' then k.card
+					when (t.deposit_method or t.withdraw_method)='Bitcoin' then k.bitcoin
+					when (t.deposit_method or t.withdraw_method)='Transferencia Bancaria Perú' then k.swift
+					when (t.deposit_method or t.withdraw_method)='Skrill' then k.skrill
+					when (t.deposit_method or t.withdraw_method)='Payza' then k.payza
+					when (t.deposit_method or t.withdraw_method)='ADV Cash' then k.advcash
+					when (t.deposit_method or t.withdraw_method)='Perfect Money' then k.perfect_m
+					when (t.deposit_method or t.withdraw_method)='Neteller' then k.neteller
+					when (t.deposit_method or t.withdraw_method)='Uphold' then k.uphold
+					when (t.deposit_method or t.withdraw_method)='Payeer' then k.payeer
+					when (t.deposit_method or t.withdraw_method)='Airtm' then k.airtm
+					when (t.deposit_method or t.withdraw_method)='Payoneer' then k.payoneer
+					when (t.deposit_method or t.withdraw_method)='Webmoney' then k.webmoney
+				end) as cashier_account,
+				( case 
+					when (t.deposit_method or t.withdraw_method)='Paypal' then u.paypal
+					when (t.deposit_method or t.withdraw_method)='Credit card' then u.card
+					when (t.deposit_method or t.withdraw_method)='Bitcoin' then u.bitcoin
+					when (t.deposit_method or t.withdraw_method)='Transferencia Bancaria Perú' then u.swift
+					when (t.deposit_method or t.withdraw_method)='Skrill' then u.skrill
+					when (t.deposit_method or t.withdraw_method)='Payza' then u.payza
+					when (t.deposit_method or t.withdraw_method)='ADV Cash' then u.advcash
+					when (t.deposit_method or t.withdraw_method)='Perfect Money' then u.perfect_m
+					when (t.deposit_method or t.withdraw_method)='Neteller' then u.neteller
+					when (t.deposit_method or t.withdraw_method)='Uphold' then u.uphold
+					when (t.deposit_method or t.withdraw_method)='Payeer' then u.payeer
+					when (t.deposit_method or t.withdraw_method)='Airtm' then u.airtm
+					when (t.deposit_method or t.withdraw_method)='Payoneer' then u.payoneer
+					when (t.deposit_method or t.withdraw_method)='Webmoney' then u.webmoney
+				end) as user_account,
+				t.* 
+			FROM transactions t 
+			INNER JOIN users k on k.id=t.id_cashier 
+			LEFT JOIN users u on (u.email =t.sender or u.email=t.receiver)
+			where t.id=".$id_trans.";
+				";
+		
+			$query = $this->db->query($sql);
+
+            if ($query->num_rows())
+            {
+                return $query->row_array();
+            }
+        }
+
+        return FALSE;
+	}
+
+	function confirmdep($id_trans, $id_deposit){
+		$id_trans = $this->db->escape($id_trans); 
+		$id_deposit = $this->db->escape($id_deposit); 
+		$sql="
+			UPDATE  transactions 
+				SET id_deposit_cashier=".$id_deposit." 
+			WHERE id=".$id_trans."
+			";
+		$query = $this->db->query($sql);
+		if ($this->db->affected_rows())
+            {
+                return TRUE;
+            }else{
+				return FALSE;
+			}
+	}
+
 
 }

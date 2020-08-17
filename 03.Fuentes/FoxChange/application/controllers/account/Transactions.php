@@ -209,6 +209,9 @@ class Transactions extends Private_Controller {
 		
 		$user_kshr = $this->users_model->get_user($transactions['id_cashier']);
 
+		//get details of accounts of user and cashier
+		$account_usr_kshr = $this->transactions_model->get_transaction_account_user_cashier_info($id);
+
         // if empty results, return to list
         if ( ! $transactions)
         {
@@ -234,6 +237,7 @@ class Transactions extends Private_Controller {
 			'this_url'   		=> THIS_URL,
 			'user'              => $user,
 			'user_kshr'			=> $user_kshr,
+			'account_usr_kshr'	=> $account_usr_kshr,
 			'dispute_mode'      => $dispute_mode,
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,
@@ -300,7 +304,27 @@ class Transactions extends Private_Controller {
         // load views
         $data['content'] = $this->load->view('account/transactions/chat', $content_data, TRUE);
         $this->load->view($this->template, $data);
-    }
+	}
+	
+	/**
+	 * Send deposit to cashier
+	 */
+	function confirmdep($idtrans){
+		$iddeposito=$this->input->post("iddep", TRUE);
+
+		$registrar_dep=$this->transactions_model->confirmdep($idtrans,$iddeposito);
+
+		
+
+		if($registrar_dep==TRUE){
+			$this->session->set_flashdata('message', lang('users trans id deposit send'));
+					
+		}else{
+			$this->session->set_flashdata('message', lang('users trans id deposit error'));
+		}
+		redirect(site_url("account/transactions/detail/".$idtrans));
+
+	}
 	
 	/**
      * Start confirm protect transaction

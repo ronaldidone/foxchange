@@ -121,19 +121,22 @@
                         <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==2): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans success'); ?> </span>
+                        <span class="badge badge-success"> <?php echo lang('users trans success'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==3): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans refund'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans refund'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==4): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans dispute'); ?> </span>
+                        <span class="badge badge-danger"> <?php echo lang('users trans dispute'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==5): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans blocked'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans blocked'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==6): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans cancelled'); ?> </span>
+                        <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($transactions["status"]==7): ?>
+                        <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
                       <?php endif; ?>
              
          

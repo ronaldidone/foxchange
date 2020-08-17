@@ -338,6 +338,8 @@ $lang['users trans cantidad']                 = "Monto";
 $lang['users trans cantidad enviada']         = "Monto enviado";
 $lang['users trans cantidad recibida']        = "Monto recibido";
 $lang['users trans accepted']                 = "Aceptado";
+$lang['users trans id deposit send']          = "El ID del depósito se regsitró correctamente";
+$lang['users trans id deposit error']         = "Error al registrar el del depósito intente nuevamente por favor";
 
 $lang['users enviar a']                       = "Enviar a";
 $lang['users trans status']                   = "Estado";
