@@ -112,12 +112,22 @@
                       <?php if($view["status"]==6): ?>
                         <span class="badge badge-primary"> <?php echo lang('users trans cancelled'); ?> </span>
                       <?php endif; ?>
+                      <?php if($view["status"]==7 or $view["id_cashier"]!=0): ?>
+                        <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
+                      <?php endif; ?>
 
 
                       
                     
                   </td>
-                  <td class="text-center"><a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a></td>
+                  <td class="text-center">
+                   
+                    <?php if($view["value"]): //si el cajero usa el metodo de pago ?>
+                      <?php if( ($view["id_cashier"]==0 or $view["id_cashier"]==$user["id"])): ?>
+                      <a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a>
+                      <?php endif; ?>
+                    <?php endif; ?>
+                  </td>
                 </tr>
 
               <?php endforeach; ?>

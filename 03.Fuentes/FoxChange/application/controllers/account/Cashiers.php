@@ -199,7 +199,9 @@ class Cashiers extends Private_Controller {
 	function detail($id = NULL)
     {
 		$user = $this->users_model->get_user($this->user['id']);
-		
+
+		//we get the transaction so it is blocked for others
+		$this->cashiers_model->accept_transaction($id,$this->user['id']);
 
 		
 			

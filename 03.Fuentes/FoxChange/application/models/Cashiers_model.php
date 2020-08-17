@@ -170,6 +170,32 @@ class Cashiers_model extends CI_Model {
 
     }
 
+    function accept_transaction($id_transaccion, $id_user){
+        $id_transaccion = $this->db->escape($id_transaccion);
+        $id_user = $this->db->escape($id_user);
+
+        if ($id_transaccion && $id_user)
+        { 
+                $sql = "
+                UPDATE {$this->_db4}
+                SET
+                    id_cashier = " . $id_user . ",
+                    status = '7'
+                WHERE id = " . $id_transaccion . "
+                   
+                ";
+                
+            $this->db->query($sql);
+
+            if ($this->db->affected_rows())
+            {
+                return TRUE;
+            }
+        }
+
+        return FALSE;
+    }
+
     function get_all_transaction($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC',$user = NULL)
     { 
         $sql = "
@@ -190,19 +216,19 @@ class Cashiers_model extends CI_Model {
                             select id_user, webmoney AS VALUE, 'Webmoney' AS descrip from {$this->_db3} where activo = 1 
                         )
                         , B AS(
-                                select * from {$this->_db4} WHERE status = 1 AND type in (1,2)
+                                select * from {$this->_db4} WHERE status in(1,7) AND type in (1,2)
                         )
                         , C AS(
                             select * from {$this->_db} WHERE deleted ='0'
                         )
-                        SELECT SQL_CALC_FOUND_ROWS B.* 
+                        SELECT SQL_CALC_FOUND_ROWS A.descrip, A.value, B.* 
                         FROM 
                             A 
                             INNER JOIN B
                                 ON (A.descrip = B.deposit_method) OR (A.descrip = B.withdraw_method)
                             INNER JOIN C
                                 ON A.id_user = C.id
-                        WHERE A.id_user = '{$user}'  AND value =1
+                        WHERE A.id_user = '{$user}'  /*AND value =1*/
                         AND (
                             ( B.currency ='debit_base' AND B.amount <= C.debit_base) OR
                             ( B.currency ='debit_extra1' AND B.amount <= C.debit_extra1) OR

@@ -337,6 +337,7 @@ $lang['users trans withdrawal']               = "Monto a retirar";
 $lang['users trans cantidad']                 = "Monto";
 $lang['users trans cantidad enviada']         = "Monto enviado";
 $lang['users trans cantidad recibida']        = "Monto recibido";
+$lang['users trans accepted']                 = "Aceptado";
 
 $lang['users enviar a']                       = "Enviar a";
 $lang['users trans status']                   = "Estado";

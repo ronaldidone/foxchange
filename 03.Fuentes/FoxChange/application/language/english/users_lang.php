@@ -335,6 +335,7 @@ $lang['users trans detail']                   = "Detail";
 $lang['users trans 10last']                   = "Last 10 operations";
 $lang['users trans all']                      = "All transactions";
 $lang['users trans ip']                       = "IP address";
+$lang['users trans accepted']                 = "Accepted";
 
 // History
 $lang['users history all']                    = "Account IP history";
