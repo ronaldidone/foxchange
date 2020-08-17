@@ -199,6 +199,7 @@ class Cashiers extends Private_Controller {
 	function detail($id = NULL)
     {
 		$user = $this->users_model->get_user($this->user['id']);
+		
 
 		
 			
@@ -210,6 +211,12 @@ class Cashiers extends Private_Controller {
 
         // get the data
 		$transactions = $this->transactions_model->get_detail_transactions_cashier($id);
+
+		//get email of user who created the transaction
+		$email_user_trx=(strpos($transactions['sender'], '@'))?$transactions['sender']:$transactions['receiver'];
+		
+		//get details of user who created the transaction
+		$user_trx = $this->users_model->get_email($email_user_trx);
 		
 		
 		// get transaction chat
@@ -241,6 +248,7 @@ class Cashiers extends Private_Controller {
         $content_data = array(
 			'this_url'   		=> THIS_URL,
 			'user'              => $user,
+			'user_trx'			=> $user_trx,
 			'dispute_mode'      => $dispute_mode,
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,
@@ -276,6 +284,11 @@ class Cashiers extends Private_Controller {
 		// get transaction chat
 		$transaction_chat = $this->cashiers_model->get_chat_transaccion($id);
 		
+		//get email of user who created the transaction
+		$email_user_trx=(strpos($transactions['sender'], '@'))?$transactions['sender']:$transactions['receiver'];
+		
+		//get details of user who created the transaction
+		$user_trx = $this->users_model->get_email($email_user_trx);
 		
 	
 
@@ -303,6 +316,7 @@ class Cashiers extends Private_Controller {
         $content_data = array(
 			'this_url'   		=> THIS_URL,
 			'user'              => $user,
+			'user_trx'			=> $user_trx,
 			'dispute_mode'      => $dispute_mode,
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,

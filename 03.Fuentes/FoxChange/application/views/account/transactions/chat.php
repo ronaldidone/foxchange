@@ -96,12 +96,12 @@
                 <div class="card-header white d-flex justify-content-between p-2" id="toggle" style="cursor: pointer;">
                     <div class="heading d-flex justify-content-start">
                     <div class="profile-photo">
-                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle mr-2 ml-0" style="height:3rem;">
+                        <img src="<?php echo $avatar = $this->notice->check_img($transactions['type'], $user_kshr["email"], $transactions['id']); ?>" alt="avatar" class="avatar rounded-circle mr-2 ml-0" style="height:3rem;">
                         <span class="state"></span>
                     </div>
                     <div class="data">
                         <p class="name mb-0"><strong>
-                        <?php echo(strpos($transactions['sender'], '@'))?$transactions['sender']:$transactions['receiver']; ?>
+                        <?php echo $user_kshr["first_name"]." ".$user_kshr["last_name"]; ?>
                         </strong></p>
                         <p class="activity text-muted mb-0">Active now</p>
                     </div>
@@ -117,47 +117,7 @@
                     <div class="card-body p-3">
                     <div class="chat-message" id="messagelist">
                         
-                        <div class="card bg-primary rounded w-75 float-right z-depth-0 mb-1">
-                        <div class="card-body p-2">
-                            <p class="card-text text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit voluptatem cum eum tempore.</p>
-                        </div>
-                        </div>
-                        <div class="card bg-primary rounded w-50 float-right z-depth-0 mb-2">
-                        <div class="card-body p-2">
-                            <p class="card-text text-white">Rem suscipit lorum repellendus ditiis?</p>
-                        </div>
-                        </div>
-                        <div class="card bg-light rounded w-75 z-depth-0 mb-1 message-text">
-                        <div class="card-body p-2">
-                            <p class="card-text black-text">Nostrum minima cupiditate assumenda, atque cumque hic voluptatibus at corporis maxime quam harum.</p>
-                        </div>
-                        </div>
-                        <div class="d-flex justify-content-start">
-                        <!--<div class="profile-photo message-photo">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle mr-2 ml-0">
-                            <span class="state"></span>
-                        </div>!-->
-                        <div class="card bg-light rounded w-75 z-depth-0 mb-2">
-                            <div class="card-body p-2">
-                            <p class="card-text black-text">Qui animi molestiae autem nihil optio recusandae nisi sit ab quo est.</p>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="card bg-primary rounded w-75 float-right z-depth-0 mb-1 last">
-                        <div class="card-body p-2">
-                            <p class="card-text text-white">Maxime nostrum ut blanditiis a quod quam, quidem deleniti?</p>
-                        </div>
-                        </div>
-                        <div class="card bg-light rounded w-75 z-depth-0 mb-1 message-text">
-                        <div class="card-body p-2">
-                            <p class="card-text black-text">Nostrum minima cupiditate assumenda, atque cumque hic voluptatibus at corporis maxime quam harum.</p>
-                        </div>
-                        </div>
-                        <div class="card bg-primary rounded w-75 float-right z-depth-0 mb-1 last">
-                        <div class="card-body p-2">
-                            <p class="card-text text-white">Maxime nostrum ut blanditiis a quod quam, quidem deleniti?</p>
-                        </div>
-                        </div>
+                        
                     </div>
                     </div>
                 </div>
