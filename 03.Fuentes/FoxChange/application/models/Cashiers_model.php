@@ -174,7 +174,17 @@ class Cashiers_model extends CI_Model {
         $id_transaccion = $this->db->escape($id_transaccion);
         $id_user = $this->db->escape($id_user);
 
-        if ($id_transaccion && $id_user)
+        $sql = "
+        SELECT status FROM {$this->_db4}        
+        WHERE id = " . $id_transaccion . "           
+        ";
+        $query = $this->db->query($sql);
+        $results = $query->result_array();
+
+        $status_trans=$results[0]["status"];
+
+
+        if ($id_transaccion && $id_user && $status_trans=='1')
         { 
                 $sql = "
                 UPDATE {$this->_db4}

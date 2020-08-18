@@ -200,10 +200,6 @@ class Cashiers extends Private_Controller {
     {
 		$user = $this->users_model->get_user($this->user['id']);
 
-		//we get the transaction so it is blocked for others
-		$this->cashiers_model->accept_transaction($id,$this->user['id']);
-
-		
 			
         // make sure we have a numeric id
         if (is_null($id) OR ! is_numeric($id))
@@ -213,6 +209,13 @@ class Cashiers extends Private_Controller {
 
         // get the data
 		$transactions = $this->transactions_model->get_detail_transactions_cashier($id);
+
+		$status_trx = $transactions["status"];
+		if($status_trx==1){
+			//we get the transaction so it is blocked for others
+			$res=$this->cashiers_model->accept_transaction($id,$this->user['id']);
+		}
+		
 
 		//get email of user who created the transaction
 		$email_user_trx=(strpos($transactions['sender'], '@'))?$transactions['sender']:$transactions['receiver'];

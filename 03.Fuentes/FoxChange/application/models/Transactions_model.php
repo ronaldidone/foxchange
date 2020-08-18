@@ -17,6 +17,7 @@ class Transactions_model extends CI_Model {
         // define primary table
         $this->_db = 'transactions';
 				$this->_db2 = 'vouchers';
+				$this->_db3 = 'users';
     }
 	
 	function get_transaction_user_admin($user) 
@@ -2113,14 +2114,36 @@ class Transactions_model extends CI_Model {
 		}
 	}
 	
-	function hold_balance($user = NULL, $currency = NULL)
+	function hold_balance($user = NULL, $currency = NULL, $idcashier =NULL)
 	{
 
-		$where = "(status = '4' AND receiver = '$user' AND currency = '$currency') OR (status = '5' AND receiver = '$user' AND currency = '$currency')";
+		/*Verificamos si el usurio es cajero*/
+		$sql = "
+        SELECT id, status_ATM FROM {$this->_db3}        
+        WHERE email = '" . $user . "'          
+        ";
+        $query = $this->db->query($sql);
+        $results = $query->result_array();
+		
+		$status_cashier=$results[0]["status_ATM"];
+		$idcashier=$results[0]["id"];
+		
+		//exit("($status_cashier),($idcashier)");
+
+		if($status_cashier==2 and  $idcashier>0){
+			$condicion_cajero = " OR (status = '7' AND id_cashier = '$idcashier' AND currency = '$currency')";
+		}else{
+			$condicion_cajero ="";
+		}
+
+
+		$where = "(status = '4' AND receiver = '$user' AND currency = '$currency') OR (status = '5' AND receiver = '$user' AND currency = '$currency') $condicion_cajero";
 		$query = $this->db->select_sum('amount', 'Amount');
 		$query = $this->db->where($where);
 		$query = $this->db->get('transactions');
 		$result = $query->result();
+
+		//exit("condicion ($where)");
 		if ($result[0]->Amount == NULL) {
 			return 0;
 		} else {
