@@ -205,7 +205,14 @@ class Cashiers extends Private_Controller {
         if (is_null($id) OR ! is_numeric($id))
         {
             redirect($this->_redirect_url);
-		}		
+		}	
+		
+		// make sure the user has chashier profile
+		
+		if ($user['status_ATM']!=2)
+		{
+			redirect($this->_redirect_url);
+		}
 
         // get the data
 		$transactions = $this->transactions_model->get_detail_transactions_cashier($id);
@@ -214,6 +221,13 @@ class Cashiers extends Private_Controller {
 		if($status_trx==1){
 			//we get the transaction so it is blocked for others
 			$res=$this->cashiers_model->accept_transaction($id,$this->user['id']);
+		}
+
+		// make sure the cashier the one who accepted the transaction
+		//exit("statustx($status_trx) idusr(".$this->user['id'].") txidus(".$transactions["id_cashier"].")");
+		if (($this->user['id'] != $transactions["id_cashier"]))
+		{
+			redirect($this->_redirect_url);
 		}
 		
 
