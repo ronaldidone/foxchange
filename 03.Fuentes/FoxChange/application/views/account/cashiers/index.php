@@ -3,7 +3,8 @@
     <h5><?php echo lang('users trans all'); ?></h5>
   </div>
   <div class="col-md-4 mb-2 text-right">
-    <a href="#search" data-toggle="collapse" href="#search" aria-expanded="false" aria-controls="search" class="btn btn-outline-secondary btn-sm"><i class="icon-magnifier icons"></i> <?php echo lang('users trans search'); ?></a>
+    <a href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search" class="btn btn-outline-secondary btn-sm"><i class="icon-magnifier icons"></i> <?php echo lang('users trans search'); ?></a>
+    <a href="<?php echo  base_url();?>account/cashiers/history" aria-expanded="false" class="btn btn-outline-secondary btn-sm"><i class="icon-hourglass icons"></i> <?php echo lang('users trans kshr historic'); ?></a>
   </div>
 </div>
 <div class="card">

@@ -346,6 +346,8 @@ $lang['users trans kshr account']             = "Account";
 $lang['users trans kshr 2step1']              = "Once done, enter the confirmation ID gotten from ";
 $lang['users trans kshr 2step2']              = "in the following text field and confirm the deposit";
 $lang['users trans kshr idconfirm depos']     = "Deposit ID confirmation ";
+$lang['users trans cashier historic']         = "Cashier history";
+
 
 
 // History

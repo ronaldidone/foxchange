@@ -191,6 +191,155 @@ class Cashiers extends Private_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+
+	function history()
+	{ 
+
+
+		$user = $this->users_model->get_user($this->user['id']);
+		
+		// get parameters
+    $limit  = $this->input->get('limit')  ? $this->input->get('limit', TRUE)  : DEFAULT_LIMIT;
+    $offset = $this->input->get('offset') ? $this->input->get('offset', TRUE) : DEFAULT_OFFSET;
+    $sort   = $this->input->get('sort')   ? $this->input->get('sort', TRUE)   : DEFAULT_SORT;
+    $dir    = $this->input->get('dir')    ? $this->input->get('dir', TRUE)    : DEFAULT_DIR;
+		
+		// get filters
+    $filters = array();
+			
+		if ($this->input->get('id', TRUE))
+    {
+      $id_xss = $this->security->xss_clean($this->input->get('id'));
+			$id_string = htmlentities($id_xss, ENT_QUOTES, "UTF-8");
+			$filters['id'] = $id_string;
+    }
+		
+		if ($this->input->get('time'))
+    {
+      $time_xss = $this->security->xss_clean($this->input->get('time'));
+			$time_string = htmlentities($time_xss, ENT_QUOTES, "UTF-8");
+			$filters['time'] = $time_string;
+    }
+		
+		if ($this->input->get('sender'))
+    {
+      $sender_xss = $this->security->xss_clean($this->input->get('sender'));
+			$sender_string = htmlentities($sender_xss, ENT_QUOTES, "UTF-8");
+			$filters['sender'] = $sender_string;
+    }
+		
+		if ($this->input->get('receiver'))
+    {
+      $receiver_xss = $this->security->xss_clean($this->input->get('receiver'));
+			$receiver_string = htmlentities($receiver_xss, ENT_QUOTES, "UTF-8");
+			$filters['receiver'] = $receiver_string;
+    }
+		
+		if ($this->input->get('sum'))
+    {
+      $sum_xss = $this->security->xss_clean($this->input->get('sum'));
+			$sum_string = htmlentities($sum_xss, ENT_QUOTES, "UTF-8");
+			$filters['sum'] = $sum_string;
+    }
+		
+		if ($this->input->get('user_comment'))
+    {
+      $user_comment_xss = $this->security->xss_clean($this->input->get('user_comment'));
+			$user_comment_string = htmlentities($user_comment_xss, ENT_QUOTES, "UTF-8");
+			$filters['user_comment'] = $user_comment_string;
+    }
+		// build filter string
+    $filter = "";
+    foreach ($filters as $key => $value)
+    {
+       $filter .= "&{$key}={$value}";
+    }
+		
+		// are filters being submitted?
+        if ($this->input->post())
+        {
+            if ($this->input->post('clear'))
+            {
+                // reset button clicked
+                redirect(THIS_URL);
+            } else {
+
+                // apply the filter(s)
+                $filter = "";
+
+                if ($this->input->post('id'))
+                {
+                    $filter .= "&id=" . $this->input->post('id', TRUE);
+                }
+								if ($this->input->post('time'))
+                {
+                    $filter .= "&time=" . $this->input->post('time', TRUE);
+                }
+							
+								if ($this->input->post('sender'))
+                {
+                    $filter .= "&sender=" . $this->input->post('sender', TRUE);
+                }
+							
+								if ($this->input->post('receiver'))
+                {
+                    $filter .= "&receiver=" . $this->input->post('receiver', TRUE);
+                }
+							
+								if ($this->input->post('sum'))
+                {
+                    $filter .= "&sum=" . $this->input->post('sum', TRUE);
+                }
+							
+								if ($this->input->post('user_comment'))
+                {
+                    $filter .= "&user_comment=" . $this->input->post('user_comment', TRUE);
+                }
+                // redirect using new filter(s)
+                redirect(THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}&offset={$offset}{$filter}");
+            }
+
+			//$history = $this->transactions_model->get_all($limit, $offset, $filters, $sort, $dir, $user['email']);
+			$history = $this->cashiers_model->get_all_transaction_history($limit, $offset, $filters, $sort, $dir, $user['id']);			
+
+		}
+     // setup page header data
+	 $this->set_title(sprintf(lang('users title history'), $this->settings->site_name));
+		// reload the new user data and store in session
+
+    $data = $this->includes;
+					
+		$history = $this->cashiers_model->get_all_transaction($limit, $offset, $filters, $sort, $dir, $user['id']);
+					
+		// build pagination
+		$this->pagination->initialize(array(
+			'base_url'   => THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}{$filter}",
+			'total_rows' => $history['total'],
+			'per_page'   => $limit
+		));
+			
+		// set content data
+        $content_data = array(
+			'user'       => $user,
+			'email'   => $email,
+            'this_url'   => THIS_URL,
+            'history'    => $history['results'],
+            'total'      => $history['total'],
+            'filters'    => $filters,
+            'filter'     => $filter,
+            'pagination' => $this->pagination->create_links(),
+            'limit'      => $limit,
+            'offset'     => $offset,
+            'sort'       => $sort,
+            'dir'        => $dir
+        );
+
+
+        // load views
+        $data['content'] = $this->load->view('account/cashiers/history', $content_data, TRUE);
+		$this->load->view($this->template, $data);
+	}
+
 	
 	
 	/**

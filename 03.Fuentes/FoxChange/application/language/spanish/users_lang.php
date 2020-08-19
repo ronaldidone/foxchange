@@ -348,6 +348,7 @@ $lang['users trans kshr account']             = "Cuenta";
 $lang['users trans kshr 2step1']              = "Una vez realizado, ingresa el id de referencia de confirmación de";
 $lang['users trans kshr 2step2']              = "en el campo de texto y confirma el envío";
 $lang['users trans kshr idconfirm depos']     = "ID de confirmación del depósito";
+$lang['users trans kshr historic']            = "Historico cajero";
 
 $lang['users enviar a']                       = "Enviar a";
 $lang['users trans status']                   = "Estado";
