@@ -78,6 +78,7 @@ $lang['users cashier button select_one_msg'] = "Choose at least one billing opti
 $lang['users cashier button back_settings'] = "Back to Settings";
 $lang['users cashier button view status'] = "View Cashier Status";
 $lang['users cashier button accept trans'] = "Accept Transaction";
+$lang['users cashier button attend trans'] = "Attend Transaction";
 $lang['users cashier details trans'] = "Details";
 $lang['users cashier chat trans'] = "Chat";
 $lang['users cashier cancel trans'] = "Cancel";

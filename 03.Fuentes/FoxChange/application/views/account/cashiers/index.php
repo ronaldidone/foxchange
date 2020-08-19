@@ -124,12 +124,20 @@
                   <td class="text-center">
                   <?php //echo "m(".$view["amount"].") fondo(".$view["debit_base"].") activo(".$view["value"].") kj(".$view["id_cashier"].")"; ?>
                   <?php $disponible=$view["debit_base"]-$hold_balance; ?>
-                    <?php if($view["status"]==7 or ($view["status"]==1 and ($view["amount"]<=$disponible))): //si la operación esta pendiente y su fondo es superior al monto de la operacion ?>
+                    <?php if($view["status"]==1 and ($view["amount"]<=$disponible)): //si la operación esta pendiente y su fondo disponible es superior al monto de la operacion ?>
                      
                      <?php if($view["value"] and ($view["id_cashier"]==0 or $view["id_cashier"]==$user["id"])): ?>
                       <a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a>
                       <?php endif; ?>
                     <?php endif; ?>
+                    
+                    <?php if($view["status"]==7 and $view["id_cashier"]==$user["id"]): //si la operación esta aceptara por este cajero ?>
+                     
+                      <a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button attend trans'); ?></a>
+                      
+                    <?php endif; ?>
+
+
                   </td>
                 </tr>
 
