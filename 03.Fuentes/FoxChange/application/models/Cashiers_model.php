@@ -193,7 +193,7 @@ class Cashiers_model extends CI_Model {
                 UPDATE {$this->_db4}
                 SET
                     id_cashier = " . $id_user . ",
-                    amount_sent_cashier =".$amount_sent_cashier."
+                    amount_sent_cashier =".$amount_sent_cashier.",
                     status = '7'
                 WHERE id = " . $id_transaccion . "
                    
