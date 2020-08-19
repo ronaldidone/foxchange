@@ -304,7 +304,7 @@ class Cashiers_model extends CI_Model {
                             select id_user, webmoney AS VALUE, 'Webmoney' AS descrip from {$this->_db3} where activo = 1 
                         )
                         , B AS(
-                                select * from {$this->_db4} WHERE status in(1,7) AND type in (1,2)
+                                select * from {$this->_db4} WHERE status in(2,7) AND type in (1,2)
                         )
                         , C AS(
                             select * from {$this->_db} WHERE deleted ='0'
