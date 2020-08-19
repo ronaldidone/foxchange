@@ -168,11 +168,15 @@ class Cashiers extends Private_Controller {
 			'total_rows' => $history['total'],
 			'per_page'   => $limit
 		));
+
+		$email=$user["email"];
+		$hold_balance=$this->transactions_model->hold_balance($user["email"], 'debit_base');
 			
 		// set content data
         $content_data = array(
 			'user'       => $user,
 			'email'   => $email,
+			'hold_balance' => $hold_balance,
             'this_url'   => THIS_URL,
             'history'    => $history['results'],
             'total'      => $history['total'],
@@ -309,11 +313,11 @@ class Cashiers extends Private_Controller {
 
     $data = $this->includes;
 					
-		$history = $this->cashiers_model->get_all_transaction($limit, $offset, $filters, $sort, $dir, $user['id']);
+		$history = $this->cashiers_model->get_all_transaction_history($limit, $offset, $filters, $sort, $dir, $user['id']);
 					
 		// build pagination
 		$this->pagination->initialize(array(
-			'base_url'   => THIS_URL . "?sort={$sort}&dir={$dir}&limit={$limit}{$filter}",
+			'base_url'   => THIS_URL . "/history?sort={$sort}&dir={$dir}&limit={$limit}{$filter}",
 			'total_rows' => $history['total'],
 			'per_page'   => $limit
 		));
@@ -798,6 +802,7 @@ function ok_deposit($id = NULL)
 			
 			$wallet = $transactions['currency'];
 			$amount = $transactions['amount'];
+			$amount_deposit = $transactions['deposit'];
 			
 			// Calculation of the amount to be credited to the claimant 
 			$return = $user[$wallet]+$amount;
@@ -817,9 +822,11 @@ function ok_deposit($id = NULL)
 			);
 			
 			//change today
+			//calc amount sent cashier
+			$amount_sent_cashier=$amount_deposit-($amount_deposit*0.11);
 			$user = $this->users_model->get_user($this->user['id']);
 			$debit_base=$user['debit_base'];
-			$temp= $debit_base+$amount*(-1);
+			$temp= $debit_base+$amount_sent_cashier*(-1);
 			$this->users_model->update_user($user['email'],
 				array(
 					$transactions['currency']  => $temp,

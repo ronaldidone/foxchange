@@ -175,13 +175,16 @@ class Cashiers_model extends CI_Model {
         $id_user = $this->db->escape($id_user);
 
         $sql = "
-        SELECT status FROM {$this->_db4}        
+        SELECT status, amount_deposit  FROM {$this->_db4}        
         WHERE id = " . $id_transaccion . "           
         ";
         $query = $this->db->query($sql);
         $results = $query->result_array();
 
         $status_trans=$results[0]["status"];
+        $amount_deposit=$results[0]["status"];
+        //calc amount sent cashier
+		$amount_sent_cashier=$amount_deposit-($amount_deposit*0.11);
 
 
         if ($id_transaccion && $id_user && $status_trans=='1')
@@ -190,6 +193,7 @@ class Cashiers_model extends CI_Model {
                 UPDATE {$this->_db4}
                 SET
                     id_cashier = " . $id_user . ",
+                    amount_sent_cashier =".$amount_sent_cashier."
                     status = '7'
                 WHERE id = " . $id_transaccion . "
                    
@@ -287,37 +291,12 @@ class Cashiers_model extends CI_Model {
     function get_all_transaction_history($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC',$user = NULL)
     { 
         $sql = "
-                       with A AS(
-                            select id_user, paypal AS VALUE, 'PayPal' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, card AS VALUE, 'Credit card' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, bitcoin AS VALUE, 'Bitcoin' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, swift AS VALUE, 'Transferencia Bancaria Perú' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, skrill AS VALUE, 'Skrill' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, payza AS VALUE, 'Payza' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, adv_cash  AS VALUE, 'ADV Cash' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, perfect_m AS VALUE, 'Perfect Money' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, neteller AS VALUE, 'Neteller' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, uphold AS VALUE, 'Uphold' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, payeer AS VALUE, 'Payeer' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, airtm AS VALUE, 'Airtm' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, payoneer AS VALUE, 'Payoneer' AS descrip from {$this->_db3} where activo = 1 union all
-                            select id_user, webmoney AS VALUE, 'Webmoney' AS descrip from {$this->_db3} where activo = 1 
-                        )
-                        , B AS(
-                                select * from {$this->_db4} WHERE status in(2,7) AND type in (1,2)
-                        )
-                        , C AS(
-                            select * from {$this->_db} WHERE deleted ='0'
-                        )
-                        SELECT SQL_CALC_FOUND_ROWS A.descrip, A.value, C.debit_base, B.* 
-                        FROM 
-                            A 
-                            INNER JOIN B
-                                ON (A.descrip = B.deposit_method) OR (A.descrip = B.withdraw_method)
-                            INNER JOIN C
-                                ON A.id_user = C.id
-                        WHERE B.id_cashier = '{$user}' 
-                         
+                        
+                SELECT SQL_CALC_FOUND_ROWS /* A.descrip, A.value, C.debit_base, */ B.* 
+                FROM 
+                    {$this->_db4} B
+                    
+                WHERE B.id_cashier = '4' AND  status in(2,7) AND type in (1,2)  
         ";
 
         if ( ! empty($filters))
