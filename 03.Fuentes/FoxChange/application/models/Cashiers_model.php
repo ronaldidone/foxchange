@@ -176,10 +176,12 @@ class Cashiers_model extends CI_Model {
 
         $sql = "SELECT t.type, t.status, t.amount_deposit, 
                         sd.fee_fix as fee_fix_dep, sd.fee as fee_dep, 
-                        sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit
+                        sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit,
+                        (t.amount_deposit - t.amount_deposit*(ifnull(sd.fee,0)/100)) as dep_cashier_calc,
+                        (t.amount_deposit - t.amount_deposit*(ifnull(sw.fee,0)/100)) as wit_cashier_calc
                 FROM {$this->_db4}  as t   
-                    left join settings_deposit sd on sd.name=t.deposit_method
-                    left join settings_withdrawal sw on sw.name=t.withdraw_method
+                    left join settings_deposit sd on sd.name=t.deposit_method and sd.status=1
+                    left join settings_withdrawal sw on sw.name=t.withdraw_method and sw.status=1
                WHERE t.id =" . $id_transaccion . "";
 
         $query = $this->db->query($sql);
@@ -246,7 +248,13 @@ class Cashiers_model extends CI_Model {
                             select id_user, webmoney AS VALUE, 'Webmoney' AS descrip from {$this->_db3} where activo = 1 
                         )
                         , B AS(
-                                select * from {$this->_db4} WHERE status in(1,7) AND type in (1,2)
+                                select 
+                                    (t.amount_deposit - t.amount_deposit*(ifnull(sd.fee,0)/100)) as dep_cashier_calc, 
+                                    (t.amount_deposit - t.amount_deposit*(ifnull(sw.fee,0)/100)) as wit_cashier_calc, t.* 
+                                from {$this->_db4} t   
+                                    left join settings_deposit sd on sd.name=t.deposit_method and sd.status=1
+                                    left join settings_withdrawal sw on sw.name=t.withdraw_method and sw.status=1
+                                WHERE t.status in(1,7) AND t.type in (1,2)
                         )
                         , C AS(
                             select * from {$this->_db} WHERE deleted ='0'
@@ -268,6 +276,7 @@ class Cashiers_model extends CI_Model {
                             ( B.currency ='debit_extra5' AND B.amount <= C.debit_extra5) 
                         )   */    
         ";
+        //exit($sql);
 
         if ( ! empty($filters))
         {

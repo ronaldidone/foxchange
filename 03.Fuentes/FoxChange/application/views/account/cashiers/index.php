@@ -87,7 +87,17 @@
                         <?php echo ($view["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?></td>
                         
-                  <td><?php echo $this->notice->check_amount_transaction($view['amount_sent_cashier'], $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); ?>
+                  <td>
+                    <?php 
+                        
+                        if($view['amount_sent_cashier']=="" or $view['amount_sent_cashier']==0){
+                          $amount_cashier=($view["type"]==1)?$view["dep_cashier_calc"]:$view["wit_cashier_calc"];
+                          $amount_cashier = number_format($amount_cashier,2);
+                        }else{
+                          $amount_cashier = $view['amount_sent_cashier'];
+                        }
+                        echo $this->notice->check_amount_transaction($amount_cashier, $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); 
+                    ?>
                    <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
