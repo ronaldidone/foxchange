@@ -174,17 +174,33 @@ class Cashiers_model extends CI_Model {
         $id_transaccion = $this->db->escape($id_transaccion);
         $id_user = $this->db->escape($id_user);
 
-        $sql = "
-        SELECT status, amount_deposit  FROM {$this->_db4}        
-        WHERE id = " . $id_transaccion . "           
-        ";
+        $sql = "SELECT t.type, t.status, t.amount_deposit, 
+                        sd.fee_fix as fee_fix_dep, sd.fee as fee_dep, 
+                        sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit
+                FROM {$this->_db4}  as t   
+                    left join settings_deposit sd on sd.name=t.deposit_method
+                    left join settings_withdrawal sw on sw.name=t.withdraw_method
+               WHERE t.id =" . $id_transaccion . "";
+
         $query = $this->db->query($sql);
         $results = $query->result_array();
 
         $status_trans=$results[0]["status"];
         $amount_deposit=$results[0]["status"];
+        $type=$results[0]["type"];
+        if($type==1){
+            $fee_fix=$results[0]["fee_fix_dep"];
+            $fee    =$results[0]["fee_dep"];
+        }else{
+            $fee_fix=$results[0]["fee_fix_wit"];
+            $fee    =$results[0]["fee_wit"];
+        }
+
+        $fee_cashier=($fee/100);
+
+        
         //calc amount sent cashier
-		$amount_sent_cashier=$amount_deposit-($amount_deposit*0.11);
+		$amount_sent_cashier=$amount_deposit-($amount_deposit*$fee_cashier);
 
 
         if ($id_transaccion && $id_user && $status_trans=='1')

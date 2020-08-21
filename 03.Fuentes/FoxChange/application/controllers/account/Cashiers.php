@@ -376,7 +376,7 @@ class Cashiers extends Private_Controller {
 		$transactions = $this->transactions_model->get_detail_transactions_cashier($id);
 
 		$status_trx = $transactions["status"];
-		$amount_trx = $transactions["$amount_sent_cashier"];
+		$amount_trx = $transactions["amount_sent_cashier"];
 		if($status_trx==1 and $disponible>=$amount_trx){
 			//we get the transaction so it is blocked for others
 			$res=$this->cashiers_model->accept_transaction($id,$this->user['id']);
@@ -794,7 +794,7 @@ function ok_deposit($id = NULL)
      }
 
      // get the data
-     $transactions = $this->transactions_model->get_transactions($id);
+     $transactions = $this->transactions_model->get_detail_transactions_cashier($id);
        
      // if empty results, return to list
      if ( ! $transactions)
@@ -828,8 +828,20 @@ function ok_deposit($id = NULL)
 			);
 			
 			//change today
-			//calc amount sent cashier
-			$amount_sent_cashier=$amount_deposit-($amount_deposit*0.11);
+			//get amount sent cashier
+			$amount_sent_cashier = floatval($transactions["amount_sent_cashier"]);
+			//if amount sent cashier is not set, calculate amount sent cashier
+			if($amount_sent_cashier==0){
+				if($transactions["type"]==1){//fee for deposits
+					$fee_fix=$transactions[0]["fee_fix_dep"];
+					$fee    =$transactions[0]["fee_dep"];
+				}else{//fee for withdrawals
+					$fee_fix=$transactions[0]["fee_fix_wit"];
+					$fee    =$transactions[0]["fee_wit"];
+				}
+				$fee_cashier=($fee/100);
+				$amount_sent_cashier=$amount_deposit-($amount_deposit*$fee_cashier);
+			}
 			$user = $this->users_model->get_user($this->user['id']);
 			$debit_base=$user['debit_base'];
 			$temp= $debit_base+$amount_sent_cashier*(-1);

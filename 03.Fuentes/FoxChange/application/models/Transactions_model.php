@@ -698,9 +698,14 @@ class Transactions_model extends CI_Model {
         if ($id)
         {
             $sql = "
-                SELECT *
-                FROM {$this->_db}
-								WHERE (id = " . $this->db->escape($id) . " )
+					SELECT
+							sd.fee_fix as fee_fix_dep, sd.fee as fee_dep, 
+							sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit,
+							t.*
+					FROM {$this->_db}  as t   
+						left join settings_deposit sd on sd.name=t.deposit_method
+						left join settings_withdrawal sw on sw.name=t.withdraw_method
+								WHERE (t.id = " . $this->db->escape($id) . " )
             ";
 
             $query = $this->db->query($sql);
