@@ -392,14 +392,14 @@ class Merchants_model extends CI_Model {
         return $results;
     }
 	
-	function get_user_merchant($id = NULL, $username = NULL)
+	function get_user_merchant($id = NULL, $email = NULL)
     {
         if ($id)
         {
             $sql = "
                 SELECT *
                 FROM {$this->_db}
-								WHERE (id = " . $this->db->escape($id) . " AND user = " . $this->db->escape($username) . ")
+								WHERE (id = " . $this->db->escape($id) . " AND user = " . $this->db->escape($email) . ")
             ";
 
             $query = $this->db->query($sql);
@@ -1031,9 +1031,9 @@ class Merchants_model extends CI_Model {
 	}
 	
 	/**
-     * Check to see if a username already exists
+     * Check to see if a email already exists
      *
-     * @param  string $username
+     * @param  string $email
      * @return boolean
      */
     function category_exists($category)

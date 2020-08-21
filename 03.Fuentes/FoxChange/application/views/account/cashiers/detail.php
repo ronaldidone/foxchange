@@ -76,7 +76,8 @@
 <?php endif; ?>
 
 <?php if($transactions['type']==1 and $transactions["status"]==7): //para revisar los retiros por cajero?>
-  <?php if($transactions['id_deposit_cashier']!=''): ?>
+  <?php if($transactions['id_deposit_cashier']!='' and $transactions['id_deposit_cashier'] != NULL): ?>
+  
     <div class="card">
       <div class="card-body">
       <div class="row">
@@ -164,6 +165,7 @@
 </div>
 <?php endif; ?>
 
+</br>
 
 <div class="card">
   <div class="card-body">
@@ -427,13 +429,9 @@
       <?}else{?>
        <?}?>
        
-       <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans ip'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['ip_address'] ?></p>
-      </div>
        
        <?if($transactions['type']==1){?>
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-4">
          <label for="date"><strong><?php echo lang('users trans deposit_account'); ?></strong></label>
          <p class="form-control-static"><?php echo $transactions['deposit_account'] ?></p>
       </div>

@@ -147,7 +147,6 @@
                             <option value="0" <?if($user['verify_status']=="0"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 0'); ?></option>
                             <option value="1" <?if($user['verify_status']=="1"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 1'); ?></option>
                             <option value="2" <?if($user['verify_status']=="2"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 2'); ?></option>
-                            <option value="3" <?if($user['verify_status']=="3"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 3'); ?></option>
                           </select>
                     </div>
                   </div>
@@ -175,6 +174,17 @@
                           <select class="form-control form-control-sm" name="status">
                             <option value="1" <?if($user['status']=="1"){?>selected<?}else{?><?}?>><?php echo lang('admin user active'); ?></option>
                             <option value="0" <?if($user['status']=="0"){?>selected<?}else{?><?}?>><?php echo lang('admin user inactive'); ?></option>
+                          </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <?php echo form_label(lang('admin user cashier'), 'language', array('class'=>'control-label')); ?>
+                          <span class="required">*</span>
+                          <select class="form-control form-control-sm" name="status">
+                            <option value="0" <?if($user['status_ATM']=="0"){?>selected<?}else{?><?}?>><?php echo lang('admin user no'); ?></option>
+                             <option value="1" <?if($user['status_ATM']=="1"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 1'); ?></option
+                            <option value="2" <?if($user['status_ATM']=="2"){?>selected<?}else{?><?}?>><?php echo lang('admin user yes'); ?></option>
                           </select>
                     </div>
                   </div>

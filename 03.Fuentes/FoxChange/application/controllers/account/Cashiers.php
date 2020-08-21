@@ -376,7 +376,7 @@ class Cashiers extends Private_Controller {
 		$transactions = $this->transactions_model->get_detail_transactions_cashier($id);
 
 		$status_trx = $transactions["status"];
-		$amount_trx = $transactions["amount"];
+		$amount_trx = $transactions["$amount_sent_cashier"];
 		if($status_trx==1 and $disponible>=$amount_trx){
 			//we get the transaction so it is blocked for others
 			$res=$this->cashiers_model->accept_transaction($id,$this->user['id']);
@@ -802,7 +802,7 @@ function ok_deposit($id = NULL)
      	redirect($this->_redirect_url);
      }
 		
-		if ($transactions['status'] == 1 && ($transactions['type'] == 1 or $transactions['type']) == 2) {
+		if ($transactions['status'] == 7 && ($transactions['type'] == 1 or $transactions['type']) == 2) {
 			
 			$user = $this->users_model->get_email($transactions['receiver']);
 			

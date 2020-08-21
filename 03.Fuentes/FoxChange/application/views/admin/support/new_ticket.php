@@ -12,7 +12,7 @@
           <div class="col-md-12">
              <div class="form-group"> 
                 <label><?php echo lang('admin tickets user'); ?></label>
-                <input type="text" class="form-control form-control-sm" id="username" name="username" placeholder="<?php echo lang('admin tickets user'); ?>"> 
+                <input type="text" class="form-control form-control-sm" id="email" name="email" placeholder="<?php echo lang('admin tickets user'); ?>"> 
              </div>
           </div>
           <div class="col-md-12">

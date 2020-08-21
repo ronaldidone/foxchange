@@ -40,18 +40,17 @@ class Withdrawal extends Private_Controller {
 	    $paypal = $this->settings_model->get_win_method(1);
 		$credit_card = $this->settings_model->get_win_method(2);
 		$bitcoin = $this->settings_model->get_win_method(3);
+		$swift = $this->settings_model->get_win_method(4);
 		$skrill = $this->settings_model->get_win_method(5);
 		$payza = $this->settings_model->get_win_method(6);
 		$advcash = $this->settings_model->get_win_method(7);
 		$perfect_m = $this->settings_model->get_win_method(8);
-		$swift = $this->settings_model->get_win_method(4);
-		$neteller = $this->settings_model->get_win_method(9);
+        $neteller = $this->settings_model->get_win_method(9);
 		$uphold   = $this->settings_model->get_win_method(10);
 		$payeer   = $this->settings_model->get_win_method(11);
 		$airtm   = $this->settings_model->get_win_method(12);
 		$payoneer   = $this->settings_model->get_win_method(13);
 		$webmoney   = $this->settings_model->get_win_method(14);
-
     
     	// Check enabled method PayPal
 		if ($paypal['start_verify'] == "1" && $user['verify_status'] == 0) {
@@ -107,6 +106,25 @@ class Withdrawal extends Private_Controller {
 		} else {
 
 			$enabled_bitcoin = FALSE;
+
+		}
+		
+        // Check enabled method SWIFT
+		if ($swift['start_verify'] == "1" && $user['verify_status'] == 0) {
+
+			$enabled_swift = TRUE;
+
+		} elseif ($swift['standart_verify'] == "1" && $user['verify_status'] == 1) {
+
+			$enabled_swift = TRUE;
+
+		} elseif ($swift['expanded_verify'] == "1" && $user['verify_status'] == 2) {
+
+			$enabled_swift = TRUE;
+
+		} else {
+
+			$enabled_swift = FALSE;
 
 		}
 		
@@ -186,26 +204,7 @@ class Withdrawal extends Private_Controller {
 
 		}
 		
-		// Check enabled method SWIFT
-		if ($swift['start_verify'] == "1" && $user['verify_status'] == 0) {
-
-			$enabled_swift = TRUE;
-
-		} elseif ($swift['standart_verify'] == "1" && $user['verify_status'] == 1) {
-
-			$enabled_swift = TRUE;
-
-		} elseif ($swift['expanded_verify'] == "1" && $user['verify_status'] == 2) {
-
-			$enabled_swift = TRUE;
-
-		} else {
-
-			$enabled_swift = FALSE;
-
-		}
-		
-		// Check enabled method Neteller
+        // Check enabled method Neteller
 		if ($neteller['start_verify'] == "1" && $user['verify_status'] == 0) {
 
 			$enabled_neteller = TRUE;
@@ -318,6 +317,7 @@ class Withdrawal extends Private_Controller {
 			$enabled_webmoney = FALSE;
 
 		}
+		
 				
     	$data = $this->includes;
 
@@ -330,6 +330,8 @@ class Withdrawal extends Private_Controller {
 			'enabled_credit_card'   => $enabled_credit_card,
 			'bitcoin'           	=> $bitcoin,
 			'enabled_bitcoin'   	=> $enabled_bitcoin,
+            'swift'             	=> $swift,
+			'enabled_swift'     	=> $enabled_swift,
 			'skrill'            	=> $skrill,
 			'enabled_skrill'    	=> $enabled_skrill,
 			'payza'             	=> $payza,
@@ -338,9 +340,7 @@ class Withdrawal extends Private_Controller {
 			'enabled_advcash'   	=> $enabled_advcash,
 			'perfect_m'         	=> $perfect_m,
 			'enabled_perfect_m' 	=> $enabled_perfect_m,
-			'swift'             	=> $swift,
-			'enabled_swift'     	=> $enabled_swift,
-			'neteller'             	=> $neteller,
+            'neteller'             	=> $neteller,
 			'enabled_neteller'     	=> $enabled_neteller,
 			'uphold'             	=> $uphold,
 			'enabled_uphold'     	=> $enabled_uphold,
@@ -352,7 +352,7 @@ class Withdrawal extends Private_Controller {
 			'enabled_payoneer'     	=> $enabled_payoneer,
 			'webmoney'             	=> $webmoney,
 			'enabled_webmoney'     	=> $enabled_webmoney
-    	);
+	);
 
 	    // load views
 	    $data['content'] = $this->load->view('account/withdrawal/index', $content_data, TRUE);
@@ -371,24 +371,21 @@ class Withdrawal extends Private_Controller {
 		$paypal = $this->settings_model->get_win_method(1);
 		$credit_card = $this->settings_model->get_win_method(2);
 		$bitcoin = $this->settings_model->get_win_method(3);
+		$swift = $this->settings_model->get_win_method(4);
 		$skrill = $this->settings_model->get_win_method(5);
 		$payza = $this->settings_model->get_win_method(6);
 		$advcash = $this->settings_model->get_win_method(7);
 		$perfect_m = $this->settings_model->get_win_method(8);
-		$swift = $this->settings_model->get_win_method(4);
-		$neteller = $this->settings_model->get_win_method(9);
+        $neteller = $this->settings_model->get_win_method(9);
 		$uphold   = $this->settings_model->get_win_method(10);
 		$payeer   = $this->settings_model->get_win_method(11);
 		$airtm   = $this->settings_model->get_win_method(12);
 		$payoneer   = $this->settings_model->get_win_method(13);
 		$webmoney   = $this->settings_model->get_win_method(14);
-
-		
 		
 		$this->form_validation->set_rules('amount', lang('users transfer amount'), 'required|trim|numeric');
 		$this->form_validation->set_rules('method', lang('users withdrawal method'), 'required|trim|in_list[paypal,credit_card,bitcoin,swift,skrill,payza,advcash,perfect_m,neteller,uphold,payeer,airtm,payoneer,webmoney]');
 		$this->form_validation->set_rules('currency', lang('users trans cyr'), 'required|trim|in_list[debit_base,debit_extra1,debit_extra2,debit_extra3,debit_extra4,debit_extra5]');
-		
 		
 		if ($this->form_validation->run() == FALSE)
 		{
@@ -397,7 +394,6 @@ class Withdrawal extends Private_Controller {
 			redirect(site_url("account/withdrawal"));
 
 		} else {
-		if ($user['fraud'] == 0) {
 
 			$amount = number_format($this->input->post("amount", TRUE), 2, '.', '');
 			$currency = $this->input->post("currency", TRUE);
@@ -832,7 +828,7 @@ class Withdrawal extends Private_Controller {
 			$total_fee = number_format($total_fee_calc, 2, '.', '');
 			$total_amount_calc = $amount - $total_fee;
 			$total_amount = number_format($total_amount_calc, 2, '.', '');
-		
+			
 			// Check amount for minimum and maximum limits
 			if ($minimum > $amount) {
 				
@@ -847,7 +843,6 @@ class Withdrawal extends Private_Controller {
 			}
 			
 			// Check verify status
-		
 			if ($user[$check_method_account_user] == NULL) {
 				
 				$this->session->set_flashdata('error', lang('users withdrawal null_account'));
@@ -862,7 +857,8 @@ class Withdrawal extends Private_Controller {
 				redirect(site_url("account/withdrawal"));
 				
 			}
-
+			
+		}
 		
 	    // setup page header data
 	    $this->set_title(sprintf(lang('users title withdrawal'), $this->settings->site_name));
@@ -879,18 +875,13 @@ class Withdrawal extends Private_Controller {
 			'method'            => $method,
 			'account'           => $account,
 			'terms'             => $terms,
-			'code_method'       => $code_method
+			'code_method'       => $code_method,
      	);
-    
+
     	// load views
     	$data['content'] = $this->load->view('account/withdrawal/confirm', $content_data, TRUE);
 		$this->load->view($this->template, $data);
 		
-	} else {
-
-				$this->session->set_flashdata('error', lang('users error fraud'));
-				redirect(site_url("account/withdrawal"));
-		}
 	}
 	
 	/**
@@ -904,12 +895,12 @@ class Withdrawal extends Private_Controller {
 		$paypal = $this->settings_model->get_win_method(1);
 		$credit_card = $this->settings_model->get_win_method(2);
 		$bitcoin = $this->settings_model->get_win_method(3);
+		$swift = $this->settings_model->get_win_method(4);
 		$skrill = $this->settings_model->get_win_method(5);
 		$payza = $this->settings_model->get_win_method(6);
 		$advcash = $this->settings_model->get_win_method(7);
 		$perfect_m = $this->settings_model->get_win_method(8);
-		$swift = $this->settings_model->get_win_method(4);
-		$neteller = $this->settings_model->get_win_method(9);
+        $neteller = $this->settings_model->get_win_method(9);
 		$uphold   = $this->settings_model->get_win_method(10);
 		$payeer   = $this->settings_model->get_win_method(11);
 		$airtm   = $this->settings_model->get_win_method(12);
@@ -929,7 +920,7 @@ class Withdrawal extends Private_Controller {
 
 		} else {
 
-		if ($user['fraud'] == 0) {
+			if ($user['fraud'] == 0) {
 
 				if ($user['login_status'] == 2) {
 
@@ -1338,8 +1329,6 @@ class Withdrawal extends Private_Controller {
 					$total_fee = number_format($total_fee_calc, 2, '.', '');
 					$total_amount_calc = $amount - $total_fee;
 					$total_amount = number_format($total_amount_calc, 2, '.', '');
-					$total_recbir_calc = $amount + $total_fee;
-					$total_recibir_retiro = number_format($total_amount_calc, 2, '.', '');
 					
 					if ($minimum > $amount & $maximum < $amount & $verify_status == FALSE) {
 						
@@ -1351,7 +1340,7 @@ class Withdrawal extends Private_Controller {
 						$hold_balance = $this->transactions_model->hold_balance($user['email'], $currency);
 						
 						$wallet_remainder = $user[$currency] - $amount;
-
+						
 						// check user hold balance
 						if ($wallet_remainder < $hold_balance) {
 								
@@ -1377,16 +1366,16 @@ class Withdrawal extends Private_Controller {
 									"type" 				=> "2",
 									"sum"  				=> $amount,
 									"fee"    			=> $total_fee,
-									"amount_withdraw" 	 => $amount,
-						"amount_received_withdraw" 		=> $total_recibir_retiro,
+									"amount" 			=> $amount,
 									"currency"			=> $currency,
-									"status" 			=> "1", 
+									"status" 			=> "1",
 									"sender" 			=> $user['email'],
-									"receiver" 			=> "Foxchanger",
+									"receiver" 			=> "system",
 									"time"          	=> date('Y-m-d H:i:s'),
 									"label" 	    	=> $label,
-									"withdraw_account" 	=> $account,
-									"withdraw_method" 	=> $method,
+                                    "withdraw_method" 	=> $method,
+									"admin_comment" 	=> $method,
+									"user_comment" 	    => $method,
 									"ip_address" 	    => $_SERVER["REMOTE_ADDR"],
 									"protect" 	    	=> "none",
 									)
@@ -1511,14 +1500,14 @@ class Withdrawal extends Private_Controller {
 				} else {
 
 					$this->session->set_flashdata('error', lang('users error fraud'));
-					redirect(site_url("account/withdrawal"));
+					redirect(site_url("account/cart"));
 
 				} 
 				
 			} else {
 
 				$this->session->set_flashdata('error', lang('users error fraud'));
-				redirect(site_url("account/withdrawal"));
+				redirect(site_url("account/cart"));
 				
 			}
 
@@ -1526,7 +1515,6 @@ class Withdrawal extends Private_Controller {
 			
 		}
 		
-	}
 	}
   
 }

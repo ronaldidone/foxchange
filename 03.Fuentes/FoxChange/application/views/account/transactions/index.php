@@ -89,6 +89,7 @@
                         <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?>
                   </td>
                   <td>
+                      <?php //echo $view["status"]; ?>
                       <?php if($view["status"]==1): ?>
                         <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>
                       <?php endif; ?>
@@ -107,7 +108,7 @@
                       <?php if($view["status"]==6): ?>
                         <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
                       <?php endif; ?>
-                      <?php if($view["status"]==7 or $view["id_cashier"]!=0): ?>
+                      <?php if($view["status"]==7): ?>
                         <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
                       <?php endif; ?>
                   </td>

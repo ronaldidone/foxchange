@@ -192,6 +192,10 @@
                   <span class="badge badge-cancelled"> <?php echo lang('admins trans cancelled'); ?> </span>
                    <?}else{?>
                    <?}?>
+                   <?if($transaction['status']==7){?>
+                  <span class="badge badge-primary"> <?php echo lang('admins trans accepted'); ?> </span>
+                   <?}else{?>
+                   <?}?>
                 </td>
                 <td<?php echo (($sort == 'sender') ? ' class="sorted"' : ''); ?>>
                    <?php echo $transaction['sender']; ?>

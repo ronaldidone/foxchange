@@ -10,8 +10,8 @@
   <div class="col-md-4 mb-2">
     <h5><?php echo lang('users history detail'); ?> <?php echo lang('users trans id'); ?> <?php echo $transactions['id'] ?></h5>
   </div>
-  <div class="col-md-4 mb-2 text-right">
-  <?php if($transactions['status'] == 1 or $transactions['status'] == 7): ?>
+  <div class="col-md-8 mb-2 text-right">
+  <?php if($transactions['type'] != 2 & $transactions['type'] != 1 or $transactions['status'] == 7): ?>
     <div class="btn-group" role="group" aria-label="Basic example">
       <a href="<?php echo base_url('account/transactions/detail/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-info icons"></i> <?php echo lang('users cashier details trans'); ?></a>
       <a href="<?php echo base_url('account/transactions/chat/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-bubbles icons"></i> <?php echo lang('users cashier chat trans'); ?></a>
@@ -164,47 +164,92 @@
 </div>
 <?php endif; ?>
 
-
+</br>
 
 
 <div class="card">
   <div class="card-body">
     <div class="row">
-              <?if($transactions['type']==1){?>
+        
+        <?if($transactions['type']==1){?>
       <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users history id_trans'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['id'] ?>
-</p>
+         <label for="date"><strong><?php echo lang('users trans amount_deposit'); ?></strong></label>
+          <p class="form-control-static"><?php echo $transactions['amount_deposit'] ?> 
+            <?php echo ($transactions["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?> 
+          
+        </p></p>
       </div>
-<?}else{?>
-                 <?}?>
+      <?}else{?>
+       <?}?>
+       
+       <div class="form-group col-md-4">
+         <label for="date"><strong><?php echo lang('users trans fee'); ?></strong></label>
+         <p class="form-control-static">
+           
+           <?php echo $this->notice->check_fee_transaction($transactions['sum'], $transactions['amount'], $transactions['fee'], $transactions['sender'], $transactions['receiver'], $transactions['type'], $user['email'], $transactions['id']); ?> <?if($transactions['currency']=='debit_base'){?>
+                      <?php echo $this->currencys->display->base_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra1'){?>
+                      <?php echo $this->currencys->display->extra1_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra2'){?>
+                      <?php echo $this->currencys->display->extra2_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra3'){?>
+                      <?php echo $this->currencys->display->extra3_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra4'){?>
+                      <?php echo $this->currencys->display->extra4_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra5'){?>
+                      <?php echo $this->currencys->display->extra5_code ?>
+                  <?}else{?>
+                  <?}?>
+                
+        </p>
+      </div>
+      
+      <?if($transactions['type']==1){?>
       <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans date'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['time'] ?></p>
+         <label for="date"><strong><?php echo lang('users trans amount_received_withdraw'); ?></strong></label>
+         <p class="form-control-static"><?php echo $transactions['amount_received_deposit'] ?><?if($transactions['currency']=='debit_base'){?>
+                      <?php echo $this->currencys->display->base_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra1'){?>
+                      <?php echo $this->currencys->display->extra1_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra2'){?>
+                      <?php echo $this->currencys->display->extra2_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra3'){?>
+                      <?php echo $this->currencys->display->extra3_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra4'){?>
+                      <?php echo $this->currencys->display->extra4_code ?>
+                  <?}else{?>
+                  <?}?>
+                  <?if($transactions['currency']=='debit_extra5'){?>
+                      <?php echo $this->currencys->display->extra5_code ?>
+                  <?}else{?>
+                  <?}?></p></p>
       </div>
-      <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans type'); ?></strong></label>
-         <p class="form-control-static"><?if($transactions['type']==1){?>
-                 <?php echo lang('users trans deposit'); ?>
-                 <?}else{?>
-                 <?}?>
-                 <?if($transactions['type']==2){?>
-                      <?php echo lang('users trans retiro'); ?>
-                 <?}else{?>
-                 <?}?>
-                 <?if($transactions['type']==3){?>
-                      <?php echo lang('users trans transfer'); ?>
-                 <?}else{?>
-                 <?}?>
-                 <?if($transactions['type']==4){?>
-                      <?php echo lang('users trans exchange'); ?>
-                 <?}else{?>
-                 <?}?>
-                 <?if($transactions['type']==5){?>
-                      <?php echo lang('users trans external'); ?>
-                 <?}else{?>
-                 <?}?></p>
-      </div>
+      <?}else{?>
+       <?}?>
+      
       <div class="form-group col-md-4">
          <label for="date"><strong><?php echo lang('users trans status'); ?></strong></label>
          <p class="form-control-static">
@@ -230,6 +275,50 @@
                         <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
                       <?php endif; ?>
       </div>
+      
+      <div class="form-group col-md-4">
+         <label for="date"><strong><?php echo lang('users trans type'); ?></strong></label>
+         <p class="form-control-static"><?if($transactions['type']==1){?>
+                 <?php echo lang('users trans deposit'); ?>
+                 <?}else{?>
+                 <?}?>
+                 <?if($transactions['type']==2){?>
+                      <?php echo lang('users trans retiro'); ?>
+                 <?}else{?>
+                 <?}?>
+                 <?if($transactions['type']==3){?>
+                      <?php echo lang('users trans transfer'); ?>
+                 <?}else{?>
+                 <?}?>
+                 <?if($transactions['type']==4){?>
+                      <?php echo lang('users trans exchange'); ?>
+                 <?}else{?>
+                 <?}?>
+                 <?if($transactions['type']==5){?>
+                      <?php echo lang('users trans external'); ?>
+                 <?}else{?>
+                 <?}?></p>
+      </div>
+    
+     <?if($transactions['type']==1){?>
+      <div class="form-group col-md-4">
+         <label for="date"><strong><?php echo lang('users trans deposit_method'); ?></strong></label>
+         <p class="form-control-static"><?php echo $transactions['deposit_method'] ?></p>
+      </div>
+      <?}else{?>
+       <?}?>
+    
+              <?if($transactions['type']==1){?>
+      <div class="form-group col-md-4">
+         <label for="date"><strong><?php echo lang('users history id_trans'); ?></strong></label>
+         <p class="form-control-static"><?php echo $transactions['id'] ?>
+</p>
+      </div>
+<?}else{?>
+                 <?}?>
+      
+      
+      
 
                   
       <?if($transactions['type']==3){?>
@@ -247,21 +336,7 @@
       <?}else{?>
        <?}?>
        
-       <?if($transactions['type']==1){?>
-      <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans amount_deposit'); ?></strong></label>
-          <p class="form-control-static"><?php echo $transactions['amount_deposit'] ?> 
-            <?php echo ($transactions["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
-           <?php echo ($transactions["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
-           <?php echo ($transactions["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
-           <?php echo ($transactions["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
-           <?php echo ($transactions["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
-           <?php echo ($transactions["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?> 
-          
-        </p></p>
-      </div>
-      <?}else{?>
-       <?}?>
+       
       
             <?if($transactions['type']==2){?>
       <div class="form-group col-md-4">
@@ -294,120 +369,8 @@
       <?}else{?>
        <?}?>
       
-      <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans fee'); ?></strong></label>
-         <p class="form-control-static">
-           
-           <?php echo $this->notice->check_fee_transaction($transactions['sum'], $transactions['amount'], $transactions['fee'], $transactions['sender'], $transactions['receiver'], $transactions['type'], $user['email'], $transactions['id']); ?> <?if($transactions['currency']=='debit_base'){?>
-                      <?php echo $this->currencys->display->base_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra1'){?>
-                      <?php echo $this->currencys->display->extra1_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra2'){?>
-                      <?php echo $this->currencys->display->extra2_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra3'){?>
-                      <?php echo $this->currencys->display->extra3_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra4'){?>
-                      <?php echo $this->currencys->display->extra4_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra5'){?>
-                      <?php echo $this->currencys->display->extra5_code ?>
-                  <?}else{?>
-                  <?}?>
-                
-        </p>
-      </div>
       
-<?if($transactions['type']==1){?>
-      <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans amount_received_withdraw'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['amount_received_deposit'] ?><?if($transactions['currency']=='debit_base'){?>
-                      <?php echo $this->currencys->display->base_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra1'){?>
-                      <?php echo $this->currencys->display->extra1_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra2'){?>
-                      <?php echo $this->currencys->display->extra2_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra3'){?>
-                      <?php echo $this->currencys->display->extra3_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra4'){?>
-                      <?php echo $this->currencys->display->extra4_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra5'){?>
-                      <?php echo $this->currencys->display->extra5_code ?>
-                  <?}else{?>
-                  <?}?></p></p>
-      </div>
-      <?}else{?>
-       <?}?>
-      
-      <?if($transactions['type']==2){?>
-      <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans amount_received_withdraw'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['amount_received_withdraw'] ?><?if($transactions['currency']=='debit_base'){?>
-                      <?php echo $this->currencys->display->base_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra1'){?>
-                      <?php echo $this->currencys->display->extra1_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra2'){?>
-                      <?php echo $this->currencys->display->extra2_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra3'){?>
-                      <?php echo $this->currencys->display->extra3_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra4'){?>
-                      <?php echo $this->currencys->display->extra4_code ?>
-                  <?}else{?>
-                  <?}?>
-                  <?if($transactions['currency']=='debit_extra5'){?>
-                      <?php echo $this->currencys->display->extra5_code ?>
-                  <?}else{?>
-                  <?}?></p></p>
-      </div>
-      <?}else{?>
-       <?}?>
        
-       <?if($transactions['type']==1){?>
-      <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans deposit_method'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['deposit_method'] ?></p>
-      </div>
-      <?}else{?>
-       <?}?>
-       
-       <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans ip'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['ip_address'] ?></p>
-      </div>
-       
-       <?if($transactions['type']==1){?>
-      <div class="form-group col-md-12">
-         <label for="date"><strong><?php echo lang('users trans deposit_account'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['deposit_account'] ?></p>
-      </div>
-       <?}else{?>
-       <?}?>
       
       <?if($transactions['type']==2){?>
       <div class="form-group col-md-4">
@@ -459,8 +422,14 @@
       <?}?>
       <?}else{?>
        <?}?>
+       
+       <div class="form-group col-md-4">
+         <label for="date"><strong><?php echo lang('users trans date'); ?></strong></label>
+         <p class="form-control-static"><?php echo $transactions['time'] ?></p>
+      </div>
     </div>
   </div>
+  
 </div>
 
 <!-- Modal -->

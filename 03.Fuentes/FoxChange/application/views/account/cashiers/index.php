@@ -51,28 +51,25 @@
         <?php echo form_close(); ?>
          <table class="table table-hover table-responsive-lg">
            <thead>
-            <th><?php echo lang('users trans id'); ?></th>
-            <th></th>
-            <th><?php echo lang('users trans date'); ?></th>
+               <?php if ($total) : ?>
+                <?php foreach ($history as $view) : ?>
             <th><?php echo lang('users trans type'); ?></th>
-            <th><?php echo lang('users shops total'); ?></th>
-            <th class="text-center"><?php echo lang('users trans cyr'); ?></th>
+             <?php if($view["type"]==2): ?>
+             <th><?php echo lang('users trans amount_withdraw'); ?></th>
+             <?php endif; ?>
+             <?php if($view["type"]==1): ?>
+             <th><?php echo lang('users trans amount_deposit'); ?></th>
+             <?php endif; ?>
+            <th><?php echo lang('users trans amount'); ?></th>
+            <th><?php echo lang('users withdrawal method'); ?></th>
+            <th><?php echo lang('users trans date'); ?></th>
             <th><?php echo lang('users trans status'); ?></th>
             <th></th>
           </thead>
            <tbody>
-              <?php if ($total) : ?>
-                <?php foreach ($history as $view) : ?>
+              
                 <tr>
-                  <td><?php echo $view['id']; ?></td>
-                  <td class="text-center">
-                  <a style="cursor:pointer;" data-tooltip-sender="<?php echo $view['sender']; ?>">
-                     <img src="<?php echo $avatar = $this->notice->check_img($view['type'], $view['sender'], $view['id']); ?>" class="win-img-30">
-                  </a>
-                  </td>
-                  <td><?php echo $view['time']; ?></td>
-                  
-                  <td> 
+                    <td> 
                                 <?php echo ($view["type"]==1)?lang('users trans deposit'):""; ?>
                                 <?php echo ($view["type"]==2)?lang('users trans retiro'):""; ?>
                                 <?php echo ($view["type"]==3)?lang('users trans transfer'):""; ?>
@@ -82,18 +79,28 @@
                                 
                               
                   </td>
-                  <td><?php echo $this->notice->check_amount_transaction($view['sum'], $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); ?></td>
-                  
-                  <td class="text-center">
-                        <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+                  <td><?php echo $this->notice->check_amount_transaction($view['amount_deposit'], $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); ?>
+                   <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
-                        <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?></td>
+                        
+                  <td><?php echo $this->notice->check_amount_transaction($view['amount_sent_cashier'], $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); ?>
+                   <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?></td>
 
-                       
+                  <td class="text-center">
+                  <a style="cursor:pointer;" data-tooltip-sender="<?php echo $view['sender']; ?>">
+                     <img src="<?php echo $avatar = $this->notice->check_img($view['type'], $view['sender'], $view['id']); ?>" class="win-img-30">
+                  </a>
                   </td>
+                  <td><?php echo $view['time']; ?></td>
                   <td>
                       <?php if($view["status"]==1): ?>
                         <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>

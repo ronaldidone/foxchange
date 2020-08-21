@@ -76,15 +76,15 @@ class Users extends Admin_Controller {
         if ($this->input->get('email'))
         {
 						$email_xss = $this->security->xss_clean($this->input->get('email'));
-						$username_replace = htmlentities($username_xss, ENT_QUOTES, "UTF-8");
-            $filters['email'] = $username_replace;
+						$email_replace = htmlentities($email_xss, ENT_QUOTES, "UTF-8");
+            $filters['email'] = $email_replace;
         }
 			
 				if ($this->input->get('email'))
         {
 						$email_xss = $this->security->xss_clean($this->input->get('email'));
-						$username_replace = htmlentities($email_xss, ENT_QUOTES, "UTF-8");
-            $filters['email'] = $username_replace;
+						$email_replace = htmlentities($email_xss, ENT_QUOTES, "UTF-8");
+            $filters['email'] = $email_replace;
         }
 
         if ($this->input->get('first_name'))
@@ -124,9 +124,9 @@ class Users extends Admin_Controller {
                 // apply the filter(s)
                 $filter = "";
 
-                if ($this->input->post('username'))
+                if ($this->input->post('email'))
                 {
-                    $filter .= "&username=" . $this->input->post('username', TRUE);
+                    $filter .= "&email=" . $this->input->post('email', TRUE);
                 }
 								if ($this->input->post('email'))
                 {
@@ -633,7 +633,7 @@ class Users extends Admin_Controller {
         $this->form_validation->set_rules('first_name', lang('users input first_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('last_name', lang('users input last_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[128]|valid_email|callback__check_email[' . $user['email'] . ']');
-		$this->form_validation->set_rules('verify_status', lang('admin verify user_menu'), 'required|numeric|in_list[0,1,2,3]');
+		$this->form_validation->set_rules('verify_status', lang('admin verify user_menu'), 'required|numeric|in_list[0,1,2]');
         $this->form_validation->set_rules('language', lang('users input language'), 'required|trim');
         $this->form_validation->set_rules('status', lang('users input status'), 'required|numeric|in_list[0,1]');
         $this->form_validation->set_rules('is_admin', lang('users input is_admin'), 'required|numeric|in_list[0,1]');

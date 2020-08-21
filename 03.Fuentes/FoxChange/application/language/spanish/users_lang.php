@@ -576,6 +576,7 @@ $lang['users error too_many_login_attempts']  = "Has hecho demasiados intentos p
 $lang['users error fraud']                    = "Lo sentimos, no puedes completar esta operación. Por favor, póngase en contacto con soporte para aclaraciones";
 $lang['users error form']                     = "Proporcione los datos correctos sobre la transferencia.";
 $lang['users error wallet']                   = "Lo sentimos, no tiene suficientes fondos para realizar esta operación.";
+$lang['users error send']                     = "No puedes enviarte dinero a ti mismo. ¿Quieres enviárselo a otra persona?";
 //################################################################################################
 $lang['users error warning']                  = "Advertencia!";
 $lang['users error not_fraud']                = "Algunas operaciones están prohibidas para su cuenta. ¡Póngase en contacto con el soporte para más detalles!";
