@@ -138,9 +138,14 @@ class Transactions_model extends CI_Model {
     function get_user_transactions($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC', $user = NULL)
     {
         $sql = "
-            SELECT SQL_CALC_FOUND_ROWS *
-            FROM {$this->_db}
-						WHERE (sender = '{$user}' OR receiver = '{$user}')
+			SELECT SQL_CALC_FOUND_ROWS 
+			sd.fee_fix as fee_fix_dep, sd.fee as fee_dep, 
+			sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit,
+			t.*
+			FROM {$this->_db} as t
+				left join settings_deposit sd on sd.name=t.deposit_method and sd.status=1
+				left join settings_withdrawal sw on sw.name=t.withdraw_method and sw.status=1
+			WHERE (t.sender = '{$user}' OR t.receiver = '{$user}')
         ";
 
         if ( ! empty($filters))
@@ -701,10 +706,12 @@ class Transactions_model extends CI_Model {
 					SELECT
 							sd.fee_fix as fee_fix_dep, sd.fee as fee_dep, 
 							sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit,
+							(t.amount_deposit - t.amount_deposit*(ifnull(sd.fee,0)/100)) as dep_cashier_calc, 
+							(t.amount_deposit - t.amount_deposit*(ifnull(sw.fee,0)/100)) as wit_cashier_calc, 
 							t.*
 					FROM {$this->_db}  as t   
-						left join settings_deposit sd on sd.name=t.deposit_method
-						left join settings_withdrawal sw on sw.name=t.withdraw_method
+						left join settings_deposit sd on sd.name=t.deposit_method and sd.status=1
+						left join settings_withdrawal sw on sw.name=t.withdraw_method and sw.status=1
 								WHERE (t.id = " . $this->db->escape($id) . " )
             ";
 
