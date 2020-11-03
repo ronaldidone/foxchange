@@ -199,7 +199,7 @@ class Cashiers_model extends CI_Model {
                         FROM 
                             A 
                             INNER JOIN B
-                                ON A.descrip = B.deposit_method OR (A.descrip = B.withdraw_method)
+                                ON (A.descrip = B.deposit_method) OR (A.descrip = B.withdraw_method)
                             INNER JOIN C
                                 ON A.id_user = C.id
                         WHERE A.id_user = '{$user}'  AND value =1
