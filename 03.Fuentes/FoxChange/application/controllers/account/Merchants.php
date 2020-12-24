@@ -20,7 +20,7 @@ class Merchants extends Private_Controller {
 				$this->load->model('orders_model');
 				// set constants
         define('REFERRER', "referrer");
-        define('THIS_URL', base_url('account/sell'));
+        define('THIS_URL', base_url('account/merchants'));
 				define('THIS_URL_2', base_url('account/merchants/categories'));
         define('DEFAULT_LIMIT', $this->settings->per_page_limit);
         define('DEFAULT_OFFSET', 0);

@@ -325,7 +325,7 @@ class Invoices_model extends CI_Model {
             $sql = "
                 SELECT *
                 FROM {$this->_db}
-								WHERE (id = " . $this->db->escape($id) . " AND sender = " . $this->db->escape($email) . ") OR (id = " . $this->db->escape($id) . " AND receiver = " . $this->db->escape($username) . ")
+								WHERE (id = " . $this->db->escape($id) . " AND sender = " . $this->db->escape($email) . ") OR (id = " . $this->db->escape($id) . " AND receiver = " . $this->db->escape($email) . ")
             ";
 
             $query = $this->db->query($sql);

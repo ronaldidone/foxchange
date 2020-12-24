@@ -89,6 +89,10 @@ $lang['users cashier button select_one_msg'] = "Elija al menos un Método de pag
 $lang['users cashier button back_settings'] = "Volver a configuracion de cuenta";
 $lang['users cashier button view status'] = "Ver status de cajero";
 $lang['users cashier button accept trans'] = "Aceptar Transacción";
+$lang['users cashier button attend trans'] = "Atender Transacción";
+$lang['users cashier details trans'] = "Detalles";
+$lang['users cashier chat trans'] = "Chat";
+$lang['users cashier cancel trans'] = "Cancelar";
 
 // Estado de eventos
 $lang ['users events_status 1'] = "Iniciar sesión";
@@ -334,6 +338,18 @@ $lang['users trans withdrawal']               = "Monto a retirar";
 $lang['users trans cantidad']                 = "Monto";
 $lang['users trans cantidad enviada']         = "Monto enviado";
 $lang['users trans cantidad recibida']        = "Monto recibido";
+$lang['users trans accepted']                 = "Aceptado";
+$lang['users trans id deposit send']          = "El ID del depósito se regsitró correctamente";
+$lang['users trans id deposit error']         = "Error al registrar el del depósito intente nuevamente por favor";
+$lang['users trans kshr instructions tit']    = "INSTRUCCIONES PARA ENVIAR FONDOS";
+$lang['users trans kshr instructions go']     = "Debes ir a";
+$lang['users trans kshr instructions go2']    = "y realizar la siguiente transferencia";
+$lang['users trans kshr name']                = "Nombre";
+$lang['users trans kshr account']             = "Cuenta";
+$lang['users trans kshr 2step1']              = "Una vez realizado, ingresa el id de referencia de confirmación de";
+$lang['users trans kshr 2step2']              = "en el campo de texto y confirma el envío";
+$lang['users trans kshr idconfirm depos']     = "ID de confirmación del depósito";
+$lang['users trans kshr historic']            = "Historico cajero";
 
 $lang['users enviar a']                       = "Enviar a";
 $lang['users trans status']                   = "Estado";
@@ -560,6 +576,7 @@ $lang['users error too_many_login_attempts']  = "Has hecho demasiados intentos p
 $lang['users error fraud']                    = "Lo sentimos, no puedes completar esta operación. Por favor, póngase en contacto con soporte para aclaraciones";
 $lang['users error form']                     = "Proporcione los datos correctos sobre la transferencia.";
 $lang['users error wallet']                   = "Lo sentimos, no tiene suficientes fondos para realizar esta operación.";
+$lang['users error send']                     = "No puedes enviarte dinero a ti mismo. ¿Quieres enviárselo a otra persona?";
 //################################################################################################
 $lang['users error warning']                  = "Advertencia!";
 $lang['users error not_fraud']                = "Algunas operaciones están prohibidas para su cuenta. ¡Póngase en contacto con el soporte para más detalles!";

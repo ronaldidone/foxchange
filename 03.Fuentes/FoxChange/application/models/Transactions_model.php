@@ -17,6 +17,7 @@ class Transactions_model extends CI_Model {
         // define primary table
         $this->_db = 'transactions';
 				$this->_db2 = 'vouchers';
+				$this->_db3 = 'users';
     }
 	
 	function get_transaction_user_admin($user) 
@@ -137,9 +138,14 @@ class Transactions_model extends CI_Model {
     function get_user_transactions($limit = 0, $offset = 0, $filters = array(), $sort = 'dir', $dir = 'ASC', $user = NULL)
     {
         $sql = "
-            SELECT SQL_CALC_FOUND_ROWS *
-            FROM {$this->_db}
-						WHERE (sender = '{$user}' OR receiver = '{$user}')
+			SELECT SQL_CALC_FOUND_ROWS 
+			sd.fee_fix as fee_fix_dep, sd.fee as fee_dep, 
+			sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit,
+			t.*
+			FROM {$this->_db} as t
+				left join settings_deposit sd on sd.name=t.deposit_method and sd.status=1
+				left join settings_withdrawal sw on sw.name=t.withdraw_method and sw.status=1
+			WHERE (t.sender = '{$user}' OR t.receiver = '{$user}')
         ";
 
         if ( ! empty($filters))
@@ -697,9 +703,16 @@ class Transactions_model extends CI_Model {
         if ($id)
         {
             $sql = "
-                SELECT *
-                FROM {$this->_db}
-								WHERE (id = " . $this->db->escape($id) . " )
+					SELECT
+							sd.fee_fix as fee_fix_dep, sd.fee as fee_dep, 
+							sw.fee_fix as fee_fix_wit, sw.fee  as fee_wit,
+							(t.amount_deposit - t.amount_deposit*(ifnull(sd.fee,0)/100)) as dep_cashier_calc, 
+							(t.amount_deposit - t.amount_deposit*(ifnull(sw.fee,0)/100)) as wit_cashier_calc, 
+							t.*
+					FROM {$this->_db}  as t   
+						left join settings_deposit sd on sd.name=t.deposit_method and sd.status=1
+						left join settings_withdrawal sw on sw.name=t.withdraw_method and sw.status=1
+								WHERE (t.id = " . $this->db->escape($id) . " )
             ";
 
             $query = $this->db->query($sql);
@@ -2113,14 +2126,36 @@ class Transactions_model extends CI_Model {
 		}
 	}
 	
-	function hold_balance($user = NULL, $currency = NULL)
+	function hold_balance($user = NULL, $currency = NULL, $idcashier =NULL)
 	{
 
-		$where = "(status = '4' AND receiver = '$user' AND currency = '$currency') OR (status = '5' AND receiver = '$user' AND currency = '$currency')";
+		/*Verificamos si el usurio es cajero*/
+		$sql = "
+        SELECT id, status_ATM FROM {$this->_db3}        
+        WHERE email = '" . $user . "'          
+        ";
+        $query = $this->db->query($sql);
+        $results = $query->result_array();
+		
+		$status_cashier=$results[0]["status_ATM"];
+		$idcashier=$results[0]["id"];
+		
+		//exit("($status_cashier),($idcashier)");
+
+		if($status_cashier==2 and  $idcashier>0){
+			$condicion_cajero = " OR (status = '7' AND id_cashier = '$idcashier' AND currency = '$currency')";
+		}else{
+			$condicion_cajero ="";
+		}
+
+
+		$where = "(status = '4' AND receiver = '$user' AND currency = '$currency') OR (status = '5' AND receiver = '$user' AND currency = '$currency') $condicion_cajero";
 		$query = $this->db->select_sum('amount', 'Amount');
 		$query = $this->db->where($where);
 		$query = $this->db->get('transactions');
 		$result = $query->result();
+
+		//exit("condicion ($where)");
 		if ($result[0]->Amount == NULL) {
 			return 0;
 		} else {
@@ -2252,6 +2287,79 @@ class Transactions_model extends CI_Model {
 	{
 		$where = "status = '1' AND type = '2'";
 		return $this->db->where($where)->order_by('id', 'DESC')->limit(20)->get("transactions");
+	}
+
+	//Transaction info for cashiers option
+	function get_transaction_account_user_cashier_info($id){
+		$id_trans = $this->db->escape($id); 
+		if($id){
+				$sql ="
+				SELECT t.status,  k.id as id_cashier, u.id as id_user, 
+				( case 
+					when (t.deposit_method='Paypal' or t.withdraw_method='Paypal') then k.paypal
+					when (t.deposit_method='Credit card' or t.withdraw_method='Credit card') then k.card
+					when (t.deposit_method='Bitcoin' or t.withdraw_method='Bitcoin') then k.bitcoin
+					when (t.deposit_method='Transferencia Bancaria Perú' or t.withdraw_method='Transferencia Bancaria Perú') then k.swift
+					when (t.deposit_method='Skrill' or t.withdraw_method='Skrill') then k.skrill
+					when (t.deposit_method='Payza' or t.withdraw_method='Payza') then k.payza
+					when (t.deposit_method='ADV Cash' or t.withdraw_method='ADV Cash') then k.advcash
+					when (t.deposit_method='Perfect Money' or t.withdraw_method='Perfect Money') then k.perfect_m
+					when (t.deposit_method='Neteller' or t.withdraw_method='Neteller') then k.neteller
+					when (t.deposit_method='Uphold' or t.withdraw_method='Uphold') then k.uphold
+					when (t.deposit_method='Payeer' or t.withdraw_method='Payeer') then k.payeer
+					when (t.deposit_method='Airtm' or t.withdraw_method='Airtm') then k.airtm
+					when (t.deposit_method='Payoneer' or t.withdraw_method='Payoneer') then k.payoneer
+					when (t.deposit_method='Webmoney' or t.withdraw_method='Webmoney') then k.webmoney
+				end) as cashier_account,
+				( case 
+					when (t.deposit_method='Paypal' or t.withdraw_method='Paypal') then u.paypal
+					when (t.deposit_method='Credit card' or t.withdraw_method='Credit card') then u.card
+					when (t.deposit_method='Bitcoin' or t.withdraw_method='Bitcoin') then u.bitcoin
+					when (t.deposit_method='Transferencia Bancaria Perú' or t.withdraw_method='Transferencia Bancaria Perú') then u.swift
+					when (t.deposit_method='Skrill' or t.withdraw_method='Skrill') then u.skrill
+					when (t.deposit_method='Payza' or t.withdraw_method='Payza') then u.payza
+					when (t.deposit_method='ADV Cash' or t.withdraw_method='ADV Cash') then u.advcash
+					when (t.deposit_method='Perfect Money' or t.withdraw_method='Perfect Money') then u.perfect_m
+					when (t.deposit_method='Neteller' or t.withdraw_method='Neteller') then u.neteller
+					when (t.deposit_method='Uphold' or t.withdraw_method='Uphold') then u.uphold
+					when (t.deposit_method='Payeer' or t.withdraw_method='Payeer') then u.payeer
+					when (t.deposit_method='Airtm' or t.withdraw_method='Airtm') then u.airtm
+					when (t.deposit_method='Payoneer' or t.withdraw_method='Payoneer') then u.payoneer
+					when (t.deposit_method='Webmoney' or t.withdraw_method='Webmoney') then u.webmoney
+				end) as user_account,
+				t.* 
+			FROM transactions t 
+			INNER JOIN users k on k.id=t.id_cashier 
+			LEFT JOIN users u on (u.email =t.sender or u.email=t.receiver)
+			where t.id=".$id_trans.";
+				";
+		
+			$query = $this->db->query($sql);
+
+            if ($query->num_rows())
+            {
+                return $query->row_array();
+            }
+        }
+
+        return FALSE;
+	}
+
+	function confirmdep($id_trans, $id_deposit){
+		$id_trans = $this->db->escape($id_trans); 
+		$id_deposit = $this->db->escape($id_deposit); 
+		$sql="
+			UPDATE  transactions 
+				SET id_deposit_cashier=".$id_deposit." 
+			WHERE id=".$id_trans."
+			";
+		$query = $this->db->query($sql);
+		if ($this->db->affected_rows())
+            {
+                return TRUE;
+            }else{
+				return FALSE;
+			}
 	}
 
 

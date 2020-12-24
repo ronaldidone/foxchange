@@ -147,7 +147,6 @@
                             <option value="0" <?if($user['verify_status']=="0"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 0'); ?></option>
                             <option value="1" <?if($user['verify_status']=="1"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 1'); ?></option>
                             <option value="2" <?if($user['verify_status']=="2"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 2'); ?></option>
-                            <option value="3" <?if($user['verify_status']=="3"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 3'); ?></option>
                           </select>
                     </div>
                   </div>
@@ -175,6 +174,17 @@
                           <select class="form-control form-control-sm" name="status">
                             <option value="1" <?if($user['status']=="1"){?>selected<?}else{?><?}?>><?php echo lang('admin user active'); ?></option>
                             <option value="0" <?if($user['status']=="0"){?>selected<?}else{?><?}?>><?php echo lang('admin user inactive'); ?></option>
+                          </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <?php echo form_label(lang('admin user cashier'), 'language', array('class'=>'control-label')); ?>
+                          <span class="required">*</span>
+                          <select class="form-control form-control-sm" name="status">
+                            <option value="0" <?if($user['status_ATM']=="0"){?>selected<?}else{?><?}?>><?php echo lang('admin user no'); ?></option>
+                             <option value="1" <?if($user['status_ATM']=="1"){?>selected<?}else{?><?}?>><?php echo lang('admin settings 1'); ?></option
+                            <option value="2" <?if($user['status_ATM']=="2"){?>selected<?}else{?><?}?>><?php echo lang('admin user yes'); ?></option>
                           </select>
                     </div>
                   </div>
@@ -959,36 +969,42 @@
                   <div class="col-md-6">
                     <div class="form-group">
                      <?php echo form_label(lang('admin verify company'), 'company', array('class'=>'control-label')); ?>
+                     <span class="required">*</span>
                      <?php echo form_input(array('name'=>'company', 'value'=>set_value('company', (isset($user['company']) ? $user['company'] : '')), 'class'=>'form-control form-control-sm')); ?>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                      <?php echo form_label(lang('admin verify country'), 'country', array('class'=>'control-label')); ?>
+                     <span class="required">*</span>
                      <?php echo form_input(array('name'=>'country', 'value'=>set_value('country', (isset($user['country']) ? $user['country'] : '')), 'class'=>'form-control form-control-sm')); ?>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                      <?php echo form_label(lang('admin verify zip'), 'zip', array('class'=>'control-label')); ?>
+                     <span class="required">*</span>
                      <?php echo form_input(array('name'=>'zip', 'value'=>set_value('zip', (isset($user['zip']) ? $user['zip'] : '')), 'class'=>'form-control form-control-sm')); ?>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                      <?php echo form_label(lang('admin verify city'), 'city', array('class'=>'control-label')); ?>
+                     <span class="required">*</span>
                      <?php echo form_input(array('name'=>'city', 'value'=>set_value('city', (isset($user['city']) ? $user['city'] : '')), 'class'=>'form-control form-control-sm')); ?>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                      <?php echo form_label(lang('admin verify address_1'), 'address_1', array('class'=>'control-label')); ?>
+                     <span class="required">*</span>
                      <?php echo form_input(array('name'=>'address_1', 'value'=>set_value('address_1', (isset($user['address_1']) ? $user['address_1'] : '')), 'class'=>'form-control form-control-sm')); ?>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                      <?php echo form_label(lang('admin verify address_2'), 'address_2', array('class'=>'control-label')); ?>
+                     <span class="required">*</span>
                      <?php echo form_input(array('name'=>'address_2', 'value'=>set_value('address_2', (isset($user['address_2']) ? $user['address_2'] : '')), 'class'=>'form-control form-control-sm')); ?>
                     </div>
                   </div>

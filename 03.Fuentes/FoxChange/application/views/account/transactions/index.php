@@ -72,80 +72,45 @@
                   <td><?php echo $view['time']; ?></td>
                   
                   <td>
-                                <?if($view['type']==1){?>
-                                  <?php echo lang('users trans deposit'); ?>
-                                <?}else{?>
-                                <?}?>
-                               <?if($view['type']==2){?>
-                                  <?php echo lang('users trans retiro'); ?>
-                                <?}else{?>
-                                <?}?>
-                               <?if($view['type']==3){?>
-                                  <?php echo lang('users trans transfer'); ?>
-                                <?}else{?>
-                                <?}?>
-                               <?if($view['type']==4){?>
-                                  <?php echo lang('users trans exchange'); ?>
-                                <?}else{?>
-                                <?}?>
-                               <?if($view['type']==5){?>
-                                  <?php echo lang('users trans external'); ?>
-                                <?}else{?>
-                                <?}?>
+                                <?php echo ($view["type"]==1)?lang('users trans deposit'):""; ?>
+                                <?php echo ($view["type"]==2)?lang('users trans retiro'):""; ?>
+                                <?php echo ($view["type"]==3)?lang('users trans transfer'):""; ?>
+                                <?php echo ($view["type"]==4)?lang('users trans exchange'):""; ?>
+                                <?php echo ($view["type"]==5)?lang('users trans external'):""; ?>
                   </td>
                   <td><?php echo $this->notice->check_amount_transaction($view['sum'], $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); ?></td>
                   
                   <td class="text-center">
-                    <?if($view['currency']=='debit_base'){?>
-                                <?php echo $this->currencys->display->base_code ?>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['currency']=='debit_extra1'){?>
-                                    <?php echo $this->currencys->display->extra1_code ?>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['currency']=='debit_extra2'){?>
-                                    <?php echo $this->currencys->display->extra2_code ?>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['currency']=='debit_extra3'){?>
-                                    <?php echo $this->currencys->display->extra3_code ?>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['currency']=='debit_extra4'){?>
-                                    <?php echo $this->currencys->display->extra4_code ?>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['currency']=='debit_extra5'){?>
-                                    <?php echo $this->currencys->display->extra5_code ?>
-                                <?}else{?>
-                                <?}?>
+                        <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?>
                   </td>
                   <td>
-                    <?if($view['status']==1){?>
-                                  <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['status']==2){?>
-                                  <span class="badge badge-success"> <?php echo lang('users trans success'); ?> </span>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['status']==3){?>
-                                  <span class="badge badge-secondary"> <?php echo lang('users trans refund'); ?> </span>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['status']==4){?>
-                                  <span class="badge badge-danger"> <?php echo lang('users trans dispute'); ?> </span>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['status']==5){?>
-                                  <span class="badge badge-secondary"> <?php echo lang('users trans blocked'); ?> </span>
-                                <?}else{?>
-                                <?}?>
-                                <?if($view['status']==6){?>
-                                  <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
-                                <?}else{?>
-                                <?}?>
+                      <?php //echo $view["status"]; ?>
+                      <?php if($view["status"]==1): ?>
+                        <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($view["status"]==2): ?>
+                        <span class="badge badge-success"> <?php echo lang('users trans success'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($view["status"]==3): ?>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans refund'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($view["status"]==4): ?>
+                        <span class="badge badge-danger"> <?php echo lang('users trans dispute'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($view["status"]==5): ?>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans blocked'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($view["status"]==6): ?>
+                        <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($view["status"]==7): ?>
+                        <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
+                      <?php endif; ?>
                   </td>
                   <td class="text-center"><a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/transactions/detail/<?php echo $view['id']; ?>"><i class="icon-eye icons"></i></a></td>
                 </tr>

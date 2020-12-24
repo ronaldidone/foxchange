@@ -203,7 +203,14 @@ class Transactions extends Private_Controller {
         }
 
         // get the data
-        $transactions = $this->transactions_model->get_detail_transactions($id, $user['email']);
+		$transactions = $this->transactions_model->get_detail_transactions($id, $user['email']);
+		
+		//get details of user cashier
+		
+		$user_kshr = $this->users_model->get_user($transactions['id_cashier']);
+
+		//get details of accounts of user and cashier
+		$account_usr_kshr = $this->transactions_model->get_transaction_account_user_cashier_info($id);
 
         // if empty results, return to list
         if ( ! $transactions)
@@ -229,6 +236,8 @@ class Transactions extends Private_Controller {
         $content_data = array(
 			'this_url'   		=> THIS_URL,
 			'user'              => $user,
+			'user_kshr'			=> $user_kshr,
+			'account_usr_kshr'	=> $account_usr_kshr,
 			'dispute_mode'      => $dispute_mode,
             'cancel_url'        => $this->_redirect_url,
             'transactions'      => $transactions,
@@ -238,7 +247,84 @@ class Transactions extends Private_Controller {
         // load views
         $data['content'] = $this->load->view('account/transactions/detail', $content_data, TRUE);
         $this->load->view($this->template, $data);
-    }
+	}
+	
+	/**
+    * Detail transaction chat
+    */
+	function chat($id = NULL)
+    {
+		$user = $this->users_model->get_user($this->user['id']);
+			
+        // make sure we have a numeric id
+        if (is_null($id) OR ! is_numeric($id))
+        {
+            redirect($this->_redirect_url);
+        }
+
+        // get the data
+		$transactions = $this->transactions_model->get_detail_transactions($id, $user['email']);
+		
+		//get details of user cashier
+		
+		$user_kshr = $this->users_model->get_user($transactions['id_cashier']);
+
+        // if empty results, return to list
+        if ( ! $transactions)
+        {
+            redirect($this->_redirect_url);
+        }
+			
+			//Check dispute history
+			$dispute_history = $this->disputes_model->get_history_dispute($id);
+			if ( $dispute_history)
+			{
+				$dispute_mode = "0"; // no start dispute
+			} else {
+				$dispute_mode = "1"; // yes start dispute
+			}
+			
+		// setup page header data
+		$this->add_js_theme('cashiers.js', TRUE );	
+        $this->set_title( lang('users title history') );
+
+        $data = $this->includes;
+
+        // set content data
+        $content_data = array(
+			'this_url'   		=> THIS_URL,
+			'user'              => $user,
+			'user_kshr'			=> $user_kshr,
+			'dispute_mode'      => $dispute_mode,
+            'cancel_url'        => $this->_redirect_url,
+            'transactions'      => $transactions,
+            'transactions_id'   => $id
+        );
+
+        // load views
+        $data['content'] = $this->load->view('account/transactions/chat', $content_data, TRUE);
+        $this->load->view($this->template, $data);
+	}
+	
+	/**
+	 * Send deposit to cashier
+	 */
+	function confirmdep($idtrans){
+		$iddeposito=$this->input->post("iddep", TRUE);
+
+		$registrar_dep=$this->transactions_model->confirmdep($idtrans,$iddeposito);
+
+		
+
+		if($registrar_dep==TRUE){
+			$this->session->set_flashdata('message', lang('users trans id deposit send'));
+					
+		}else{
+			$this->session->set_flashdata('message', lang('users trans id deposit error'));
+		}
+		redirect(site_url("account/transactions/detail/".$idtrans));
+
+	}
 	
 	/**
      * Start confirm protect transaction

@@ -76,15 +76,15 @@ class Users extends Admin_Controller {
         if ($this->input->get('email'))
         {
 						$email_xss = $this->security->xss_clean($this->input->get('email'));
-						$username_replace = htmlentities($username_xss, ENT_QUOTES, "UTF-8");
-            $filters['email'] = $username_replace;
+						$email_replace = htmlentities($email_xss, ENT_QUOTES, "UTF-8");
+            $filters['email'] = $email_replace;
         }
 			
 				if ($this->input->get('email'))
         {
 						$email_xss = $this->security->xss_clean($this->input->get('email'));
-						$username_replace = htmlentities($email_xss, ENT_QUOTES, "UTF-8");
-            $filters['email'] = $username_replace;
+						$email_replace = htmlentities($email_xss, ENT_QUOTES, "UTF-8");
+            $filters['email'] = $email_replace;
         }
 
         if ($this->input->get('first_name'))
@@ -124,9 +124,9 @@ class Users extends Admin_Controller {
                 // apply the filter(s)
                 $filter = "";
 
-                if ($this->input->post('username'))
+                if ($this->input->post('email'))
                 {
-                    $filter .= "&username=" . $this->input->post('username', TRUE);
+                    $filter .= "&email=" . $this->input->post('email', TRUE);
                 }
 								if ($this->input->post('email'))
                 {
@@ -236,10 +236,9 @@ class Users extends Admin_Controller {
         $this->load->view($this->template, $data);
     }
 		
-		function edit_billing($id=NULL)
+	function edit_billing($id=NULL)
     {
-			
-			// make sure we have a numeric id
+    	// make sure we have a numeric id
         if (is_null($id) OR ! is_numeric($id))
         {
             redirect($this->_redirect_url);
@@ -260,11 +259,11 @@ class Users extends Admin_Controller {
 				$this->form_validation->set_rules('skrill', lang('admin user skrill'), 'trim');
 				$this->form_validation->set_rules('payza', lang('admin user payza'), 'trim');
 				$this->form_validation->set_rules('advcash', lang('admin user advcash'), 'trim');
-				$this->form_validation->set_rules('perfect_m', lang('perfect_m'), 'trim');
-				$this->form_validation->set_rules('swift', lang('perfect_m'), 'trim');
+				$this->form_validation->set_rules('perfect_m', lang('admin user perfect_m'), 'trim');
+				$this->form_validation->set_rules('swift', lang('admin user swift'), 'trim');
 			
 				if ($this->form_validation->run() == TRUE)
-        {
+                {
 					$post_data = $this->security->xss_clean($this->input->post());
 					$update_user = $this->users_model->update_setting_user($id, $post_data);
 					$this->session->set_flashdata('message', lang('admin user success'));
@@ -273,7 +272,7 @@ class Users extends Admin_Controller {
 					$this->session->set_flashdata('error', lang('admin user error'));
 					redirect(site_url("admin/users"));
 				}
-		}
+	}
 	
 	function edit_security($id=NULL)
     {
@@ -612,7 +611,7 @@ class Users extends Admin_Controller {
      * @param  int $id
      */
     function edit($id=NULL)
-    {
+    { 
         // make sure we have a numeric id
         if (is_null($id) OR ! is_numeric($id))
         {
@@ -633,7 +632,7 @@ class Users extends Admin_Controller {
         $this->form_validation->set_rules('first_name', lang('users input first_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('last_name', lang('users input last_name'), 'required|trim|min_length[2]|max_length[32]');
         $this->form_validation->set_rules('email', lang('users input email'), 'required|trim|max_length[128]|valid_email|callback__check_email[' . $user['email'] . ']');
-		$this->form_validation->set_rules('verify_status', lang('admin verify user_menu'), 'required|numeric|in_list[0,1,2,3]');
+		$this->form_validation->set_rules('verify_status', lang('admin verify user_menu'), 'required|numeric|in_list[0,1,2]');
         $this->form_validation->set_rules('language', lang('users input language'), 'required|trim');
         $this->form_validation->set_rules('status', lang('users input status'), 'required|numeric|in_list[0,1]');
         $this->form_validation->set_rules('is_admin', lang('users input is_admin'), 'required|numeric|in_list[0,1]');

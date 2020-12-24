@@ -385,8 +385,12 @@ class Notice
       }
       
     } else if ($type == 1) {
-
+    
       return '<span class="text-success">+ '.$sum.'</span>';
+      
+    } else if ($type == 1) {
+
+      return '<span class="text-danger">- '.$amount_sent_cashier.'</span>';
       
     } else if ($type == 4) {
       

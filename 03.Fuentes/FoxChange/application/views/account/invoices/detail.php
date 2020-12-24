@@ -2,7 +2,7 @@
   <div class="col-md-4 mb-2">
     <h5><?php echo lang('users invoices detail'); ?> <?php echo $invoice['id'] ?></h5>
   </div>
-  <?if($user['username']==$invoice['receiver'] && $invoice['status']==1){?>
+  <?if($user['email']==$invoice['receiver'] && $invoice['status']==1){?>
   <div class="col-md-8 mb-2 text-right">
     <div class="btn-group" role="group" aria-label="Basic example">
       <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="icon-check icons"></i> <?php echo lang('users invoices pay'); ?></a>

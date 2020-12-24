@@ -77,7 +77,12 @@ $lang['users cashier button send_request'] = "Send Cashier Request";
 $lang['users cashier button select_one_msg'] = "Choose at least one billing option before sending your request";
 $lang['users cashier button back_settings'] = "Back to Settings";
 $lang['users cashier button view status'] = "View Cashier Status";
-$lang['users cashier button accept trans'] = "Aceptar Transacción";
+$lang['users cashier button accept trans'] = "Accept Transaction";
+$lang['users cashier button attend trans'] = "Attend Transaction";
+$lang['users cashier details trans'] = "Details";
+$lang['users cashier chat trans'] = "Chat";
+$lang['users cashier cancel trans'] = "Cancel";
+
 
 // Events status
 $lang['users events_status 1']                = "Login";
@@ -331,6 +336,20 @@ $lang['users trans detail']                   = "Detail";
 $lang['users trans 10last']                   = "Last 10 operations";
 $lang['users trans all']                      = "All transactions";
 $lang['users trans ip']                       = "IP address";
+$lang['users trans accepted']                 = "Accepted";
+$lang['users trans id deposit send']          = "Deposit ID sent succefull";
+$lang['users trans id deposit error']         = "Error sending Deposit ID try again please";
+$lang['users trans kshr instructions tit']    = "INSTRUCTIONS TO SEND FUNDS";
+$lang['users trans kshr instructions go']     = "Go to ";
+$lang['users trans kshr instructions go2']    = "and make the following transfer";
+$lang['users trans kshr name']                = "Name";
+$lang['users trans kshr account']             = "Account";
+$lang['users trans kshr 2step1']              = "Once done, enter the confirmation ID gotten from ";
+$lang['users trans kshr 2step2']              = "in the following text field and confirm the deposit";
+$lang['users trans kshr idconfirm depos']     = "Deposit ID confirmation ";
+$lang['users trans cashier historic']         = "Cashier history";
+
+
 
 // History
 $lang['users history all']                    = "Account IP history";

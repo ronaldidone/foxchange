@@ -1,4 +1,16 @@
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script >
+(function($) {
+  $(function() {
+    var argument = $('input[name="amount"]')
+      , result = $('input[name="sum"]')
+      , multiplier = <?php echo $fee; ?>;
+    argument.on('input', function() {
+      result.val($(this).val() * multiplier);
+    });
+  });
+})(jQuery);;
+</script>
 <div class="row">
   <div class="col-md-12 mb-2">
     <h5><?php echo lang('users vouchers new_v'); ?></h5>
@@ -45,6 +57,10 @@
                     </option>
                     <?php endif; ?>
                   </select>
+       </div>
+       <div class="form-group col-md-3">
+             <label><?php echo lang('users transfer sum'); ?>, <?php echo $percent; ?>%</label>
+             <input type="text" class="form-control" name="sum" disabled>
        </div>
        <div class="col-md-12 text-right">
           <button type="submit" class="btn btn-success"><?php echo lang('users vouchers create_v'); ?></button>

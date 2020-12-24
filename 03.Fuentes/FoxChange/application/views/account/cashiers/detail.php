@@ -7,12 +7,19 @@
   }
 ?>
 <div class="row">
-  <div class="col-md-8 mb-2">
+  <div class="col-md-4 mb-2">
     <h5><?php echo lang('users history detail'); ?> <?php echo lang('users trans id'); ?> <?php echo $transactions['id'] ?></h5>
   </div>
   <div class="col-md-4 mb-2 text-right">
-  <a href="#" data-toggle="modal" data-target="#chat" class="btn btn-outline-danger btn-sm">CHAT<?php  //echo lang('users history open_dispute'); ?></a>
-  &nbsp;
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <a href="<?php echo base_url('account/cashiers/detail/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-info icons"></i> <?php echo lang('users cashier details trans'); ?></a>
+      <a href="<?php echo base_url('account/cashiers/chat/'.$transactions['id']); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-bubbles icons"></i> <?php echo lang('users cashier chat trans'); ?></a>
+      <a href="<?php echo base_url('account/cashiers/'); ?>" class="btn btn-outline-secondary btn-sm"><i class="icon-close icons"></i> <?php echo lang('users cashier cancel trans'); ?></a>      
+    </div>
+  </div>
+  <div class="col-md-4 mb-2 text-right">
+  <!--<a href="#" data-toggle="modal" data-target="#chat" class="btn btn-outline-danger btn-sm">CHAT<?php  //echo lang('users history open_dispute'); ?></a>
+  &nbsp;-->
     <?if($transactions['type'] != 2 & $transactions['type'] != 4){?>
         <?if($user['email'] == $transactions['sender']){?>
           <?if($dispute_mode == 1){?>
@@ -24,6 +31,7 @@
         <?}else{?>
         <?}?>
   </div>
+
 </div>
 
 <?php if ($transactions['protect'] != "none" & $transactions['status'] == 1 & $transactions['receiver'] == $user['email']) : ?>
@@ -67,6 +75,97 @@
 </div>
 <?php endif; ?>
 
+<?php if($transactions['type']==1 and $transactions["status"]==7): //para revisar los retiros por cajero?>
+  <?php if($transactions['id_deposit_cashier']!='' and $transactions['id_deposit_cashier'] != NULL): ?>
+  
+    <div class="card">
+      <div class="card-body">
+      <div class="row">
+          <div class="form-group col-md-1">
+            &nbsp;               
+          </div>  
+          <div class="form-group col-md-11">        
+                <label for="date"><strong><?php echo lang('users trans kshr idconfirm depos'); ?> <?php echo $transactions['deposit_method'] ?>:</strong></label>         
+              <input type="text" id="idcdep"  class="form-control" name="iddep" value="<?php echo $transactions['id_deposit_cashier'] ?>" disabled <?php echo ($transactions['id_deposit_cashier']!='')?"disabled":""; ?> />         
+                  
+          </div> 
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
+<?php endif; ?>
+
+<?php if($transactions['type']==2 and $transactions["status"]==7): //para enviar informacion de deposito por cajero ?>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="form-group col-md-12">
+         <label for="date"><strong><?php echo lang('users trans kshr instructions tit'); ?></strong></label>        
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+         <label for="date"><strong>1.</strong> <?php echo lang('users trans kshr instructions go'); ?> <?php echo $transactions['deposit_method'] ?> <?php echo lang('users trans kshr instructions go2'); ?>:</label>               
+      </div>      
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>   
+      <div class="form-group col-md-11">
+         <label for="date"><strong><?php echo lang('users trans cantidad'); ?>:</strong></label>
+         
+           <?php echo $transactions['amount'] ?> 
+           <?php echo ($transactions["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+           <?php echo ($transactions["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>  
+      <div class="form-group col-md-11">
+         <label for="date"><strong><?php echo lang('users trans kshr name'); ?>:</strong></label>         
+           <?php echo $user_trnx['first_name']." ".$user_trnx["last_name"]; ?>           
+      </div>   
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>  
+      <div class="form-group col-md-11">
+         <label for="date"><strong><?php echo lang('users trans kshr account'); ?>:</strong></label>         
+           <?php echo $account_usr_kshr['user_account']; ?>           
+      </div>   
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+         <label for="date"><strong>2.</strong> <?php echo lang('users trans kshr 2step1'); ?> <?php echo $transactions['deposit_method'] ?> <?php echo lang('users trans kshr 2step2'); ?>:</label>               
+      </div>      
+    </div>
+    <div class="row">
+      <div class="form-group col-md-1">
+         &nbsp;               
+      </div>  
+      <div class="form-group col-md-11">
+        <?php echo form_open(site_url("account/cashiers/confirmdep/".$transactions["id"]), array("" => "")) ?>
+            <label for="date"><strong><?php echo lang('users trans kshr idconfirm depos'); ?> <?php echo $transactions['deposit_method'] ?>:</strong></label>         
+           <input type="text" id="idcdep"  class="form-control" name="iddep" value="<?php echo $transactions['id_deposit_cashier'] ?>" <?php echo ($transactions['id_deposit_cashier']!='')?"disabled":""; ?> /> 
+           <?php if($transactions['id_deposit_cashier']==''): ?>
+           <button type="submit" class="btn btn-success"><?php echo lang('users transfer protect_confirm'); ?></button>
+           <?php endif; ?>
+        <?php echo form_close(); ?>          
+      </div> 
+    </div>
+  </div>
+</div>
+<?php endif; ?>
+
+</br>
 
 <div class="card">
   <div class="card-body">
@@ -113,19 +212,22 @@
                         <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==2): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans success'); ?> </span>
+                        <span class="badge badge-success"> <?php echo lang('users trans success'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==3): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans refund'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans refund'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==4): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans dispute'); ?> </span>
+                        <span class="badge badge-danger"> <?php echo lang('users trans dispute'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==5): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans blocked'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans blocked'); ?> </span>
                       <?php endif; ?>
                       <?php if($transactions["status"]==6): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans cancelled'); ?> </span>
+                        <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($transactions["status"]==7): ?>
+                        <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
                       <?php endif; ?>
              
          
@@ -327,13 +429,9 @@
       <?}else{?>
        <?}?>
        
-       <div class="form-group col-md-4">
-         <label for="date"><strong><?php echo lang('users trans ip'); ?></strong></label>
-         <p class="form-control-static"><?php echo $transactions['ip_address'] ?></p>
-      </div>
        
        <?if($transactions['type']==1){?>
-      <div class="form-group col-md-12">
+      <div class="form-group col-md-4">
          <label for="date"><strong><?php echo lang('users trans deposit_account'); ?></strong></label>
          <p class="form-control-static"><?php echo $transactions['deposit_account'] ?></p>
       </div>

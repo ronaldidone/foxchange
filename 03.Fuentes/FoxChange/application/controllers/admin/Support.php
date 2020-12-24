@@ -390,7 +390,7 @@ class Support extends Admin_Controller {
 	{
 		// get the data
     $tickets = $this->support_model->get_tickets($id);
-		$user = $this->users_model->get_username($tickets['user']);
+		$user = $this->users_model->get_email($tickets['user']);
 		
 		$this->form_validation->set_rules('comment', lang('admin tickets enter'), 'required');
 		
@@ -486,7 +486,7 @@ class Support extends Admin_Controller {
 	{
 		// get the data
     $tickets = $this->support_model->get_tickets($id);
-		$user = $this->users_model->get_username($tickets['user']);
+		$user = $this->users_model->get_email($tickets['user']);
 		if ($tickets['status'] != "2") {
 			// update ticket status
 			$this->support_model->update_ticket($id,
@@ -559,7 +559,7 @@ class Support extends Admin_Controller {
 	{
 		// get the data
     $tickets = $this->support_model->get_tickets($id);
-		$user = $this->users_model->get_username($tickets['user']);
+		$user = $this->users_model->get_email($tickets['user']);
 		if ($tickets['status'] == "2") {
 			// update ticket status
 			$this->support_model->update_ticket($id,
@@ -600,7 +600,7 @@ class Support extends Admin_Controller {
      */
 	function add_ticket()
 	{
-		$this->form_validation->set_rules('username', lang('admin tickets user'), 'required|trim|callback__check_username[]');
+		$this->form_validation->set_rules('email', lang('admin tickets user'), 'required|trim|callback__check_email[]');
 		$this->form_validation->set_rules('title', lang('admin tickets title'), 'required');
 		$this->form_validation->set_rules('message', lang('admin tickets message'), 'required');
 			
@@ -611,17 +611,17 @@ class Support extends Admin_Controller {
 		}
 		else
 		{
-			$username = $this->security->xss_clean($this->input->post("username"));
+			$email = $this->security->xss_clean($this->input->post("email"));
 			$title = $this->security->xss_clean($this->input->post("title"));
 			$message = $this->security->xss_clean($this->input->post("message"));
 			$code = uniqid("tic_");
 			
 			// get the data
-      $user = $this->users_model->get_username($username);
+      $user = $this->users_model->get_email($email);
 
 			$ticket = $this->support_model->add_ticket(array(
 				"date"   => date('Y-m-d H:i:s'),
-				"user"   => $username,
+				"user"   => $email,
 				"title"  => $title,
 				"status" => "1",
 				"code"    => $code,
@@ -685,14 +685,14 @@ class Support extends Admin_Controller {
 	}
 	
 	/**
-     * Check true username new ticket
+     * Check true email new ticket
      */
-    function _check_username($username, $current)
+    function _check_email($email, $current)
     {
-        if (trim($username) != trim($current) && $this->users_model->username_exists($username))
+        if (trim($email) != trim($current) && $this->users_model->email_exists($email))
         {
-            $this->form_validation->set_message('_check_username', sprintf(lang('users error username_exists'), $username));
-			return $username;
+            $this->form_validation->set_message('_check_email', sprintf(lang('users error email_exists'), $email));
+			return $email;
         }
         else
         {

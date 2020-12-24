@@ -152,11 +152,16 @@ class Vouchers extends Private_Controller {
 	    $this->set_title(sprintf(lang('users vouchers menu'), $this->settings->site_name));
 			// reload the new user data and store in session
 	    $user = $this->users_model->get_user($this->user['id']);
+	    $percent = $this->settings->com_transfer;
+		$fee = $this->settings->com_transfer/"100";
+
 					
 	    $data = $this->includes;
 
 	    // set content data
 	    $content_data = array(
+	        'percent'     	=> $percent,
+	        'fee'     		=> $fee,
 			'user'    => $user,
 	    );
 
@@ -282,6 +287,11 @@ class Vouchers extends Private_Controller {
 								"activator" 			=> "none",
 								"status" 				=> "1"
 								)
+							);
+							
+							// set content data
+							$content_data = array(
+								'percent'     		=> $percent,
 							);
 
 							$this->session->set_flashdata('message', lang('users vouchers success_new'));

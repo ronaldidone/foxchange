@@ -1440,6 +1440,7 @@ class Deposit extends Private_Controller {
 				$total_amount_calc = $amount - $total_fee;
 				$amount_received = $amount - $total_fee;
 				$amount_deposit = $amount;
+				$amount_sent_cashier =$amount + $fee_fix;
 				$total_amount = number_format($total_amount_calc, 2, '.', '');
 			
 				$label = uniqid("bmt_");
@@ -1472,6 +1473,7 @@ class Deposit extends Private_Controller {
 						"type" 				=> "1",
 						"sum"  				=> $total_amount_calc,
 						"fee"    			=> $total_fee_calc,
+												"fee_fix"    			=> $fee_fix,
 						"amount" 			=> $amount_received,
 						"currency"		    => $currency,
 						"status" 			=> "1",
@@ -1479,6 +1481,7 @@ class Deposit extends Private_Controller {
 						"receiver" 		    => $user['email'],
 						"time"              => date('Y-m-d H:i:s'),
 						"amount_deposit" 	=> $amount_deposit,
+						"amount_sent_cashier"=> $amount_sent_cashier,
 						"amount_received_deposit" => $amount_received,
 						"deposit_method" 	=> $method,
 						"label" 	        => $label,

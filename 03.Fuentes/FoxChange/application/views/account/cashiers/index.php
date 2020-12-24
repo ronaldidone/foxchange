@@ -3,7 +3,8 @@
     <h5><?php echo lang('users trans all'); ?></h5>
   </div>
   <div class="col-md-4 mb-2 text-right">
-    <a href="#search" data-toggle="collapse" href="#search" aria-expanded="false" aria-controls="search" class="btn btn-outline-secondary btn-sm"><i class="icon-magnifier icons"></i> <?php echo lang('users trans search'); ?></a>
+    <a href="#search" data-toggle="collapse" aria-expanded="false" aria-controls="search" class="btn btn-outline-secondary btn-sm"><i class="icon-magnifier icons"></i> <?php echo lang('users trans search'); ?></a>
+    <a href="<?php echo  base_url();?>account/cashiers/history" aria-expanded="false" class="btn btn-outline-secondary btn-sm"><i class="icon-hourglass icons"></i> <?php echo lang('users trans kshr historic'); ?></a>
   </div>
 </div>
 <div class="card">
@@ -50,28 +51,25 @@
         <?php echo form_close(); ?>
          <table class="table table-hover table-responsive-lg">
            <thead>
-            <th><?php echo lang('users trans id'); ?></th>
-            <th></th>
-            <th><?php echo lang('users trans date'); ?></th>
+               <?php if ($total) : ?>
+                <?php foreach ($history as $view) : ?>
             <th><?php echo lang('users trans type'); ?></th>
-            <th><?php echo lang('users shops total'); ?></th>
-            <th class="text-center"><?php echo lang('users trans cyr'); ?></th>
+             <?php if($view["type"]==2): ?>
+             <th><?php echo lang('users trans amount_withdraw'); ?></th>
+             <?php endif; ?>
+             <?php if($view["type"]==1): ?>
+             <th><?php echo lang('users trans amount_deposit'); ?></th>
+             <?php endif; ?>
+            <th><?php echo lang('users trans amount'); ?></th>
+            <th><?php echo lang('users withdrawal method'); ?></th>
+            <th><?php echo lang('users trans date'); ?></th>
             <th><?php echo lang('users trans status'); ?></th>
             <th></th>
           </thead>
            <tbody>
-              <?php if ($total) : ?>
-                <?php foreach ($history as $view) : ?>
+              
                 <tr>
-                  <td><?php echo $view['id']; ?></td>
-                  <td class="text-center">
-                  <a style="cursor:pointer;" data-tooltip-sender="<?php echo $view['sender']; ?>">
-                     <img src="<?php echo $avatar = $this->notice->check_img($view['type'], $view['sender'], $view['id']); ?>" class="win-img-30">
-                  </a>
-                  </td>
-                  <td><?php echo $view['time']; ?></td>
-                  
-                  <td> 
+                    <td> 
                                 <?php echo ($view["type"]==1)?lang('users trans deposit'):""; ?>
                                 <?php echo ($view["type"]==2)?lang('users trans retiro'):""; ?>
                                 <?php echo ($view["type"]==3)?lang('users trans transfer'):""; ?>
@@ -81,43 +79,83 @@
                                 
                               
                   </td>
-                  <td><?php echo $this->notice->check_amount_transaction($view['sum'], $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); ?></td>
-                  
-                  <td class="text-center">
-                        <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+                  <td><?php echo $this->notice->check_amount_transaction($view['amount_deposit'], $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); ?>
+                   <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
                         <?php echo ($view["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
-                        <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?></td>
+                        
+                  <td>
+                    <?php 
+                        
+                        if($view['amount_sent_cashier']=="" or $view['amount_sent_cashier']==0){
+                          $amount_cashier=($view["type"]==1)?$view["dep_cashier_calc"]:$view["wit_cashier_calc"];
+                          $amount_cashier = number_format($amount_cashier,2);
+                        }else{
+                          $amount_cashier = $view['amount_sent_cashier'];
+                        }
+                        echo $this->notice->check_amount_transaction($amount_cashier, $view['amount'], $view['fee'], $view['sender'], $view['receiver'], $view['type'], $user['email'], $view['id']); 
+                    ?>
+                   <?php echo ($view["currency"]=='debit_base')?$this->currencys->display->base_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra1')?$this->currencys->display->extra1_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra2')?$this->currencys->display->extra2_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra3')?$this->currencys->display->extra3_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra4')?$this->currencys->display->extra4_code:""; ?>
+                        <?php echo ($view["currency"]=='debit_extra5')?$this->currencys->display->extra5_code:""; ?></td>
 
-                       
+                  <td class="text-center">
+                  <a style="cursor:pointer;" data-tooltip-sender="<?php echo $view['sender']; ?>">
+                     <img src="<?php echo $avatar = $this->notice->check_img($view['type'], $view['sender'], $view['id']); ?>" class="win-img-30">
+                  </a>
                   </td>
+                  <td><?php echo $view['time']; ?></td>
                   <td>
                       <?php if($view["status"]==1): ?>
                         <span class="badge badge-primary"> <?php echo lang('users trans pending'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==2): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans success'); ?> </span>
+                        <span class="badge badge-success"> <?php echo lang('users trans success'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==3): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans refund'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans refund'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==4): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans dispute'); ?> </span>
+                        <span class="badge badge-danger"> <?php echo lang('users trans dispute'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==5): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans blocked'); ?> </span>
+                        <span class="badge badge-secondary"> <?php echo lang('users trans blocked'); ?> </span>
                       <?php endif; ?>
                       <?php if($view["status"]==6): ?>
-                        <span class="badge badge-primary"> <?php echo lang('users trans cancelled'); ?> </span>
+                        <span class="badge badge-cancelled"> <?php echo lang('users trans cancelled'); ?> </span>
+                      <?php endif; ?>
+                      <?php if($view["status"]==7 or $view["id_cashier"]!=0): ?>
+                        <span class="badge badge-primary"> <?php echo lang('users trans accepted'); ?> </span>
                       <?php endif; ?>
 
 
                       
                     
                   </td>
-                  <td class="text-center"><a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a></td>
+                  <td class="text-center">
+                  <?php //echo "m(".$view["amount"].") fondo(".$view["debit_base"].") activo(".$view["value"].") kj(".$view["id_cashier"].")"; ?>
+                  <?php $disponible=$view["debit_base"]-$hold_balance; ?>
+                    <?php if($view["status"]==1 and ($view["amount"]<=$disponible)): //si la operación esta pendiente y su fondo disponible es superior al monto de la operacion ?>
+                     
+                     <?php if($view["value"] and ($view["id_cashier"]==0 or $view["id_cashier"]==$user["id"])): ?>
+                      <a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button accept trans'); ?></a>
+                      <?php endif; ?>
+                    <?php endif; ?>
+                    
+                    <?php if($view["status"]==7 and $view["id_cashier"]==$user["id"]): //si la operación esta aceptara por este cajero ?>
+                     
+                      <a class="btn btn-outline-secondary btn-sm" href="<?php echo base_url();?>account/cashiers/detail/<?php echo $view['id']; ?>"><?php echo lang('users cashier button attend trans'); ?></a>
+                      
+                    <?php endif; ?>
+
+
+                  </td>
                 </tr>
 
               <?php endforeach; ?>
