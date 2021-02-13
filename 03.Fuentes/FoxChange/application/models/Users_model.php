@@ -426,7 +426,7 @@ class Users_model extends CI_Model {
      * @return boolean
      */
     function edit_billing($data=array())
-    {
+    { 
         if ($data)
         {
             $sql = "
@@ -442,7 +442,7 @@ class Users_model extends CI_Model {
                     skrill = " . $this->db->escape($data['skrill']) . ",
                     payza = " . $this->db->escape($data['payza']) . ",
                     advcash = " . $this->db->escape($data['advcash']) . ",
-										perfect_m = " . $this->db->escape($data['perfect_m']) . ",
+					perfect_m = " . $this->db->escape($data['perfect_m']) . ",
                     swift = '" . $this->db->escape($data['swift']) . "'
                 WHERE id = " . $this->db->escape($data['id']) . "
             ";
@@ -804,9 +804,9 @@ class Users_model extends CI_Model {
         return FALSE;
     }
 	
-		function update_setting_user($id, $data) {
+	function update_setting_user($id, $data) {
 			$this->db->where("ID", $id)->update("users", $data);
-		}
+	}
 	
 	function update_user($defendant, $data) {
 			$this->db->where("email", $defendant)->update("users", $data);

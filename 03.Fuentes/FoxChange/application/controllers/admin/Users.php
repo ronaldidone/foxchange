@@ -236,10 +236,9 @@ class Users extends Admin_Controller {
         $this->load->view($this->template, $data);
     }
 		
-		function edit_billing($id=NULL)
+	function edit_billing($id=NULL)
     {
-			
-			// make sure we have a numeric id
+    	// make sure we have a numeric id
         if (is_null($id) OR ! is_numeric($id))
         {
             redirect($this->_redirect_url);
@@ -260,11 +259,11 @@ class Users extends Admin_Controller {
 				$this->form_validation->set_rules('skrill', lang('admin user skrill'), 'trim');
 				$this->form_validation->set_rules('payza', lang('admin user payza'), 'trim');
 				$this->form_validation->set_rules('advcash', lang('admin user advcash'), 'trim');
-				$this->form_validation->set_rules('perfect_m', lang('perfect_m'), 'trim');
-				$this->form_validation->set_rules('swift', lang('perfect_m'), 'trim');
+				$this->form_validation->set_rules('perfect_m', lang('admin user perfect_m'), 'trim');
+				$this->form_validation->set_rules('swift', lang('admin user swift'), 'trim');
 			
 				if ($this->form_validation->run() == TRUE)
-        {
+                {
 					$post_data = $this->security->xss_clean($this->input->post());
 					$update_user = $this->users_model->update_setting_user($id, $post_data);
 					$this->session->set_flashdata('message', lang('admin user success'));
@@ -273,7 +272,7 @@ class Users extends Admin_Controller {
 					$this->session->set_flashdata('error', lang('admin user error'));
 					redirect(site_url("admin/users"));
 				}
-		}
+	}
 	
 	function edit_security($id=NULL)
     {
@@ -612,7 +611,7 @@ class Users extends Admin_Controller {
      * @param  int $id
      */
     function edit($id=NULL)
-    {
+    { 
         // make sure we have a numeric id
         if (is_null($id) OR ! is_numeric($id))
         {
