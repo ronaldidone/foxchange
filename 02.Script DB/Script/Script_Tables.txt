@@ -1,0 +1,23 @@
+CREATE TABLE payment_methods
+(
+	id_payment_method    INTEGER NOT NULL,
+	name                 VARCHAR(200) NULL,
+	status               CHAR(1) NULL,
+	PRIMARY KEY (id_payment_method)
+);
+
+CREATE TABLE users_payment_accounts
+(
+	id_users_accounts    INTEGER NOT NULL,
+	id_payment_method    INTEGER NOT NULL,
+	id_user              integer(10) unsigned NOT NULL,
+	account              VARCHAR(200) NOT NULL,
+	status               CHAR(1) NOT NULL,
+	flg_active_cashier   CHAR(1) NULL,
+	PRIMARY KEY (id_users_accounts),
+	FOREIGN KEY R_7 (id_payment_method) REFERENCES payment_methods (id_payment_method),
+	FOREIGN KEY R_8 (id_user) REFERENCES users (id_user)
+);
+
+
+
