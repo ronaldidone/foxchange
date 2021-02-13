@@ -782,26 +782,14 @@
                           <tr>
                             <td><a href="<?php echo base_url();?>admin/transactions/edit/<?php echo $view->id ?>" target="_blank"><?php echo $view->id ?></a></td>
                             <td>
-                              <?if($view->type==1){?>
-                                  <?php echo lang('admins trans deposit'); ?>
-                             <?}else{?>
-                             <?}?>
-                             <?if($view->type==2){?>
-                                  <?php echo lang('admins trans withdrawal'); ?>
-                             <?}else{?>
-                             <?}?>
-                             <?if($view->type==3){?>
-                                  <?php echo lang('admins trans transfer'); ?>
-                             <?}else{?>
-                             <?}?>
-                             <?if($view->type==4){?>
-                                  <?php echo lang('admins trans exchange'); ?>
-                             <?}else{?>
-                             <?}?>
-                             <?if($view->type==5){?>
-                                  <?php echo lang('admins trans external'); ?>
-                             <?}else{?>
-                             <?}?>
+                            <?php $tipo= intval($view->type);  ?>
+                              <?php if($tipo==1){ echo lang('admins trans deposit');}  ?>
+                              <?php if($tipo==2){ echo lang('admins trans withdrawal');}  ?>
+                              <?php if($tipo==3){ echo lang('admins trans transfer');}  ?>
+                              <?php if($tipo==4){ echo lang('admins trans exchange');}  ?>
+                              <?php if($tipo==5){ echo lang('admins trans external');}  ?>
+                                 
+                            
                             </td>
                             <td><?php echo $view->sender ?></td>
                             <td><?php echo $view->receiver ?></td>
